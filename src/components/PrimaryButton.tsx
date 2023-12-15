@@ -1,6 +1,6 @@
 type buttonProps = {
     text:string
-    className:string | undefined
+    className?:string | undefined
 }
 
 export default function({text,className}:buttonProps){
