@@ -26,7 +26,7 @@ export default function Book () {
             </div>
           </div>
           {/* Área do Card */}
-          <div className='flex w-1/2 h-full justify-end'>
+          <div className='flex  w-1/2 h-full justify-end'>
             {/* Card */}
             <BuyCard
               bookName="Nome do livro"
