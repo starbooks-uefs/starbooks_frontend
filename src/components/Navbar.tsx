@@ -1,8 +1,10 @@
+"use client"
 import Link from "next/link";
 import { FiSearch } from "react-icons/fi";
 import { FiShoppingCart } from "react-icons/fi";
 import { FiBookOpen } from "react-icons/fi";
 import { FiMenu } from "react-icons/fi";
+import { FiChevronDown } from "react-icons/fi";
 
 export default function Navbar() {
   return (
@@ -49,11 +51,12 @@ export default function Navbar() {
               </div>
               {/* Div do imput */}
               <div className='flex-1'>
-                <input type="text" name="" id="" className='w-full bg-whiteSeachField'/>
+                <input type="text" name="" id="" className='w-full ml-2 outline-none bg-whiteSeachField'/>
               </div>
               {/* Div do filtro */}
-              <div className='border-l-2'>
-                <h1 className='mx-3 text-sm'>Todos</h1>
+              <div className='flex items-center gap-1 mx-3 border-l-2'>
+                <h1 className='ml-3 text-sm'>Todos</h1>
+                <FiChevronDown className='text-black' />
               </div>
             </div>
           </div>
