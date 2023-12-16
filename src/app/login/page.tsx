@@ -20,7 +20,7 @@ export default function(){
                     <FormInput id="email" inputType="text" label="Email" placeholder="Example@email.com"/>
                     <PasswordInputLogin recoveryLink=""/>
                     <UserCategorySwitch/>
-                    <PrimaryButton text="Entrar"/>    
+                    <PrimaryButton className="w-full bg-blue-500 font-semibold rounded-lg text-white px-4 py-3" text="Entrar"/>    
                 </form>
                 <div className="flex flex-col text-center gap-3 mt-7">
                     <p className="text-sm text-center">Ainda não é cadastrado na plataforma?</p>
