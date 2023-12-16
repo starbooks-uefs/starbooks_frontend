@@ -13,6 +13,16 @@ const config: Config = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      colors: {
+        'bg-white': '#FFFFFF',
+        'bg-grayI': '#E1E1E1',
+        'bg-blue': '#54AFE3',
+        'bg-grayT': '#767676',
+        'primary-color': '#54AFE3'
+      },
+      boxShadow: {
+        'cardBook': '4px 4px 5px rgba(0, 0, 0, 0.3)'
+      }
     },
   },
   plugins: [],
