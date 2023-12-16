@@ -1,11 +1,9 @@
-import PrimaryButton from "@/components/PrimaryButton";
 import Specification from "@/components/Specification";
 import Link from "next/link";
 import { IoIosArrowBack } from "react-icons/io";
-import { FiArrowRight } from "react-icons/fi";
 import ExploreBanner from "@/components/ExploreBanner";
 import BuyCard from "@/components/BuyCard";
-
+  
 export default function Book () {
   return (
     <div className='flex flex-col items-center justify-center w-full h-full bg-white justify-center'>
@@ -26,7 +24,7 @@ export default function Book () {
             </div>
           </div>
           {/* Área do Card */}
-          <div className='flex  w-1/2 h-full justify-end'>
+          <div className='flex w-1/2 h-full justify-end'>
             {/* Card */}
             <BuyCard
               bookName="Nome do livro"
