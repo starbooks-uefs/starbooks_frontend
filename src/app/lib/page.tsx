@@ -1,9 +1,11 @@
 import BookCover from "@/components/BookCover";
 import { IoMenu } from "react-icons/io5";
+import Header from "@/components/Header";
 
 export default function () {
 
     return <>
+        <Header />
         <div className="flex justify-center align-items-center ">
             <div className="m-10 w-[650px] h-[550px] bg-white rounded-lg shadow border border-neutral-600 flex justify-center flex-col   p-3">
                 <div className="w-[189px] pt-10 h-[19px] justify-center items-center gap-2 inline-flex">
