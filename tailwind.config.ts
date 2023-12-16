@@ -22,6 +22,9 @@ const config: Config = {
       },
       boxShadow: {
         'cardBook': '4px 4px 5px rgba(0, 0, 0, 0.3)'
+      },
+      spacing: {
+        'cardSpacing': '34rem'
       }
     },
   },
