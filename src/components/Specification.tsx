@@ -39,7 +39,7 @@ export default function Specification ({type, author, pagesNumber, category, pub
       ): null}
       {type == 'publisher' ? (
         <div className='flex flex-col items-center justify-center text-center'>
-          <p>Gênero</p>
+          <p>Editora</p>
           <IoMdBusiness className='text-white w-14 h-14 my-2'/>
           <p>{publishCompany}</p>
         </div>

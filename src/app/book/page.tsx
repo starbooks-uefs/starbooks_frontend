@@ -2,10 +2,11 @@ import PrimaryButton from "@/components/PrimaryButton";
 import Specification from "@/components/Specification";
 import Link from "next/link";
 import { IoIosArrowBack } from "react-icons/io";
+import { FiArrowRight } from "react-icons/fi";
 
 export default function Book () {
   return (
-    <div className='flex w-full h-full bg-white justify-center'>
+    <div className='flex flex-col items-center justify-center w-full h-full bg-white justify-center'>
       <div className='flex w-4/5 mx-30 flex-col'>
         {/* Link de voltar: */}
         <div className='pt-7 pb-7'>
@@ -66,8 +67,21 @@ export default function Book () {
             <Specification type="publisher" author="aaaa" pagesNumber={10} category="horror" publishCompany="saraiva" date="12/12/20" />
             <Specification type="date" author="aaaa" pagesNumber={10} category="horror" publishCompany="saraiva" date="12/12/20" />
           </div>
+          {/* Mais do gênero */}
         </div>
       </div>
+    {/* Explore livros */}
+    <div className='flex flex-col w-full mt-14 items-center justify-center bg-bannerExplore'>
+      <div className='w-9/12 mt-16 text-center'>
+        <h1 className='text-4xl font-semibold text-purpleTitleBanner'>Explore os livros lançados recentemente</h1>
+      </div>
+      <div className='mt-5 w-8/12 text-center text-3xl font-medium'>
+        <h1>Compre os mais recentes lançamentos literários na nossa plataforma de venda de E-Books</h1>
+      </div>
+      <div className='w-1/5 mt-5 mb-10'>
+        <PrimaryButton className="w-full bg-yellowBtn font-bold rounded-2xl px-4 py-3" text="Visualizar E-Books"/>
+      </div>
+    </div>  
     </div>
   )
 }
