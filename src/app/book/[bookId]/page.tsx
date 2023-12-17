@@ -1,10 +1,30 @@
+"use client"
 import Specification from "@/components/Specification";
 import Link from "next/link";
 import { IoIosArrowBack } from "react-icons/io";
 import ExploreBanner from "@/components/ExploreBanner";
 import BuyCard from "@/components/BuyCard";
-  
-export default function Book () {
+import { useEffect, useState } from "react";
+
+export default function Book ( { params }: { params: { bookId: string } } ) {
+  console.log(params.bookId)
+
+  const [bookData, setBookData] = useState(null)
+
+  useEffect(() => {
+    const fetchBookDetails = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/books/${1}")
+        const data = await response.json()
+        setBookData(data)
+        console.log(bookData)
+      } catch {
+        console.error("Erro ao buscar detalhes do item")
+      }
+    }
+    fetchBookDetails()
+  }, [])
+
   return (
     <div className='flex flex-col items-center justify-center w-full h-full bg-white justify-center'>
       <div className='flex w-4/5 mx-30 flex-col'>
@@ -37,7 +57,7 @@ export default function Book () {
         {/* Sinopse */}
         <div className='my-12 text-justify'>
           <h2 className='text-2xl font-medium underline'>Sinopse</h2>
-          <p className='mt-4 mb-5'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum laborum quam commodi impedit sed facere dolor voluptatibus saepe aliquam, officiis odit animi soluta quaerat qui vero, delectus ipsum temporibus omnis. Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident perspiciatis perferendis nam voluptas dolore totam adipisci est distinctio, obcaecati id. Reprehenderit repudiandae enim est ducimus magnam repellat ab voluptatum molestias. Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic ducimus pariatur rem, maiores, suscipit molestias voluptatem laboriosam tempore commodi quam laudantium aliquam amet deserunt sed delectus adipisci impedit sequi ullam. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Placeat libero unde excepturi. Distinctio facilis eligendi dignissimos placeat impedit vero culpa sapiente quisquam quas, labore minus dolorem repudiandae maxime praesentium dicta? Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis, ipsum voluptatum. Nemo repellendus veniam, inventore sed corporis repudiandae ad minima quae tenetur maiores, nam nisi, quasi aliquid unde fugiat nobis. Lorem ipsum dolor sit amet consectetur adipisicing elit. Id accusamus nam commodi placeat officia maiores impedit itaque unde dicta soluta? Optio voluptatem cumque aliquid quis excepturi nostrum impedit deleniti sunt!</p>
+          <p className='mt-4 mb-5'>Provident perspiciatis perferendis nam voluptas dolore totam adipisci est distinctio, obcaecati id. Reprehenderit repudiandae enim est ducimus magnam repellat ab voluptatum molestias. Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic ducimus pariatur rem, maiores, suscipit molestias voluptatem laboriosam tempore commodi quam laudantium aliquam amet deserunt sed delectus adipisci impedit sequi ullam. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Placeat libero unde excepturi. Distinctio facilis eligendi dignissimos placeat impedit vero culpa sapiente quisquam quas, labore minus dolorem repudiandae maxime praesentium dicta? Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis, ipsum voluptatum. Nemo repellendus veniam, inventore sed corporis repudiandae ad minima quae tenetur maiores, nam nisi, quasi aliquid unde fugiat nobis. Lorem ipsum dolor sit amet consectetur adipisicing elit. Id accusamus nam commodi placeat officia maiores impedit itaque unde dicta soluta? Optio voluptatem cumque aliquid quis excepturi nostrum impedit deleniti sunt!</p>
         </div>
         {/* Especificação */}
         <div>
