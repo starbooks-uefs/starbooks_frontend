@@ -77,7 +77,7 @@ export default function Book ( { params }: { params: { bookId: string } } ) {
         {/* Sinopse */}
         <div className='my-12 text-justify'>
           <h2 className='text-2xl font-medium underline'>Sinopse</h2>
-          <p className='font-medium mt-4 mb-5'>{bookData?.synopsis}</p>
+          <p className='font-medium mt-4 mb-5 '>{bookData?.synopsis}</p>
         </div>
         {/* Especificação */}
         <div>
