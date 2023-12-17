@@ -49,7 +49,7 @@ export default function Navbar() {
               <div className='ml-4 flex-none'>
                 <FiSearch />
               </div>
-              {/* Div do imput */}
+              {/* Div do input */}
               <div className='flex-1'>
                 <input type="text" name="" id="" className='w-full ml-2 outline-none bg-whiteSeachField'/>
               </div>
