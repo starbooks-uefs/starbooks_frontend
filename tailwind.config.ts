@@ -18,10 +18,17 @@ const config: Config = {
         'bg-grayI': '#E1E1E1',
         'bg-blue': '#54AFE3',
         'bg-grayT': '#767676',
-        'primary-color': '#54AFE3'
+        'primary-color': '#54AFE3',
+        'bannerExplore': '#DEE7F9',
+        'purpleTitleBanner': '#246590',
+        'yellowBtn': '#FFFB9E',
+        'whiteSeachField': '#F8F8F8'
       },
       boxShadow: {
         'cardBook': '4px 4px 5px rgba(0, 0, 0, 0.3)'
+      },
+      spacing: {
+        'cardSpacing': '34rem'
       }
     },
   },
