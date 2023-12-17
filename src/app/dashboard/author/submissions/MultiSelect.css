@@ -1,0 +1,15 @@
+.multiSelectContainer {
+  position: relative;
+  text-align: left;
+  width: 100%;
+}
+
+.searchWrapper {
+  border: 2px solid #e5e7eb !important;
+  border-radius: 0.5rem !important;
+  padding: 0.5rem !important;
+}
+
+.optionListContainer > .optionContainer > .notFound {
+  display: none !important;
+}
