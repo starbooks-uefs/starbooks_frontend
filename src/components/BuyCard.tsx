@@ -1,11 +1,11 @@
 import PrimaryButton from "./PrimaryButton";
 
 type CardProps = {
-  bookName: string,
-  author: string,
-  previousPrice: number,
-  currentPrice: number,
-  textBtn: string
+  bookName: string | undefined,
+  author: number | undefined,
+  previousPrice: number | undefined,
+  currentPrice: number | undefined,
+  textBtn: string | undefined
 }
 
 export default function BuyCard( {bookName, author, previousPrice, currentPrice, textBtn}: CardProps ) {
@@ -22,11 +22,15 @@ export default function BuyCard( {bookName, author, previousPrice, currentPrice,
               <div className=' px-5 flex justify-between'>
                 <div className='text-bg-grayT'>
                   <span className='text-2xl font-semibold line-through'>De R$ </span>
-                  <span className='text-2xl font-semibold line-through'>{previousPrice.toFixed(2)}</span>
+                  {previousPrice ? (
+                    <span className='text-2xl font-semibold line-through'>{previousPrice.toFixed(2)}</span>
+                  ): null}
                 </div>
                 <div className='items-center'>
                   <span className='text-3xl font-semibold'>Por R$</span>
-                  <span className='text-3xl font-semibold'>{currentPrice.toFixed(2)}</span>
+                  {currentPrice ? (
+                    <span className='text-3xl font-semibold'>{currentPrice.toFixed(2)}</span>
+                  ): null}
                 </div>
               </div>
               <hr className='my-7 -mx-3 border-t-1 border-t-bg-blue' />
