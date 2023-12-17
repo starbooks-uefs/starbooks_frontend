@@ -4,7 +4,7 @@ import PrimaryButton from "@/components/PrimaryButton";
 import UserCategorySwitch from "@/components/UserCategorySwitch";
 import Link from "next/link";
 
-export default function(){
+export default function () {
     return <>
         <header className="flex justify-between max-w-6xl m-auto my-6">
             <img src="/starbooks.svg" alt="logo" />
@@ -17,10 +17,10 @@ export default function(){
                     <p className="my-2 text-center">Insira os dados abaixo para acessar sua conta</p>
                 </div>
                 <form className="flex flex-col gap-4 mt-8">
-                    <FormInput id="email" inputType="text" label="Email" placeholder="Example@email.com"/>
-                    <PasswordInputLogin recoveryLink=""/>
-                    <UserCategorySwitch/>
-                    <PrimaryButton className="w-full bg-blue-500 font-semibold rounded-lg text-white px-4 py-3" text="Entrar"/>    
+                    <FormInput id="email" inputType="text" label="Email" placeholder="Example@email.com" />
+                    <PasswordInputLogin recoveryLink="" />
+                    <UserCategorySwitch />
+                    <PrimaryButton className="w-full bg-blue-500 font-semibold rounded-lg text-white px-4 py-3" text="Entrar" />
                 </form>
                 <div className="flex flex-col text-center gap-3 mt-7">
                     <p className="text-sm text-center">Ainda não é cadastrado na plataforma?</p>
