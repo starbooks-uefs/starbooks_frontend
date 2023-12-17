@@ -8,7 +8,7 @@ type bookCoverProps = {
 
 export default function ({ img, title, autor }: bookCoverProps) {
     return (
-        <div className=" w-[120px] h-[205px] flex-col justify-center gap-1 m-3 ">
+        <div className="w-[120px] h-[205px] flex-col justify-center gap-1 m-3 ">
             <img src={img} className="w-[120px] h-[165px] rounded  hover:cursor-pointer" alt="capa do livro" />
             <div className="p-0.5 text-center text-neutral-800 text-sm font-semibold whitespace-nowrap overflow-x-clip"> {title}</div>
             <div className="p-0.5 text-center text-neutral-500 text-xs font-normal whitespace-nowrap overflow-x-clip"> {autor}</div>

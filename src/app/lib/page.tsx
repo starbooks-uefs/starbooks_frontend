@@ -11,8 +11,8 @@ export default function () {
                 <div className="w-[190px] h-[20px] mt-4 ml-4">
                     <div className="text-neutral-600 text-m font-medium flex items-center gap-1 hover:cursor-pointer"> <IoMenu />Recentes</div>
                 </div>
-                <div className="p-5">
-                    <div className="grid grid-cols-4 gap-3 p-5">
+                <div className="flex justify-center items-center p-4">
+                    <div className="flex justify-center items-center flex-wrap gap-5 p-3">
                         <BookCover img="https://assets.visme.co/templates/banners/thumbnails/i_Illustration-Book-Cover_full.jpg" title="The Human Memory" autor="Dr. Mildred S. Dresselhaus" />
                         <BookCover img="https://assets.visme.co/templates/banners/thumbnails/i_Creative-Book-Cover_full.jpg" title="Typography" autor="Michelle De Generes" />
                         <BookCover img="https://assets.visme.co/templates/banners/thumbnails/i_Children-Book-Cover_full.jpg" title="The Fluffy Alien" autor="Polly Matzinger" />
@@ -24,7 +24,7 @@ export default function () {
                     </div>
                 </div>
                 <div>
-                    <p className="flex justify-center pb-3"> ← 1 2 3 → </p>
+                    <p className="flex justify-center p-3"> ← 1 2 3 → </p>
                 </div>
             </div>
         </div>
