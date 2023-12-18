@@ -1,8 +1,39 @@
 import BookCover from "@/components/BookCover";
 import { IoMenu } from "react-icons/io5";
 import Header from "@/components/Header";
+import { useEffect } from 'react';
 
 export default function () {
+
+    const urlBackend = process.env.NEXT_PUBLIC_URL_BACKEND
+
+    const fetchData = async () => {
+        try {
+            // Usa o fetch para fazer uma solicitação
+            const response = await fetch(`${urlBackend}books`);
+
+            // Verifica se a resposta foi bem-sucedida (código de status 2xx)
+            if (response.ok) {
+                // Converte a resposta para JSON
+                const data = await response.json();
+                    
+
+                // Faça algo com os dados recebidos
+                console.log(data);
+            } else {
+                // Se a resposta não for bem-sucedida, lança um erro
+                throw new Error('Erro na solicitação');
+            }
+        } catch (error) {
+            // Lida com erros durante a solicitação
+            console.error('Erro ao buscar dados:', error.message);
+        }
+    };
+
+    // Use o hook `useEffect` para executar a função de busca quando o componente for montado
+    useEffect(() => {
+        fetchData();
+    }, []); // O segundo argumento vazio [] garante que a função seja executada apenas uma vez, quando o componente for montado
 
     return <>
         <Header />
