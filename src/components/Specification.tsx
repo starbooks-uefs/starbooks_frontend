@@ -6,7 +6,7 @@ import { LuCalendarClock } from "react-icons/lu";
 
 type SpecificationProps = {
   type: string,
-  author: number | undefined,
+  author: string | undefined,
   pagesNumber: number | undefined,
   category: string | undefined,
   publishCompany: string | undefined,
