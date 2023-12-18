@@ -37,7 +37,6 @@ export default function Book ( { params }: { params: { bookId: string } } ) {
   console.log(params.bookId)
 
   const [bookData, setBookData] = useState<Book | null>(null)
-
   useEffect(() => {
     const fetchBookDetails = async () => {
       try {
