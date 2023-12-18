@@ -106,7 +106,7 @@ export default function BookForm() {
             name: String(event.target.name.value),
             author: String(event.target.author.value),
             gender: String(genderSelectList),
-            date: '20-12-2020',
+            date: event.target.date.value,
             rating: Number(event.target.rating.value),
             edition: Number(event.target.edition.value),
             pages_number: Number(event.target.amountPage.value),
