@@ -5,6 +5,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import ExploreBanner from "@/components/ExploreBanner";
 import BuyCard from "@/components/BuyCard";
 import { useEffect, useState } from "react";
+import BookCarousel from "@/components/BookCarousel";
 
 enum Status {
   approved = 'Aprovado',
@@ -36,7 +37,12 @@ type Book = {
 export default function Book ( { params }: { params: { bookId: string } } ) {
   console.log(params.bookId)
 
+  // Ebook específico da página
   const [bookData, setBookData] = useState<Book | null>(null)
+
+  // Ebooks no total para o carrosel de categoria:
+  const [books, setBooks] = useState<Book[]>([])
+
   useEffect(() => {
     const fetchBookDetails = async () => {
       try {
@@ -44,11 +50,30 @@ export default function Book ( { params }: { params: { bookId: string } } ) {
         const data = await response.json()
         setBookData(data)
       } catch {
-        console.error("Erro ao buscar detalhes do item")
+        console.error("Erro ao buscar detalhes do ebook específico.")
       }
     }
     fetchBookDetails()
   }, [params.bookId])
+
+  useEffect(() => {
+    const fetchBooksDetails = async () => {
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/api/books/retrieve/gender/${bookData?.gender}/`)
+        const data = await response.json()
+        setBooks(data)
+      } catch {
+        console.error("Erro ao buscar os livros.")
+      }
+    }
+    fetchBooksDetails()
+  },[bookData])
+
+  // Lista de 6 livros para recomendar:
+  const booksCategorySix: Book[] = books.slice(0,7)
+  
+ //Melhorar essa lógica! Não funciona, apresentando ainda o mesmo livro.
+  booksCategorySix.filter(book => book.id !== bookData?.id)
 
   return (
     <div className='flex flex-col items-center justify-center w-full h-full bg-white justify-center'>
@@ -96,6 +121,16 @@ export default function Book ( { params }: { params: { bookId: string } } ) {
             <Specification type="date" author={bookData?.author} pagesNumber={bookData?.pages_number} category={bookData?.gender} publishCompany={bookData?.publisher} date={bookData?.date} />
           </div>
           {/* Mais do gênero */}
+          <div className='mt-8'>
+            <div>
+              <h2 className='text-2xl mb-3 font-medium'>Do mesmo gênero:</h2>
+            </div>
+            <div className='flex flex-none gap-8'>
+              {booksCategorySix.map((book) => (
+                <BookCarousel img={book.cover_url} title={book.name} author={book.author} currentPrice={book.price}/>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     {/* Explore livros */}
