@@ -5,6 +5,7 @@ import { FiShoppingCart } from "react-icons/fi";
 import { FiBookOpen } from "react-icons/fi";
 import { FiMenu } from "react-icons/fi";
 import { FiChevronDown } from "react-icons/fi";
+import { FiUser } from "react-icons/fi";
 
 export default function Navbar() {
   return (
@@ -76,7 +77,7 @@ export default function Navbar() {
             </div>
             <div className='flex flex-col justify-center text-2xl items-center'>
               <Link href="/" className='flex flex-col justify-center text-2xl items-center'>
-                <FiShoppingCart />
+                <FiUser />
                 <h1 className='text-xs mt-1'>Minha conta</h1>
               </Link>
             </div>
