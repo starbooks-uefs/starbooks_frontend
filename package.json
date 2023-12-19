@@ -12,6 +12,7 @@
     "@material-tailwind/react": "^2.1.7",
     "@supabase/auth-helpers-nextjs": "^0.8.7",
     "@supabase/supabase-js": "^2.39.0",
+    "jsonwebtoken": "^9.0.2",
     "multiselect-react-dropdown": "^2.0.25",
     "next": "14.0.4",
     "react": "^18",

@@ -34,9 +34,45 @@ type Book = {
   synopsis: string
 }
 
+// Login forçado (APAGAR DEPOIS QUE A PÁGINA DE LOGIN FOR CONCLUÍDA)
+type User = {
+  email: string,
+  password: string
+}
+
+const user: User = {
+  email: "reader@reader.com",
+  password: "reader"
+}
+
+const handleLogin = async () => {
+  try {
+    // Envia credenciais para o servidor
+    const response = await fetch(`http://127.0.0.1:8000/api/readers/login/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(user)
+    });
+    const data = response.json()
+    console.log(data)
+    // Se a autenticação for bem-sucedida, o token é retornado
+    // const token = response.data.token;
+
+    // // Armazena o token no local storage (ou em um cookie seguro)
+    // localStorage.setItem('token', token);
+
+    // // Redireciona ou executa outras ações necessárias após o login
+    // // Exemplo: history.push('/dashboard');
+  } catch (error) {
+    console.error('Erro durante o login:', error);
+  }
+};
+
 export default function Book ( { params }: { params: { bookId: string } } ) {
   console.log(params.bookId)
-
+  handleLogin()
   // Ebook específico da página
   const [bookData, setBookData] = useState<Book | null>(null)
 
