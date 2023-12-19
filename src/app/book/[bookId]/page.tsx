@@ -76,7 +76,7 @@ export default function Book ( { params }: { params: { bookId: string } } ) {
   booksCategorySix.filter(book => book.id !== bookData?.id)
 
   return (
-    <div className='flex flex-col items-center justify-center w-full h-full bg-white justify-center'>
+    <div className='flex flex-col items-center w-full h-full bg-white justify-center'>
       <div className='flex w-4/5 mx-30 flex-col'>
         {/* Link de voltar: */}
         <div className='flex pt-7 pb-7'>
@@ -125,9 +125,9 @@ export default function Book ( { params }: { params: { bookId: string } } ) {
             <div>
               <h2 className='text-2xl mb-3 font-medium'>Do mesmo gênero:</h2>
             </div>
-            <div className='flex flex-none gap-8'>
+            <div className='flex flex-none gap-8 overflow-hidden'>
               {booksCategorySix.map((book) => (
-                <BookCarousel img={book.cover_url} title={book.name} author={book.author} currentPrice={book.price}/>
+                <BookCarousel id={book.id} img={book.cover_url} title={book.name} author={book.author} currentPrice={book.price}/>
               ))}
             </div>
           </div>

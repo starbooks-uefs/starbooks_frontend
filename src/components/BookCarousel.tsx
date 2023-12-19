@@ -1,18 +1,22 @@
+import Link from "next/link";
 import PrimaryButton from "./PrimaryButton";
 
 type BookCarouselProps = {
+  id: number | undefined,
   img: string | undefined,
   title: string | undefined,
   author: string | undefined,
   currentPrice: number | undefined
 }
 
-export default function BookCarousel( {img, title, author, currentPrice}: BookCarouselProps ) {
+export default function BookCarousel( {id, img, title, author, currentPrice}: BookCarouselProps ) {
   return (
     <div className='flex flex-col flex-none mt-1 w-40 h-full'>
       {/* Div da imagem */}
       <div className=' w-40 h-52'>
-        <img src={img} alt="Livro" className='w-full h-full rounded'/>
+        <Link href={`http://localhost:3000/book/${id}`}>
+          <img src={img} alt="Livro" className='w-full h-full rounded'/>
+        </Link>
       </div>
       {/* Div do título e do autor */}
       <div className=' my-1 w-full flex flex-col justify-start items-center whitespace-nowrap overflow-hidden'>
