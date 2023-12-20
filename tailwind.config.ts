@@ -22,7 +22,8 @@ const config: Config = {
         'bannerExplore': '#DEE7F9',
         'purpleTitleBanner': '#246590',
         'yellowBtn': '#FFFB9E',
-        'whiteSeachField': '#F8F8F8'
+        'whiteSeachField': '#F8F8F8',
+        'blueBtnFooter': '#3298C6'
       },
       boxShadow: {
         'cardBook': '4px 4px 5px rgba(0, 0, 0, 0.3)'
