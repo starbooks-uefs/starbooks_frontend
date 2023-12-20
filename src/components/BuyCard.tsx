@@ -4,10 +4,11 @@ type CardProps = {
   bookName: string | undefined,
   author: string | undefined,
   currentPrice: number | undefined,
-  textBtn: string | undefined
+  textBtn: string | undefined,
+  functionality: () => void
 }
 
-export default function BuyCard( {bookName, author, currentPrice, textBtn}: CardProps ) {
+export default function BuyCard( {functionality, bookName, author, currentPrice, textBtn}: CardProps ) {
   return (
     <div className='w-5/6 h-3/5 p-8 mr-8 bg-white rounded-xl shadow-cardBook border'>
               <div>
@@ -33,7 +34,7 @@ export default function BuyCard( {bookName, author, currentPrice, textBtn}: Card
                 </div>
               </div>
               <hr className='my-7 -mx-3 border-t-1 border-t-bg-blue' />
-              <PrimaryButton className="w-full bg-primary-color font-semibold rounded-lg text-white px-4 py-3" text={textBtn} />
+              <PrimaryButton functionality={functionality} className="w-full bg-primary-color font-semibold rounded-lg text-white px-4 py-3" text={textBtn} />
             </div>
   )
 }
