@@ -1,15 +1,16 @@
 import FormInput from "@/components/FormInput";
 import { createClient } from "@supabase/supabase-js";
 import Multiselect from "multiselect-react-dropdown";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { NumericFormat } from 'react-number-format'
 
 
 export default function BookForm() {
     const [genderSelectList, setGenderSelectList] = useState([])
-    const [price, setPrice] = useState<Number | undefined>(0.0)
+    const [price, setPrice] = useState<string | number | undefined | null>(null)
     const [cover, setCover] = useState('')
     const [pdf, setPdf] = useState('')
+    const formRef = useRef<HTMLFormElement>(null);
 
     const state = {
         bookGenderOptions: [
@@ -76,10 +77,9 @@ export default function BookForm() {
 
         // Handle error if upload failed
         if (error) {
-            alert('Error uploading file.' + error);
+            alert('Erro ao Realizar Upload do Arquivo\n' + error.message);
             return;
         }
-
         else {
             const { data } = supabase
                 .storage
@@ -89,15 +89,13 @@ export default function BookForm() {
             if (typeBookFile == 'cover') {
                 setCover(data.publicUrl)
             }
-
             else {
                 setPdf(data.publicUrl)
             }
 
-            console.log(data.publicUrl)
         }
 
-        alert('File uploaded successfully!');
+        alert('Arquivo Submetido Com Sucesso!');
     };
 
 
@@ -106,10 +104,11 @@ export default function BookForm() {
         event.preventDefault();
 
         const newBook = {
+
             name: String(event.target.name.value),
             author: String(event.target.author.value),
-            gender: String(genderSelectList),
-            date: event.target.publicationDate.value,
+            gender: String(event.target.gender.value),
+            date: new Date(event.target.publicationDate.value).toLocaleDateString('pt-BR', { timeZone: 'UTC' }),
             rating: Number(event.target.rating.value),
             edition: Number(event.target.edition.value),
             pages_number: Number(event.target.amountPage.value),
@@ -122,46 +121,44 @@ export default function BookForm() {
             id_producer: 2,
         }
 
-        console.log(newBook)
 
         const urlBackend = process.env.NEXT_PUBLIC_URL_BACKEND
 
 
+        const res = await fetch(`${urlBackend}add_book/`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
 
-        try {
-            const res = await fetch(`${urlBackend}add_book/`, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newBook)
+        }).then(resp => {
+            if (!resp.ok) {
+                alert('Erro ao Enviar Livro Para Análise!\n' + resp.statusText);
+            }
+            else {
+                alert('Livro Submetido Para Análise com Sucesso!');
+                clearForm()
+            }
+        });
 
-                },
-                body: JSON.stringify(newBook)
-            });
-
-
-        } catch (err) {
-            console.log(err);
+        function clearForm() {
+            setGenderSelectList([])
+            setPrice('')
+            setCover('')
+            setPdf('')
+            formRef.current?.reset();
         }
-
 
     }
 
     return (<div>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-8">
+        <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-4 mt-8">
             <FormInput id="name" inputType="text" label="Nome da Obra" placeholder="Nome" />
             <FormInput id="author" inputType="text" label="Autor" placeholder="Autor" />
-            <label htmlFor="bookGenderOptions" className="font-semibold text-sm" >Gênero</label>
-            <Multiselect id="gender" className="MultiSelect"
-                placeholder="Selecione"
-                isObject={false}
-                avoidHighlightFirstOption={true}
-                options={state.bookGenderOptions}
-                onSelect={setGenderSelectList}
-                onRemove={setGenderSelectList}
-
-            />
+            <FormInput id="gender" inputType="text" label="Gênero" placeholder="Gênero" />
             <FormInput id="publicationDate" inputType="date" label="Data de Publicação" placeholder="" />
 
             <label htmlFor="rating" className="font-semibold text-sm" >Classificação Indicativa</label>
@@ -181,6 +178,7 @@ export default function BookForm() {
             <FormInput id="publisher" inputType="text" label="Editora" placeholder="Editora" />
             <label htmlFor="price" className="font-semibold text-sm" >Valor</label>
             <NumericFormat
+                value={price}
                 onValueChange={(values) => {
                     setPrice(values.floatValue)
                 }}
@@ -193,16 +191,29 @@ export default function BookForm() {
                 decimalScale={2}
             />
             <label htmlFor="synopsis" className="font-semibold text-sm" >Sinopse</label>
-            <textarea id="synopsis" className="bg-white border-2 rounded-lg py-4 px-3 text-sm" />
-            <FormInput id="cover" inputType="file" label="Capa do Livro" placeholder="" onValueChange={uploadCover} />
-            <FormInput id="pdf" inputType="file" label="Pdf do Livro" placeholder="" onValueChange={uploadPdf} />
+            <textarea id="synopsis" className="bg-white border-2 rounded-lg py-4 px-3 text-sm" placeholder="Sinopse" />
+            <FormInput id="cover" inputType="file" label="Capa do Livro" placeholder="" onValueChange={uploadCover} classNameInput="block w-full text-sm
+                    text-slate-500
+                    file:mr-4 file:py-2 file:px-4
+                    file:rounded-full file:border-0
+                    file:text-sm file:font-semibold
+                    file:bg-violet-50 file:text-bg-blue
+                    hover:file:bg-blue-100" />
+            <FormInput id="pdf" inputType="file" label="Pdf do Livro" placeholder="" onValueChange={uploadPdf} classNameInput="block w-full text-sm
+                    text-slate-500
+                    file:mr-4 file:py-2 file:px-4
+                    file:rounded-full file:border-0
+                    file:text-sm file:font-semibold
+                    file:bg-violet-50 file:text-bg-blue
+                    hover:file:bg-blue-100" />
 
             <div className="terms mb-8">
                 <input className="py-4 px-3 text-sm" type="checkbox" id="topping" name="topping" value="true" /> <span className="text-semibold">Li e Concordo com os Termos e Condições de Uso</span>
             </div>
 
+
             <div>
-                <button type="submit" className="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">Submeter para Análise</button>
+                <button type="submit" className="text-bg-blue hover:text-white border border-bg-blue hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Submeter para Análise</button>
             </div>
         </form>
     </div>)
