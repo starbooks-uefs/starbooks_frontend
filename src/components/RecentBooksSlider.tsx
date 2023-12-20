@@ -11,13 +11,12 @@ export default function RecentBookSlider () {
 
     useEffect(() => {
         const getRecentBooks = async () => {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_URL_BACKEND}books/current-month/`)
+            const response = await fetch(`http://127.0.0.1:8000/api/books/current-month/`)
 
             if (response.ok) {
                 const info = await response.json()
-
                 setRecentBooks(info)
-            }   
+            }
         }
 
         getRecentBooks()
