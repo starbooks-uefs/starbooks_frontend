@@ -2,6 +2,7 @@ import BookCover from "@/components/BookCover";
 import { IoMenu } from "react-icons/io5";
 import Header from "@/components/Header";
 
+
 export default function () {
 
     return <>
