@@ -67,8 +67,35 @@ const handleLogin = async () => {
 };
 // Login forçado ACIMA (APAGAR DEPOIS QUE A PÁGINA DE LOGIN FOR CONCLUÍDA) 
 
+
+// Tipo Purcharse para adicionar a compra à biblioteca:
+type Pucharse = {
+  id_book: number,
+  id_reader: number
+}
+//Função de adicionar à biblioteca:
+const  addToLibrary = (id_reader: number, id_book: number) => {
+  const putBook = async () => {
+    try {
+      const pucharse: Pucharse = {
+        id_reader,
+        id_book
+      }
+      const response = await fetch(`http://127.0.0.1:8000/api/readers/add_purchase_to_library/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(pucharse)
+      });
+    } catch {
+      console.error("Erro ao adicionar a compra.")
+    }
+  }
+  putBook()
+}
+
 export default function Book ( { params }: { params: { bookId: string } } ) {
-  console.log(params.bookId)
   handleLogin()
   // Ebook específico da página
   const [bookData, setBookData] = useState<Book | null>(null)
@@ -102,20 +129,22 @@ export default function Book ( { params }: { params: { bookId: string } } ) {
     fetchBooksDetails()
   },[bookData])
 
+  // Estados para armazenar o token de acesso:
+  const [userToken, setUserToken] = useState<any>(null)
+
   // useEffect para a obtenção do token do usuário:
   useEffect(() => {
     // Pegando o token do localStorage:
-    const token = localStorage.getItem('token');
-
+    const token = localStorage.getItem('token')
     try {
       if (token) {
         // Decodifica o token:
-        const decodedToken = jwt.decode(token);
+        setUserToken(jwt.decode(token))
       }
     } catch (error) {
-      console.error('Erro ao decodificar o token:', error);
+      console.error('Erro ao decodificar o token:', error)
     }
-  }, []);
+  }, [])
 
   // Lista de 6 livros para recomendar:
   const booksCategorySix: Book[] = books.slice(0,7)
@@ -144,11 +173,14 @@ export default function Book ( { params }: { params: { bookId: string } } ) {
           {/* Área do Card */}
           <div className='flex w-1/2 h-full justify-end'>
             {/* Card */}
-            <BuyCard
+            {bookData ? (
+              <BuyCard
               bookName={bookData?.name}
               author={bookData?.author}
               currentPrice={bookData?.price}
-              textBtn="Adicionar ao carrinho" />
+              textBtn="Adicionar à biblioteca"
+              functionality={() => addToLibrary(userToken.user_id, bookData.id)} />
+            ): null}
           </div>
         </div>
         {/* Sinopse */}
