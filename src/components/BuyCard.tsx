@@ -1,3 +1,4 @@
+import DownloadButton from "./DownloadButton";
 import PrimaryButton from "./PrimaryButton";
 
 type CardProps = {
@@ -5,10 +6,13 @@ type CardProps = {
   author: string | undefined,
   currentPrice: number | undefined,
   textBtn: string | undefined,
-  functionality: () => void
+  functionality: () => void,
+  btnText: string
+  changeBtnClas: string,
+  hrefDown: string
 }
 
-export default function BuyCard( {functionality, bookName, author, currentPrice, textBtn}: CardProps ) {
+export default function BuyCard( {hrefDown, changeBtnClas, btnText, functionality, bookName, author, currentPrice, textBtn}: CardProps ) {
   return (
     <div className='w-5/6 h-3/5 p-8 mr-8 bg-white rounded-xl shadow-cardBook border'>
               <div>
@@ -34,7 +38,7 @@ export default function BuyCard( {functionality, bookName, author, currentPrice,
                 </div>
               </div>
               <hr className='my-7 -mx-3 border-t-1 border-t-bg-blue' />
-              <PrimaryButton functionality={functionality} className="w-full bg-primary-color font-semibold rounded-lg text-white px-4 py-3" text={textBtn} />
+              <DownloadButton hrefDown={hrefDown} btnText={btnText} functionality={functionality} className={changeBtnClas} />
             </div>
   )
 }
