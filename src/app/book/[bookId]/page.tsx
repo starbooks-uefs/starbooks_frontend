@@ -68,32 +68,7 @@ const handleLogin = async () => {
 // Login forçado ACIMA (APAGAR DEPOIS QUE A PÁGINA DE LOGIN FOR CONCLUÍDA) 
 
 
-// Tipo Purcharse para adicionar a compra à biblioteca:
-type Pucharse = {
-  id_book: number,
-  id_reader: number
-}
-//Função de adicionar à biblioteca:
-const  addToLibrary = (id_reader: number, id_book: number) => {
-  const putBook = async () => {
-    try {
-      const pucharse: Pucharse = {
-        id_reader,
-        id_book
-      }
-      const response = await fetch(`http://127.0.0.1:8000/api/readers/add_purchase_to_library/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(pucharse)
-      });
-    } catch {
-      console.error("Erro ao adicionar a compra.")
-    }
-  }
-  putBook()
-}
+
 
 export default function Book ( { params }: { params: { bookId: string } } ) {
   handleLogin()
@@ -103,6 +78,7 @@ export default function Book ( { params }: { params: { bookId: string } } ) {
   // Ebooks no total para o carrosel de categoria:
   const [books, setBooks] = useState<Book[]>([])
 
+  // Recebendo livro:
   useEffect(() => {
     const fetchBookDetails = async () => {
       try {
@@ -116,6 +92,7 @@ export default function Book ( { params }: { params: { bookId: string } } ) {
     fetchBookDetails()
   }, [params.bookId])
 
+  // Recebendo livros por gênero:
   useEffect(() => {
     const fetchBooksDetails = async () => {
       try {
@@ -145,6 +122,50 @@ export default function Book ( { params }: { params: { bookId: string } } ) {
       console.error('Erro ao decodificar o token:', error)
     }
   }, [])
+
+// Tipo Purcharse para adicionar a compra à biblioteca:
+type Pucharse = {
+  id_book: number,
+  id_reader: number
+}
+
+// Estado para o texto do botão de add à biblioteca:
+const [btnText, setBtnText] = useState("Adionar à biblioteca")
+// Estado para alterar a estilização do botão ao ser clicado:
+const [changeBtnClas, setchangeBtnClas] = useState('w-full bg-bg-blue font-semibold rounded-lg text-white px-4 py-3')
+
+//Função de adicionar à biblioteca:
+const  addToLibrary = (id_reader: number, id_book: number) => {
+  const putBook = async () => {
+    try {
+      const pucharse: Pucharse = {
+        id_reader,
+        id_book
+      }
+      const response = await fetch(`http://127.0.0.1:8000/api/readers/add_purchase_to_library/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(pucharse)
+      });
+      setBtnText("Download")
+      setchangeBtnClas('w-full bg-green-400 font-semibold rounded-lg text-white px-4 py-3')
+      if (bookData) {
+        setLinkDownload(bookData?.pdf_url)
+      }
+    } catch {
+      console.error("Erro ao adicionar a compra.")
+    }
+  }
+  putBook()
+}
+// Estado para o link de download ficar disponível:
+const [linkDownload, setLinkDownload] = useState<string | null>(null)
+// Função que disponibiliza o link para fazer o download:
+const downloadBook = () => {
+
+}
 
   // Lista de 6 livros para recomendar:
   const booksCategorySix: Book[] = books.slice(0,7)
@@ -179,6 +200,9 @@ export default function Book ( { params }: { params: { bookId: string } } ) {
               author={bookData?.author}
               currentPrice={bookData?.price}
               textBtn="Adicionar à biblioteca"
+              btnText={btnText}
+              changeBtnClas={changeBtnClas}
+              hrefDown={linkDownload}
               functionality={() => addToLibrary(userToken.user_id, bookData.id)} />
             ): null}
           </div>
