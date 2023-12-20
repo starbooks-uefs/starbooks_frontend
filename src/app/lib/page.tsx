@@ -1,40 +1,33 @@
 import BookCover from "@/components/BookCover";
 import { IoMenu } from "react-icons/io5";
 import Header from "@/components/Header";
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
+
+interface Book {
+    cover_url: string;
+    name: string;
+    author: string;
+
+}
 
 export default function () {
 
     const urlBackend = process.env.NEXT_PUBLIC_URL_BACKEND
-
-    const fetchData = async () => {
-        try {
-            // Usa o fetch para fazer uma solicitação
-            const response = await fetch(`${urlBackend}books`);
-
-            // Verifica se a resposta foi bem-sucedida (código de status 2xx)
-            if (response.ok) {
-                // Converte a resposta para JSON
-                const data = await response.json();
-                    
-
-                // Faça algo com os dados recebidos
-                console.log(data);
-            } else {
-                // Se a resposta não for bem-sucedida, lança um erro
-                throw new Error('Erro na solicitação');
-            }
-        } catch (error) {
-            // Lida com erros durante a solicitação
-            console.error('Erro ao buscar dados:', error.message);
-        }
-    };
-
-    // Use o hook `useEffect` para executar a função de busca quando o componente for montado
+    const [books, setBooks] = useState<Book[]>([]);
+    const readerId = "o id aqui"; // Substitua com o ID do leitor
     useEffect(() => {
-        fetchData();
-    }, []); // O segundo argumento vazio [] garante que a função seja executada apenas uma vez, quando o componente for montado
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`${urlBackend}/readers/${readerId}/purchases`);
+                const data = await response.json();
+                setBooks(data);
+            } catch (error) {
+                console.error('Erro ao buscar dados do backend:', error);
+            }
+        };
 
+        fetchData();
+    }, [urlBackend, readerId]);
     return <>
         <Header />
         <div className="flex justify-center m-7">
@@ -44,14 +37,9 @@ export default function () {
                 </div>
                 <div className="flex justify-center items-center p-4">
                     <div className="flex justify-center items-center flex-wrap gap-5 p-3">
-                        <BookCover img="https://assets.visme.co/templates/banners/thumbnails/i_Illustration-Book-Cover_full.jpg" title="The Human Memory" autor="Dr. Mildred S. Dresselhaus" />
-                        <BookCover img="https://assets.visme.co/templates/banners/thumbnails/i_Creative-Book-Cover_full.jpg" title="Typography" autor="Michelle De Generes" />
-                        <BookCover img="https://assets.visme.co/templates/banners/thumbnails/i_Children-Book-Cover_full.jpg" title="The Fluffy Alien" autor="Polly Matzinger" />
-                        <BookCover img="https://cdn.flipsnack.com/landing/files/inspiring-book-cover-example.webp" title="When Climbing Everest" autor="Kaleb Joshua" />
-                        <BookCover img="https://assets.visme.co/templates/banners/thumbnails/i_Inspirational-Book-Cover_full.jpg" title="The art of love" autor="Blaise Pascal" />
-                        <BookCover img="https://cdn.flipsnack.com/landing/files/flowery-book-cover-template.webp" title="A study of flowers" autor="Sylvia Brooks" />
-                        <BookCover img="https://cdn.flipsnack.com/landing/files/dog-training-book-cover-template.webp" title="A dog's life" autor="Layane Saah" />
-                        <BookCover img="https://cdn.flipsnack.com/landing/files/dramatic-book-cover-sample.webp" title="Jeremiah" autor="a life story of the fighter" />
+                        {books.map((book, index) => (
+                            <BookCover key={index} img={book.cover_url} title={book.name} autor={book.author} />
+                        ))}
                     </div>
                 </div>
                 <div>
