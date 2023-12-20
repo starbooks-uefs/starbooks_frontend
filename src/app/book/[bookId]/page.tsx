@@ -206,9 +206,11 @@ export default function Book ( { params }: { params: { bookId: string } } ) {
               <h2 className='text-2xl mb-3 font-medium'>Do mesmo gênero:</h2>
             </div>
             <div className='flex flex-none gap-8 overflow-hidden'>
-              {booksCategorySix.map((book) => (
-                <BookCarousel id={book.id} img={book.cover_url} title={book.name} author={book.author} currentPrice={book.price}/>
-              ))}
+              {bookData ? (
+                booksCategorySix.map((book) => (
+                  <BookCarousel functionality={() => addToLibrary(userToken.user_id, book.id)} id={book.id} img={book.cover_url} title={book.name} author={book.author} currentPrice={book.price}/>
+                ))
+              ): null}
             </div>
           </div>
         </div>
