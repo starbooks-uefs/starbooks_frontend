@@ -6,6 +6,7 @@ import ExploreBanner from "@/components/ExploreBanner";
 import BuyCard from "@/components/BuyCard";
 import { useEffect, useState } from "react";
 import BookCarousel from "@/components/BookCarousel";
+import jwt from 'jsonwebtoken'
 
 enum Status {
   approved = 'Aprovado',
@@ -45,6 +46,7 @@ const user: User = {
   password: "reader"
 }
 
+// Função foraçada para o login (Quando o login for implementado, retirar essa função abaixo)
 const handleLogin = async () => {
   try {
     // Envia credenciais para o servidor
@@ -56,19 +58,14 @@ const handleLogin = async () => {
       body: JSON.stringify(user)
     });
     const data = response.json()
-    console.log(data)
-    // Se a autenticação for bem-sucedida, o token é retornado
-    // const token = response.data.token;
-
-    // // Armazena o token no local storage (ou em um cookie seguro)
-    // localStorage.setItem('token', token);
-
-    // // Redireciona ou executa outras ações necessárias após o login
-    // // Exemplo: history.push('/dashboard');
+    data.then((res) => {
+      localStorage.setItem('token', res.access_token)
+    })
   } catch (error) {
     console.error('Erro durante o login:', error);
   }
 };
+// Login forçado ACIMA (APAGAR DEPOIS QUE A PÁGINA DE LOGIN FOR CONCLUÍDA) 
 
 export default function Book ( { params }: { params: { bookId: string } } ) {
   console.log(params.bookId)
@@ -104,6 +101,21 @@ export default function Book ( { params }: { params: { bookId: string } } ) {
     }
     fetchBooksDetails()
   },[bookData])
+
+  // useEffect para a obtenção do token do usuário:
+  useEffect(() => {
+    // Pegando o token do localStorage:
+    const token = localStorage.getItem('token');
+
+    try {
+      if (token) {
+        // Decodifica o token:
+        const decodedToken = jwt.decode(token);
+      }
+    } catch (error) {
+      console.error('Erro ao decodificar o token:', error);
+    }
+  }, []);
 
   // Lista de 6 livros para recomendar:
   const booksCategorySix: Book[] = books.slice(0,7)
