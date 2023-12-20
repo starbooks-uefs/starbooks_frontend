@@ -7,5 +7,5 @@ type buttonProps = {
 }
 
 export default function({text,className,onClick}:buttonProps){
-    return <button  type="button" onClick={onClick} className={`w-full bg-blue-500 border-2 border-blue-500 font-semibold rounded-lg text-white px-4 py-3 ${className??""}`}>{text}</button>
+    return <button type="button" onClick={onClick} className={`w-full border-blue-500 border-2 font-semibold rounded-lg text-blue-500 px-4 py-3 ${className??""}`}>{text}</button>
 }

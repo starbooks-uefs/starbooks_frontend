@@ -1,14 +1,18 @@
+import { ReactElement, ReactNode } from "react"
+import { IconType, } from "react-icons"
+
 type inputProps = {
     label:string,
-    placeholder:string,
+    placeholder:string | undefined,
     inputType:string,
-    id:string,
-    className?:string
+    id:string
+    maxLength?:number | undefined
+    
 }
 
-export default function({label,placeholder,inputType,id, className}:inputProps){
-    return <div className={`"flex flex-col gap-2" ${className}`}>
+export default function({label,placeholder,inputType,id, maxLength}:inputProps){
+    return <div className="flex flex-col gap-2">
     <label htmlFor={id} className="font-semibold text-sm" >{label}</label>
-    <input className="border-2 rounded-lg py-4 px-3 text-sm" type={inputType} name={id} id={id} placeholder={placeholder} />
+    <input className="border-2 rounded-lg p-3 text-sm" type={inputType} name={id} id={id} placeholder={placeholder} maxLength={maxLength} />
     </div>
 }
