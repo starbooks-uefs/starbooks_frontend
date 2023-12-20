@@ -174,7 +174,7 @@ const downloadBook = () => {
   booksCategorySix.filter(book => book.id !== bookData?.id)
 
   return (
-    <div className='flex flex-col items-center justify-center w-full h-full bg-white justify-center'>
+    <div className='flex flex-col items-center justify-center w-full h-full bg-white'>
       <div className='flex w-4/5 mx-30 flex-col'>
         {/* Link de voltar: */}
         <div className='flex pt-7 pb-7'>
