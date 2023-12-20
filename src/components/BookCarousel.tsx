@@ -1,18 +1,23 @@
+import Link from "next/link";
 import PrimaryButton from "./PrimaryButton";
 
 type BookCarouselProps = {
+  id: number | undefined,
   img: string | undefined,
   title: string | undefined,
   author: string | undefined,
-  currentPrice: number | undefined
+  currentPrice: number | undefined,
+  functionality?: () => void
 }
 
-export default function BookCarousel( {img, title, author, currentPrice}: BookCarouselProps ) {
+export default function BookCarousel( {functionality, id, img, title, author, currentPrice}: BookCarouselProps ) {
   return (
     <div className='flex flex-col flex-none mt-1 w-40 h-full'>
       {/* Div da imagem */}
       <div className=' w-40 h-52'>
-        <img src={img} alt="Livro" className='w-full h-full rounded'/>
+        <Link href={`http://localhost:3000/book/${id}`}>
+          <img src={img} alt="Livro" className='w-full h-full rounded'/>
+        </Link>
       </div>
       {/* Div do título e do autor */}
       <div className=' my-1 w-full flex flex-col justify-start items-center whitespace-nowrap overflow-hidden'>
@@ -40,7 +45,7 @@ export default function BookCarousel( {img, title, author, currentPrice}: BookCa
       </div>
       {/* Div do botão */}
       <div>
-        <PrimaryButton text="+ Adicionar" className="w-full bg-white border border-bg-blue font-bold rounded px-2 py-2 text-sm text-bg-blue" />
+        <PrimaryButton functionality={functionality} text="+ Adicionar" className="w-full bg-white border border-bg-blue font-bold rounded px-2 py-2 text-sm text-bg-blue" />
       </div>
     </div>
   )
