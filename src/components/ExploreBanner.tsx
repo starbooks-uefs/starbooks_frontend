@@ -1,4 +1,4 @@
-import PrimaryButton from "./PrimaryButton";
+import DownloadButton from "./DownloadButton";
 
 export default function ExploreBanner() {
   return (
@@ -10,7 +10,7 @@ export default function ExploreBanner() {
         <h1>Compre os mais recentes lançamentos literários na nossa plataforma de venda de E-Books</h1>
       </div>
       <div className='w-1/5 mt-5 mb-10'>
-        <PrimaryButton className="w-full bg-yellowBtn font-bold rounded-2xl px-4 py-3" text="Visualizar E-Books"/>
+        <DownloadButton hrefDown="../home" className="w-full bg-yellowBtn font-bold rounded-2xl px-4 py-3" btnText="Visualizar E-Books"/>
       </div>
     </div> 
   )
