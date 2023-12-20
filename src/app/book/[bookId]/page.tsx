@@ -164,7 +164,7 @@ const  addToLibrary = (id_reader: number, id_book: number) => {
 const [linkDownload, setLinkDownload] = useState<string | null>(null)
 // Função que disponibiliza o link para fazer o download:
 const downloadBook = () => {
-
+  
 }
 
   // Lista de 6 livros para recomendar:

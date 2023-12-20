@@ -1,5 +1,4 @@
 import DownloadButton from "./DownloadButton";
-import PrimaryButton from "./PrimaryButton";
 
 type CardProps = {
   bookName: string | undefined,

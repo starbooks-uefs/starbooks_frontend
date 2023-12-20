@@ -64,7 +64,7 @@ export default function Navbar() {
           {/* Div dos links de carrinho, biblioteca e minha conta */}
           <div className='flex flex-none justify-center items-center gap-6 whitespace-nowrap'>
             <div className='flex flex-col justify-center text-2xl items-center'>
-              <Link href="/" className='flex flex-col justify-center text-2xl items-center'>
+              <Link href="../lib" className='flex flex-col justify-center text-2xl items-center'>
                 <FiShoppingCart />
                 <h1 className='text-xs mt-1'>Carrinho</h1>
               </Link>
