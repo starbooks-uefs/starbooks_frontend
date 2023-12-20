@@ -81,15 +81,13 @@ const  addToLibrary = (id_reader: number, id_book: number) => {
         id_reader,
         id_book
       }
-      const response = await fetch(`http://127.0.0.1:8000/api/readers/add_purchase_to_library`, {
+      const response = await fetch(`http://127.0.0.1:8000/api/readers/add_purchase_to_library/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(pucharse)
       });
-      console.log(JSON.stringify(pucharse))
-      console.log(response)
     } catch {
       console.error("Erro ao adicionar a compra.")
     }
@@ -182,7 +180,7 @@ export default function Book ( { params }: { params: { bookId: string } } ) {
               bookName={bookData?.name}
               author={bookData?.author}
               currentPrice={bookData?.price}
-              textBtn="Adicionar ao carrinho"
+              textBtn="Adicionar à biblioteca"
               functionality={() => addToLibrary(userToken.user_id, bookData.id)} />
             ): null}
           </div>
