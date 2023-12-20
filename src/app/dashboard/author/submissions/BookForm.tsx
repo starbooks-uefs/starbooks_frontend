@@ -2,9 +2,12 @@ import FormInput from "@/components/FormInput";
 import { createClient } from "@supabase/supabase-js";
 import Multiselect from "multiselect-react-dropdown";
 import { useState } from "react";
+import { NumericFormat } from 'react-number-format'
+
 
 export default function BookForm() {
     const [genderSelectList, setGenderSelectList] = useState([])
+    const [price, setPrice] = useState<Number | undefined>(0.0)
     const [cover, setCover] = useState('')
     const [pdf, setPdf] = useState('')
 
@@ -112,7 +115,7 @@ export default function BookForm() {
             pages_number: Number(event.target.amountPage.value),
             language: String(event.target.language.value),
             publisher: String(event.target.publisher.value),
-            price: Number(event.target.price.value),
+            price: Number(price),
             synopsis: String(event.target.synopsis.value),
             cover_url: cover,
             pdf_url: pdf,
@@ -176,7 +179,19 @@ export default function BookForm() {
 
             <FormInput id="language" inputType="text" label="Idioma" placeholder="Idioma" />
             <FormInput id="publisher" inputType="text" label="Editora" placeholder="Editora" />
-            <FormInput id="price" inputType="number" label="Valor" placeholder="R$ 0" />
+            <label htmlFor="price" className="font-semibold text-sm" >Valor</label>
+            <NumericFormat
+                onValueChange={(values) => {
+                    setPrice(values.floatValue)
+                }}
+                id="price"
+                placeholder="R$ 0"
+                className="bg-white border-2 rounded-lg py-4 px-3 text-sm"
+                thousandSeparator="."
+                decimalSeparator=","
+                prefix="R$ "
+                decimalScale={2}
+            />
             <label htmlFor="synopsis" className="font-semibold text-sm" >Sinopse</label>
             <textarea id="synopsis" className="bg-white border-2 rounded-lg py-4 px-3 text-sm" />
             <FormInput id="cover" inputType="file" label="Capa do Livro" placeholder="" onValueChange={uploadCover} />
