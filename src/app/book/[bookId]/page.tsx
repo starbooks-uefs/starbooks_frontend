@@ -14,7 +14,7 @@ enum Status {
   pending = 'Pendente'
 }
 
-type Book = {
+export type Book = {
   author: string 
   cover_url: string,
   date: string,
