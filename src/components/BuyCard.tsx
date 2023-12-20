@@ -9,7 +9,7 @@ type CardProps = {
   functionality: () => void,
   btnText: string
   changeBtnClas: string,
-  hrefDown: string
+  hrefDown: string | null
 }
 
 export default function BuyCard( {hrefDown, changeBtnClas, btnText, functionality, bookName, author, currentPrice, textBtn}: CardProps ) {

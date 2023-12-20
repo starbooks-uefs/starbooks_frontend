@@ -2,7 +2,7 @@ type buttonProps = {
   className?:string | undefined
   functionality?: () => void
   btnText: string,
-  hrefDown: string
+  hrefDown: string | null
 }
 
 export default function DownloadButton({hrefDown, btnText, functionality,className}:buttonProps){
