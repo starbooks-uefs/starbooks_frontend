@@ -1,7 +1,8 @@
-import FormInput from "@/components/FormInput";
 import PasswordInputLogin from "@/components/PasswordInputLogin";
 import PrimaryButton from "@/components/PrimaryButton";
 import UserCategorySwitch from "@/components/UserCategorySwitch";
+import FormInput from "@/components/FormInput";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function(){
@@ -9,8 +10,10 @@ export default function(){
         <header className="flex justify-between max-w-6xl m-auto my-6">
             <img src="/starbooks.svg" alt="logo" />
         </header>
-        <main className="flex justify-between items-center max-w-6xl m-auto my-16">
-            <div className="flex flex-col justify-center items-center"><img src="/undraw_reading.svg" alt="ilustration" /></div>
+        <main className="flex justify-between items-start max-w-6xl m-auto mt-15 h-[calc(100%-3rem)]">
+            <div className="flex justify-center items-center">
+                <Image className="mt-12" alt="ilustration" src="/undraw_reading.svg" width={400} height={400}/>
+            </div>
             <div className="flex flex-col w-full max-w-sm">
                 <div>
                     <h1 className="text-blue-400 font-semibold text-center text-3xl">Login</h1>
