@@ -174,11 +174,11 @@ const downloadBook = () => {
   booksCategorySix.filter(book => book.id !== bookData?.id)
 
   return (
-    <div className='flex flex-col items-center justify-center w-full h-full bg-white'>
+    <div className='flex flex-col items-center w-full h-full bg-white'>
       <div className='flex w-4/5 mx-30 flex-col'>
         {/* Link de voltar: */}
         <div className='flex pt-7 pb-7'>
-          <Link className='flex items-center' href="/">
+          <Link className='flex items-center' href="../home">
             <IoIosArrowBack className=' text-bg-blue' />
             <span className='font-medium'>Voltar</span>
           </Link>
