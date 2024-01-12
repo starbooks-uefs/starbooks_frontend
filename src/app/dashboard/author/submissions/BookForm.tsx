@@ -2,7 +2,6 @@ import FormInput from "@/components/FormInput";
 import ProgressBar from "@/components/ProgressBar";
 import { createClient } from "@supabase/supabase-js";
 import axios, { AxiosRequestConfig } from "axios";
-import Multiselect from "multiselect-react-dropdown";
 import { useRef, useState } from "react";
 import { NumericFormat } from 'react-number-format'
 
@@ -73,7 +72,7 @@ export default function BookForm() {
         String(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY));
 
     // Handle file upload event
-    const uploadFile = async (event: any, typeBookFile: string, config?: AxiosRequestConfig) => {
+    const uploadFile = async (event: any, typeBookFile: string) => {
         const file = event.target.files[0];
         const bucket = String(process.env.NEXT_PUBLIC_SUPABASE_BUCKET_NAME)
 
