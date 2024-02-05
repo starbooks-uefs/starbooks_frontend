@@ -21,7 +21,7 @@ export default function(){
             <div className="flex flex-col w-full max-w-sm">
                 <div className="flex flex-col gap-1">
                     <h1 className="text-blue-400 font-semibold text-center text-3xl">Cadastro</h1>
-                    <p className="text-center">Insira os dados abaixo para acessar sua conta</p>
+                    <p className="text-center">Insira os dados abaixo para realizar seu cadastro como leitor</p>
                 </div>
                 <SectionForm sections={[
                     [
