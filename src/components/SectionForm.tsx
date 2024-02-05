@@ -5,14 +5,7 @@ import FormInput from "./FormInput"
 import PrimaryButton from "./PrimaryButton"
 import SecondaryButton from "./SecondaryButton"
 import SectionIndicator from "./SectionIndicator"
-
-type inputProps = {
-    label:string,
-    placeholder?:string | undefined,
-    type:string,
-    id:string
-    maxLength?:number | undefined
-}
+import { FormProvider, useForm } from "react-hook-form"
 
 type formProps = {
     className:string
@@ -21,6 +14,11 @@ type formProps = {
 
 export default function({className,sections}:formProps){
     const [currentSection,setCurrentSection] = useState(0)
+    const methods = useForm()
+
+    const onSubmit = methods.handleSubmit(data => {
+        console.log(data)
+    })
 
     const handleIncremet = ()=> {
         if(currentSection < sections.length){
@@ -36,11 +34,9 @@ export default function({className,sections}:formProps){
         }
     }
 
-    const handleFinish = ()=>{
-        console.log("Cadastro finalizado")
-    }
-
-    return <form className={`flex flex-col gap-4 ${className}` } >
+    return <FormProvider {...methods}>
+        <form className={`flex flex-col gap-4 ${className}` } onSubmit={e => e.preventDefault()}
+        noValidate>
         <div className="flex gap-4 justify-center">
                         {
                             sections.map((section,index) => 
@@ -56,7 +52,9 @@ export default function({className,sections}:formProps){
             })}
         <div className="flex gap-4">
             {currentSection > 0 && <SecondaryButton onClick={handleDecrement} text="Voltar"/>}
-            <PrimaryButton onClick={currentSection != sections.length - 1? handleIncremet : handleFinish} text={currentSection != sections.length - 1 ? "Próximo" : "Finalizar"}/>
+            {currentSection < sections.length - 1 && <PrimaryButton onClick={handleIncremet} text="Próximo"/>}
+            {currentSection == sections.length - 1 && <PrimaryButton onClick={onSubmit} text="Finalizar"/>}
         </div> 
     </form>
+    </FormProvider>
 }
