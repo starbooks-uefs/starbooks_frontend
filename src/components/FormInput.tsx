@@ -14,9 +14,21 @@ type inputProps = {
 
 export default function ({ label, placeholder, inputType, id, classNameInput, onValueChange, maxLength, disabled }: inputProps) {
     const { register } = useFormContext()
-
+    const accountTypeField = register(id)
     return <div className="flex flex-col gap-2">
         <label htmlFor={id} className="font-semibold text-sm" >{label}</label>
-        <input change={onValueChange} className={`border-2 rounded-lg p-3 text-sm bg-white ${classNameInput}`} type={inputType} id={id} placeholder={placeholder} maxLength={maxLength} disabled={disabled} {...register(id)}/>
+        <input className={`border-2 rounded-lg p-3 text-sm bg-white ${classNameInput}`}
+        type={inputType}
+        id={id}
+        placeholder={placeholder}
+        maxLength={maxLength}
+        disabled={disabled}
+        onChange={
+            (e) => {
+                accountTypeField.onChange(e);
+                onValueChange!(e);
+            }
+        }
+        />
     </div>
 }
