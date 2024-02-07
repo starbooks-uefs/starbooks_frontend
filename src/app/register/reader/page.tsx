@@ -30,7 +30,7 @@ export default function(){
                         <FormInput key="birthday" id="birthday" inputType="date" label="Data de nascimento" placeholder="Informe sua data de nascimento"/>,
                     ],
                     [
-                        <FormInput key="username" id="username" inputType="email" label="Nome de usuário" placeholder="Informe seu nome de usuário" />,
+                        <FormInput key="username" id="username" inputType="text" label="Nome de usuário" placeholder="Informe seu nome de usuário" />,
                         <FormInput key="password" id="password" inputType="password" label="Senha" placeholder="Utilize letras, números e simbolos(Ex: @,#)"/>,
                         <GenderSwitch/>
                     ],
