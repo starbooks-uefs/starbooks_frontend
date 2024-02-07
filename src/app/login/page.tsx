@@ -1,3 +1,5 @@
+"use client"
+
 import PasswordInputLogin from "@/components/PasswordInputLogin";
 import PrimaryButton from "@/components/PrimaryButton";
 import UserCategorySwitch from "@/components/UserCategorySwitch";
@@ -19,8 +21,8 @@ export default function(){
                     <h1 className="text-blue-400 font-semibold text-center text-3xl">Login</h1>
                     <p className="my-2 text-center">Insira os dados abaixo para acessar sua conta</p>
                 </div>
-                <form className="flex flex-col gap-4 mt-8">
-                    <FormInput id="email" inputType="text" label="Email" placeholder="Example@email.com"/>
+                <form className="flex flex-col gap-4 mt-8" >
+                    <FormInput key="email" id="email" inputType="text" label="Email" placeholder="Example@email.com"/>
                     <PasswordInputLogin recoveryLink=""/>
                     <UserCategorySwitch/>
                     <PrimaryButton className="w-full bg-blue-500 font-semibold rounded-lg text-white px-4 py-3" text="Entrar"/>    
