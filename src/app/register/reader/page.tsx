@@ -25,24 +25,27 @@ export default function(){
                 </div>
                 <SectionForm sections={[
                     [
-                        <FormInput key="name" id="name" inputType="text" label="Nome" placeholder="Informe seu primeiro nome"/>,
-                        <FormInput key="last-name" id="last-name" inputType="text" label="Sobrenome" placeholder="Informe seu sobrenome"/>,
-                        <FormInput key="birthday" id="birthday" inputType="date" label="Data de nascimento" placeholder="Informe sua data de nascimento"/>
+                        <FormInput key="name" id="first_name" inputType="text" label="Nome" placeholder="Informe seu primeiro nome"/>,
+                        <FormInput key="last_name" id="last_name" inputType="text" label="Sobrenome" placeholder="Informe seu sobrenome"/>,
+                        <FormInput key="birthday" id="birthday" inputType="date" label="Data de nascimento" placeholder="Informe sua data de nascimento"/>,
+                    ],
+                    [
+                        <FormInput key="username" id="username" inputType="email" label="Nome de usuário" placeholder="Informe seu nome de usuário" />,
+                        <FormInput key="password" id="password" inputType="password" label="Senha" placeholder="Utilize letras, números e simbolos(Ex: @,#)"/>,
+                        <GenderSwitch/>
                     ],
                     [
                         <FormInput key="email" id="email" inputType="email" label="Email" placeholder="Exemplo@email.com" />,
-                        <FormInput key="password" id="password" inputType="password" label="Senha" placeholder="Utilize letras, números e simbolos(Ex: @,#)"/>,
-                        <FormInput key="conf-password" id="conf-password" inputType="password" label="Confirmar senha" placeholder="As senhas devem ser iguais"/>
-                    ],
-                    [
                         <MaskFormInput mask="000.000.000-00" placeholder="Digite o seu CPF" label="CPF" id="cpf" key="cpf" />,
-                        <MaskFormInput mask="(00) 0 0000-0000" placeholder="Digite o seu telefone" label="Telefone" id="tel" key="tel"/>,
+                        <MaskFormInput mask="(00) 0 0000-0000" placeholder="Digite o seu telefone" label="Telefone" id="phone_number" key="phone_number"/>,
                     ],
                     [
-                       <IconFormInput mask="0000 0000 0000 0000" icon={<FiCreditCard/>} key="email" id="email" inputType="email" label="Número do cartão de crédito" placeholder="0000 0000 0000 0000"/>,
-                       <FormInput key="titular" id="titular" inputType="text" label="Nome do titular" placeholder="Informe o nome do titular"/>,
-                       <MaskFormInput mask="000" placeholder="Número de 3 dígitos do seu cartão" label="CVV" id="cvv" key="cvv"/>,
-                       <FormInput key="due-date" id="due-date" inputType="date" label="Data de vencimento" placeholder="Informe sua data de nascimento"/>
+                       <IconFormInput mask="0000 0000 0000 0000" icon={<FiCreditCard/>} key="card_number" id="card_number" inputType="email" label="Número do cartão de crédito" placeholder="0000 0000 0000 0000" />,
+                       <FormInput key="cardholder" id="cardholder" inputType="text" label="Nome do titular" placeholder="Informe o nome do titular"/>,
+                       <div className="flex justify-between">
+                        <MaskFormInput mask="000" placeholder="Número de 3 dígitos" label="CVV" id="cvv" key="cvv"/>,
+                       <FormInput key="card_date" id="card_date" inputType="date" label="Data de vencimento" placeholder="Informe sua data de nascimento"/>
+                       </div>
                     ]
                 ]} className="mt-6"/>
                 <div className="flex flex-col text-center gap-2 mt-6">

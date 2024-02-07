@@ -1,3 +1,5 @@
+import { useFormContext } from "react-hook-form";
+
 type inputProps = {
     label: string,
     placeholder: string | undefined,
@@ -11,8 +13,9 @@ type inputProps = {
 }
 
 export default function ({ label, placeholder, inputType, id, classNameInput, onValueChange, maxLength, disabled }: inputProps) {
+    const { register } = useFormContext()
     return <div className="flex flex-col gap-2">
         <label htmlFor={id} className="font-semibold text-sm" >{label}</label>
-        <input className={`border-2 rounded-lg p-3 text-sm bg-white ${classNameInput}`} type={inputType} name={id} id={id} placeholder={placeholder} onChange={onValueChange} maxLength={maxLength} disabled={disabled} />
+        <input className={`border-2 rounded-lg p-3 text-sm bg-white ${classNameInput}`} type={inputType} id={id} placeholder={placeholder} maxLength={maxLength} disabled={disabled} {...register(id)}/>
     </div>
 }

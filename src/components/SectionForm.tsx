@@ -1,7 +1,6 @@
 "use client"
 
 import { ReactNode, useState } from "react"
-import FormInput from "./FormInput"
 import PrimaryButton from "./PrimaryButton"
 import SecondaryButton from "./SecondaryButton"
 import SectionIndicator from "./SectionIndicator"
@@ -19,6 +18,7 @@ export default function({className,sections}:formProps){
     const onSubmit = methods.handleSubmit(data => {
         console.log(data)
     })
+    
 
     const handleIncremet = ()=> {
         if(currentSection < sections.length){
