@@ -40,7 +40,7 @@ export default function(){
                         <FormInput key="bank_name" id="bank_name" inputType="text" label="Nome do banco" placeholder="Informe o nome do banco"/>,
                         <MaskFormInput mask="00000000000" placeholder="Informe o número da sua conta" label="Número da conta" id="number_account" key="number_account" />,
                         <MaskFormInput mask="00000000000" placeholder="Informe o número da agência bancária" label="Agência bancária" id="bank_agency" key="bank_agency" />,
-                        <Select id="account_type" label="Tipo de conta" name="account_type" key="account_type" />
+                        <Select id="account_type" label="Tipo de conta" key="account_type" />
                     ]
                 ]} className="mt-6"/>
                 <div className="flex flex-col text-center gap-2 mt-6">
