@@ -6,8 +6,13 @@ import UserCategorySwitch from "@/components/UserCategorySwitch";
 import FormInput from "@/components/FormInput";
 import Image from "next/image";
 import Link from "next/link";
+import { FormProvider, useForm } from "react-hook-form";
 
 export default function(){
+    const methods = useForm()
+    const onSubmit = methods.handleSubmit(data => {
+        console.log(data)
+    })
     return <>
         <header className="flex justify-between max-w-6xl m-auto my-6">
             <img src="/starbooks.svg" alt="logo" />
@@ -21,16 +26,18 @@ export default function(){
                     <h1 className="text-blue-400 font-semibold text-center text-3xl">Login</h1>
                     <p className="my-2 text-center">Insira os dados abaixo para acessar sua conta</p>
                 </div>
-                <form className="flex flex-col gap-4 mt-8" >
-                    <FormInput key="email" id="email" inputType="text" label="Email" placeholder="Example@email.com"/>
-                    <PasswordInputLogin recoveryLink=""/>
-                    <UserCategorySwitch/>
-                    <PrimaryButton className="w-full bg-blue-500 font-semibold rounded-lg text-white px-4 py-3" text="Entrar"/>    
-                </form>
+                <FormProvider {...methods}>
+                    <form className="flex flex-col gap-4 mt-8" >
+                        <FormInput key="email" id="email" inputType="text" label="Email" placeholder="Example@email.com"/>
+                        <PasswordInputLogin recoveryLink=""/>
+                        <UserCategorySwitch/>
+                        <PrimaryButton className="w-full bg-blue-500 font-semibold rounded-lg text-white px-4 py-3" text="Entrar" onClick={onSubmit}/>    
+                    </form>
+                </FormProvider>
                 <div className="flex flex-col text-center gap-3 mt-7">
                     <p className="text-sm text-center">Ainda não é cadastrado na plataforma?</p>
-                    <Link className="text-blue-500 font-medium text-sm" href={""}> Quero ser leitor</Link>
-                    <Link className="text-blue-500 font-medium text-sm" href={""}> Quero ser produtor</Link>
+                    <Link className="text-blue-500 font-medium text-sm" href={"/register/reader"}> Quero ser leitor</Link>
+                    <Link className="text-blue-500 font-medium text-sm" href={"/register/author"}> Quero ser produtor</Link>
                 </div>
             </div>
         </main>

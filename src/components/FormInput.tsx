@@ -1,3 +1,4 @@
+import { ChangeEvent, ChangeEventHandler } from "react";
 import { useFormContext } from "react-hook-form";
 
 type inputProps = {
@@ -6,7 +7,7 @@ type inputProps = {
     inputType: string,
     id: string,
     classNameInput?: string
-    onValueChange?(value: any): any;
+    onValueChange?(value: any): any
     maxLength?: number | undefined,
     disabled?: boolean
 
@@ -14,7 +15,7 @@ type inputProps = {
 
 export default function ({ label, placeholder, inputType, id, classNameInput, onValueChange, maxLength, disabled }: inputProps) {
     const { register } = useFormContext()
-    const accountTypeField = register(id)
+    const { onChange, onBlur, name, ref } = register(id); 
     return <div className="flex flex-col gap-2">
         <label htmlFor={id} className="font-semibold text-sm" >{label}</label>
         <input className={`border-2 rounded-lg p-3 text-sm bg-white ${classNameInput}`}
@@ -23,12 +24,20 @@ export default function ({ label, placeholder, inputType, id, classNameInput, on
         placeholder={placeholder}
         maxLength={maxLength}
         disabled={disabled}
-        onChange={
-            (e) => {
-                accountTypeField.onChange(e);
-                onValueChange!(e);
+        ref={ref}
+        name={name}
+        onBlur ={
+            (e) =>{
+                onBlur(e)
             }
         }
-        />
+        onChange={
+            (e) => {
+                onChange(e)
+                if(onValueChange != undefined)
+                    onValueChange(e);
+            }
+        }
+        />  
     </div>
 }

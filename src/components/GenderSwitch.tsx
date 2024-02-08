@@ -3,7 +3,7 @@ import {InputRadio} from "./InputRadio"
 import { useFormContext } from "react-hook-form"
 
 export default function(){
-    const [currentGender,setCurrentGender] = useState<string | undefined>("male")
+    const [currentGender,setCurrentGender] = useState<string | undefined>()
     const {register,setValue } = useFormContext()
     const inputOtherGender = useRef<HTMLInputElement>(null)
     const handleGender = (value:string)=>{
