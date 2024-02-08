@@ -1,6 +1,7 @@
 import FormInput from "@/components/FormInput";
+import ProgressBar from "@/components/ProgressBar";
 import { createClient } from "@supabase/supabase-js";
-import Multiselect from "multiselect-react-dropdown";
+import axios, { AxiosRequestConfig } from "axios";
 import { useRef, useState } from "react";
 import { NumericFormat } from 'react-number-format'
 
@@ -10,6 +11,11 @@ export default function BookForm() {
     const [price, setPrice] = useState<string | number | undefined | null>(null)
     const [cover, setCover] = useState('')
     const [pdf, setPdf] = useState('')
+    const [progress, setProgress] = useState(0);
+    const [uploadingCoverFile, setUploadingCoverFile] = useState(false);
+    const [uploadingPdfFile, setUploadingPdfFile] = useState(false);
+
+
     const formRef = useRef<HTMLFormElement>(null);
 
     const state = {
@@ -70,17 +76,27 @@ export default function BookForm() {
         const file = event.target.files[0];
         const bucket = String(process.env.NEXT_PUBLIC_SUPABASE_BUCKET_NAME)
 
-        // Call Storage API to upload file
-        const { data, error } = await supabase.storage
-            .from(bucket)
-            .upload(file.name, file);
+        typeBookFile == 'pdf' ? setUploadingPdfFile(true) : setUploadingCoverFile(true);
 
-        // Handle error if upload failed
-        if (error) {
-            alert('Erro ao Realizar Upload do Arquivo\n' + error.message);
-            return;
-        }
-        else {
+        try {
+            let formData = new FormData();
+            formData.append("media", file);
+
+            const options: AxiosRequestConfig = {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    // @ts-ignore
+                    ...supabase.auth.headers
+                },
+                onUploadProgress: (progressEvent: any) => {
+                    const percentage = (progressEvent.loaded * 100) / progressEvent.total;
+                    setProgress(+ percentage.toFixed(2));
+                },
+            };
+
+            await axios.post(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/${bucket}/${file.name}`, formData, options);
+            alert('Arquivo Submetido Com Sucesso!');
+
             const { data } = supabase
                 .storage
                 .from(bucket)
@@ -93,9 +109,20 @@ export default function BookForm() {
                 setPdf(data.publicUrl)
             }
 
-        }
+            setUploadingPdfFile(false)
+            setUploadingCoverFile(false);
 
-        alert('Arquivo Submetido Com Sucesso!');
+
+        } catch (e: any) {
+            console.error(e);
+            const error =
+                e.response && e.response.data
+                    ? e.response.data.error
+                    : 'Erro ao Realizar Upload do Arquivo';
+            alert(error);
+            setUploadingPdfFile(false)
+            setUploadingCoverFile(false);
+        }
     };
 
 
@@ -192,20 +219,22 @@ export default function BookForm() {
             />
             <label htmlFor="synopsis" className="font-semibold text-sm" >Sinopse</label>
             <textarea id="synopsis" className="bg-white border-2 rounded-lg py-4 px-3 text-sm" placeholder="Sinopse" />
-            <FormInput id="cover" inputType="file" label="Capa do Livro" placeholder="" onValueChange={uploadCover} classNameInput="block w-full text-sm
+            <FormInput id="cover" inputType="file" label="Capa do Livro" placeholder="" onValueChange={uploadCover} disabled={uploadingPdfFile} classNameInput="block w-full text-sm
                     text-slate-500
                     file:mr-4 file:py-2 file:px-4
                     file:rounded-full file:border-0
                     file:text-sm file:font-semibold
                     file:bg-violet-50 file:text-bg-blue
                     hover:file:bg-blue-100" />
-            <FormInput id="pdf" inputType="file" label="Pdf do Livro" placeholder="" onValueChange={uploadPdf} classNameInput="block w-full text-sm
+            <ProgressBar progress={progress} show={uploadingCoverFile}></ProgressBar>
+            <FormInput id="pdf" inputType="file" label="Pdf do Livro" placeholder="" onValueChange={uploadPdf} disabled={uploadingCoverFile} classNameInput="block w-full text-sm
                     text-slate-500
                     file:mr-4 file:py-2 file:px-4
                     file:rounded-full file:border-0
                     file:text-sm file:font-semibold
                     file:bg-violet-50 file:text-bg-blue
                     hover:file:bg-blue-100" />
+            <ProgressBar progress={progress} show={uploadingPdfFile}></ProgressBar>
 
             <div className="terms mb-8">
                 <input className="py-4 px-3 text-sm" type="checkbox" id="topping" name="topping" value="true" /> <span className="text-semibold">Li e Concordo com os Termos e Condições de Uso</span>
@@ -213,7 +242,7 @@ export default function BookForm() {
 
 
             <div>
-                <button type="submit" className="text-bg-blue hover:text-white border border-bg-blue hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Submeter para Análise</button>
+                <button type="submit" disabled={uploadingCoverFile || uploadingPdfFile} className="text-bg-blue hover:text-white border border-bg-blue hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Submeter para Análise</button>
             </div>
         </form>
     </div>)

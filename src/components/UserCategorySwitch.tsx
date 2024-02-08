@@ -11,12 +11,12 @@ export default function(){
     const handle = () => setIsReader(!isReader)
 
     return <div className="flex justify-stretch gap-6">
-    <button onClick={handle} type="button" className={`flex rounded-lg gap-4 py-3 px-6 border-2 w-full justify-center items-center text-sm  ${isReader?activeStyle:inactiveStyle}`}>
+    <button onClick={handle} type="button" className={`flex rounded-lg gap-4 p-3 border-2 w-full justify-center items-center text-sm  ${isReader?activeStyle:inactiveStyle}`}>
         <FiBookOpen/>
         <span >Leitor</span>
     </button>
 
-    <button onClick={handle} type="button" className={`flex rounded-lg gap-4 py-3 px-6 border-2 w-full justify-center items-center text-sm  ${!isReader?activeStyle:inactiveStyle}`}>
+    <button onClick={handle} type="button" className={`flex rounded-lg gap-4 p-3 border-2 w-full justify-center items-center text-sm  ${!isReader?activeStyle:inactiveStyle}`}>
         <FiEdit3/>
         <span>Produtor</span>
     </button>
