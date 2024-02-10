@@ -7,8 +7,52 @@ import Select from "@/components/AccountTypeSelect";
 import SimpleHeader from "@/components/SimpleHeader";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { FieldValues } from "react-hook-form";
+
+type Author = {
+    first_name:string,
+	last_name:string,
+	birthdate:string,
+	username:string,
+	password:string,
+	email:string,
+	phone_number:string,
+    cnpj:string,
+	bank_name:string,
+	bank_agency:string,
+	number_account:string,
+	account_type: "poupança" | "corrente"
+}
 
 export default function(){
+    const router = useRouter()
+    const handleSubmit = async (values:FieldValues) => {
+        const author = values as Author
+        const birthdate = new Date(author.birthdate)
+        author.birthdate = `${birthdate.getDay()}/${birthdate.getMonth() + 1}/${birthdate.getFullYear()}`
+        author.cnpj = author.cnpj.replace(/[^\d]+/g,'')
+        console.log(author)
+        try {
+          // Envia credenciais para o servidor
+          const response = await fetch(`http://127.0.0.1:8000/api/producers/`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(author),
+            redirect:"follow"
+          });
+          
+          if(!response.ok){
+            const message = await response.json();
+            throw new Error(`${JSON.stringify(message)}`)
+          }
+          router.push("/login")
+        } catch (error:any) {
+          console.error(error.message)
+        }
+      };
     return <>
         <SimpleHeader/>
     
@@ -21,11 +65,11 @@ export default function(){
                     <h1 className="text-blue-400 font-semibold text-center text-3xl">Cadastro</h1>
                     <p className="text-center">Insira os dados abaixo para realizar seu cadastro</p>
                 </div>
-                <SectionForm sections={[
+                <SectionForm onFetch={handleSubmit} sections={[
                     [
                         <FormInput key="name" id="name" inputType="text" label="Nome" placeholder="Informe seu primeiro nome"/>,
                         <FormInput key="last-name" id="last-name" inputType="text" label="Sobrenome" placeholder="Informe seu sobrenome"/>,
-                        <FormInput key="birthday" id="birthday" inputType="date" label="Data de nascimento" placeholder="Informe sua data de nascimento"/>
+                        <FormInput key="birthdate" id="birthdate" inputType="date" label="Data de nascimento" placeholder="Informe sua data de nascimento"/>
                     ],
                     [
                         <FormInput key="username" id="username" inputType="text" label="Nome de usuário" placeholder="Informe seu nome de usuário" />,

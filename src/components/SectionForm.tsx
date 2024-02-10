@@ -4,22 +4,22 @@ import { ReactNode, useState } from "react"
 import PrimaryButton from "./PrimaryButton"
 import SecondaryButton from "./SecondaryButton"
 import SectionIndicator from "./SectionIndicator"
-import { FormProvider, useForm } from "react-hook-form"
+import { FieldValues, FormProvider, useForm } from "react-hook-form"
 
 type formProps = {
     className:string
     sections:Array<Array<ReactNode>>
+    onFetch:(data:FieldValues) => void
 }
 
-export default function({className,sections}:formProps){
+export default function({className,sections, onFetch}:formProps){
     const [currentSection,setCurrentSection] = useState(0)
     const methods = useForm()
 
     const onSubmit = methods.handleSubmit(data => {
-        console.log(data)
+        onFetch(data)
     })
     
-
     const handleIncremet = ()=> {
         if(currentSection < sections.length){
             setCurrentSection(currentSection + 1)

@@ -16,6 +16,7 @@
     "jsonwebtoken": "^9.0.2",
     "multiselect-react-dropdown": "^2.0.25",
     "next": "14.0.4",
+    "next-intl": "^3.7.0",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.50.0",
