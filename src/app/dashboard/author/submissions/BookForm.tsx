@@ -3,6 +3,7 @@ import ProgressBar from "@/components/ProgressBar";
 import { createClient } from "@supabase/supabase-js";
 import axios, { AxiosRequestConfig } from "axios";
 import { useRef, useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
 import { NumericFormat } from 'react-number-format'
 
 
@@ -14,6 +15,7 @@ export default function BookForm() {
     const [progress, setProgress] = useState(0);
     const [uploadingCoverFile, setUploadingCoverFile] = useState(false);
     const [uploadingPdfFile, setUploadingPdfFile] = useState(false);
+    const methods = useForm();
 
 
     const formRef = useRef<HTMLFormElement>(null);
@@ -181,69 +183,70 @@ export default function BookForm() {
     }
 
     return (<div>
+        <FormProvider {...methods}>
+            <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-4 mt-8">
+                <FormInput id="name" inputType="text" label="Nome da Obra" placeholder="Nome" />
+                <FormInput id="author" inputType="text" label="Autor" placeholder="Autor" />
+                <FormInput id="gender" inputType="text" label="Gênero" placeholder="Gênero" />
+                <FormInput id="publicationDate" inputType="date" label="Data de Publicação" placeholder="" />
 
-        <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-4 mt-8">
-            <FormInput id="name" inputType="text" label="Nome da Obra" placeholder="Nome" />
-            <FormInput id="author" inputType="text" label="Autor" placeholder="Autor" />
-            <FormInput id="gender" inputType="text" label="Gênero" placeholder="Gênero" />
-            <FormInput id="publicationDate" inputType="date" label="Data de Publicação" placeholder="" />
+                <label htmlFor="rating" className="font-semibold text-sm" >Classificação Indicativa</label>
+                <select id="rating" className="bg-white border-2 rounded-lg py-4 px-3 text-sm">
+                    <option value={0}>Livre</option>
+                    <option value={10}>10</option>
+                    <option value={12}>12</option>
+                    <option value={14}>14</option>
+                    <option value={16}>16</option>
+                    <option value={18}>18</option>
+                </select>
 
-            <label htmlFor="rating" className="font-semibold text-sm" >Classificação Indicativa</label>
-            <select id="rating" className="bg-white border-2 rounded-lg py-4 px-3 text-sm">
-                <option value={0}>Livre</option>
-                <option value={10}>10</option>
-                <option value={12}>12</option>
-                <option value={14}>14</option>
-                <option value={16}>16</option>
-                <option value={18}>18</option>
-            </select>
+                <FormInput id="edition" inputType="number" label="Edição" placeholder="0" />
+                <FormInput id="amountPage" inputType="number" label="Quantidade de Páginas" placeholder="0" />
 
-            <FormInput id="edition" inputType="number" label="Edição" placeholder="0" />
-            <FormInput id="amountPage" inputType="number" label="Quantidade de Páginas" placeholder="0" />
+                <FormInput id="language" inputType="text" label="Idioma" placeholder="Idioma" />
+                <FormInput id="publisher" inputType="text" label="Editora" placeholder="Editora" />
+                <label htmlFor="price" className="font-semibold text-sm" >Valor</label>
+                <NumericFormat
+                    value={price}
+                    onValueChange={(values) => {
+                        setPrice(values.floatValue)
+                    }}
+                    id="price"
+                    placeholder="R$ 0"
+                    className="bg-white border-2 rounded-lg py-4 px-3 text-sm"
+                    thousandSeparator="."
+                    decimalSeparator=","
+                    prefix="R$ "
+                    decimalScale={2}
+                />
+                <label htmlFor="synopsis" className="font-semibold text-sm" >Sinopse</label>
+                <textarea id="synopsis" className="bg-white border-2 rounded-lg py-4 px-3 text-sm" placeholder="Sinopse" />
+                <FormInput id="cover" inputType="file" label="Capa do Livro" placeholder="" onValueChange={uploadCover} disabled={uploadingPdfFile} classNameInput="block w-full text-sm
+                        text-slate-500
+                        file:mr-4 file:py-2 file:px-4
+                        file:rounded-full file:border-0
+                        file:text-sm file:font-semibold
+                        file:bg-violet-50 file:text-bg-blue
+                        hover:file:bg-blue-100" />
+                <ProgressBar progress={progress} show={uploadingCoverFile}></ProgressBar>
+                <FormInput id="pdf" inputType="file" label="Pdf do Livro" placeholder="" onValueChange={uploadPdf} disabled={uploadingCoverFile} classNameInput="block w-full text-sm
+                        text-slate-500
+                        file:mr-4 file:py-2 file:px-4
+                        file:rounded-full file:border-0
+                        file:text-sm file:font-semibold
+                        file:bg-violet-50 file:text-bg-blue
+                        hover:file:bg-blue-100" />
+                <ProgressBar progress={progress} show={uploadingPdfFile}></ProgressBar>
 
-            <FormInput id="language" inputType="text" label="Idioma" placeholder="Idioma" />
-            <FormInput id="publisher" inputType="text" label="Editora" placeholder="Editora" />
-            <label htmlFor="price" className="font-semibold text-sm" >Valor</label>
-            <NumericFormat
-                value={price}
-                onValueChange={(values) => {
-                    setPrice(values.floatValue)
-                }}
-                id="price"
-                placeholder="R$ 0"
-                className="bg-white border-2 rounded-lg py-4 px-3 text-sm"
-                thousandSeparator="."
-                decimalSeparator=","
-                prefix="R$ "
-                decimalScale={2}
-            />
-            <label htmlFor="synopsis" className="font-semibold text-sm" >Sinopse</label>
-            <textarea id="synopsis" className="bg-white border-2 rounded-lg py-4 px-3 text-sm" placeholder="Sinopse" />
-            <FormInput id="cover" inputType="file" label="Capa do Livro" placeholder="" onValueChange={uploadCover} disabled={uploadingPdfFile} classNameInput="block w-full text-sm
-                    text-slate-500
-                    file:mr-4 file:py-2 file:px-4
-                    file:rounded-full file:border-0
-                    file:text-sm file:font-semibold
-                    file:bg-violet-50 file:text-bg-blue
-                    hover:file:bg-blue-100" />
-            <ProgressBar progress={progress} show={uploadingCoverFile}></ProgressBar>
-            <FormInput id="pdf" inputType="file" label="Pdf do Livro" placeholder="" onValueChange={uploadPdf} disabled={uploadingCoverFile} classNameInput="block w-full text-sm
-                    text-slate-500
-                    file:mr-4 file:py-2 file:px-4
-                    file:rounded-full file:border-0
-                    file:text-sm file:font-semibold
-                    file:bg-violet-50 file:text-bg-blue
-                    hover:file:bg-blue-100" />
-            <ProgressBar progress={progress} show={uploadingPdfFile}></ProgressBar>
-
-            <div className="terms mb-8">
-                <input className="py-4 px-3 text-sm" type="checkbox" id="topping" name="topping" value="true" /> <span className="text-semibold">Li e Concordo com os Termos e Condições de Uso</span>
-            </div>
+                <div className="terms mb-8">
+                    <input className="py-4 px-3 text-sm" type="checkbox" id="topping" name="topping" value="true" /> <span className="text-semibold">Li e Concordo com os Termos e Condições de Uso</span>
+                </div>
 
 
-            <div>
-                <button type="submit" disabled={uploadingCoverFile || uploadingPdfFile} className="text-bg-blue hover:text-white border border-bg-blue hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Submeter para Análise</button>
-            </div>
-        </form>
+                <div>
+                    <button type="submit" disabled={uploadingCoverFile || uploadingPdfFile} className="text-bg-blue hover:text-white border border-bg-blue hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Submeter para Análise</button>
+                </div>
+            </form>
+            </FormProvider>
     </div>)
 }

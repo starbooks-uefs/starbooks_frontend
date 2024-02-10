@@ -44,18 +44,18 @@ export default function Books() {
     const [userToken, setUserToken] = useState<any>(null)
     const [booksData, setBooksData] = useState<Book[] | null>(null)
 
-    useEffect(() => {
-        const token = localStorage.getItem('token')
-        try {
-            if (token) {
-                setUserToken(jwt.decode(token))
-            }
-        } catch {
-            console.error("Erro ao decodificar o token.")
-        }
-    }, [])
+    // useEffect(() => {
+    //     const token = localStorage.getItem('token')
+    //     try {
+    //         if (token) {
+    //             setUserToken(jwt.decode(token))
+    //         }
+    //     } catch {
+    //         console.error("Erro ao decodificar o token.")
+    //     }
+    // }, [])
     
-    {/*
+    
     useEffect(() => {
         setBooksData([{
             author: "Dr. Mildred S. Dresselhaus",
@@ -97,22 +97,22 @@ export default function Books() {
             submission_status: Status.approved,
             synopsis: 'Num mundo pós-apocalíptico onde a humanidade luta pela sobrevivência, uma jovem corajosa embarca em uma jornada épica para encontrar a última esperança da humanidade: uma lendária cidade perdida nas montanhas. Enfrentando perigos inimagináveis e traições mortais, ela descobre segredos obscuros que mudarão o destino de todos. Em "Além das Ruínas", o destino da humanidade está nas mãos de uma única pessoa.'
         }])
-    }, [])*/}
+    }, [])
 
-    useEffect(() => {
-        const fetchBooks = async () => {
-            try {
-                console.log(userToken.user_id)
-                const response = await fetch(`http://127.0.0.1:8000/api/producers/books/${userToken.user_id}/`)
-                const data = await response.json()
-                setBooksData(data)
-                console.log(data)
-            } catch {
-                console.error("Erro ao buscar detalhes do ebook específico.")
-            }
-        }
-        fetchBooks()
-    }, [[userToken]])  
+    // useEffect(() => {
+    //     const fetchBooks = async () => {
+    //         try {
+    //             console.log(userToken.user_id)
+    //             const response = await fetch(`http://127.0.0.1:8000/api/producers/books/${userToken.user_id}/`)
+    //             const data = await response.json()
+    //             setBooksData(data)
+    //             console.log(data)
+    //         } catch {
+    //             console.error("Erro ao buscar detalhes do ebook específico.")
+    //         }
+    //     }
+    //     fetchBooks()
+    // }, [[userToken]])  
 
 
     function viewEBook(){
