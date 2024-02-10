@@ -35,43 +35,14 @@ export type Book = {
   synopsis: string
 }
 
-// Login forçado (APAGAR DEPOIS QUE A PÁGINA DE LOGIN FOR CONCLUÍDA)
-type User = {
-  email: string,
-  password: string
-}
 
-const user: User = {
-  email: "reader@reader.com",
-  password: "reader"
-}
 
-// Função foraçada para o login (Quando o login for implementado, retirar essa função abaixo)
-const handleLogin = async () => {
-  try {
-    // Envia credenciais para o servidor
-    const response = await fetch(`http://127.0.0.1:8000/api/readers/login/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(user)
-    });
-    const data = response.json()
-    data.then((res) => {
-      localStorage.setItem('token', res.access_token)
-    })
-  } catch (error) {
-    console.error('Erro durante o login:', error);
-  }
-};
 // Login forçado ACIMA (APAGAR DEPOIS QUE A PÁGINA DE LOGIN FOR CONCLUÍDA) 
 
 
 
 
 export default function Book ( { params }: { params: { bookId: string } } ) {
-  handleLogin()
   // Ebook específico da página
   const [bookData, setBookData] = useState<Book | null>(null)
 
