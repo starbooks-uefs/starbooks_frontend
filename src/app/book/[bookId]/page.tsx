@@ -35,13 +35,6 @@ export type Book = {
   synopsis: string
 }
 
-
-
-// Login forçado ACIMA (APAGAR DEPOIS QUE A PÁGINA DE LOGIN FOR CONCLUÍDA) 
-
-
-
-
 export default function Book ( { params }: { params: { bookId: string } } ) {
   // Ebook específico da página
   const [bookData, setBookData] = useState<Book | null>(null)
