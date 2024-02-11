@@ -117,7 +117,6 @@ export default function Book ( { params }: { params: { bookId: string } } ) {
         }
       }
       fetchPucharses()
-      
     }
   }, [userToken?.user_id])
 
