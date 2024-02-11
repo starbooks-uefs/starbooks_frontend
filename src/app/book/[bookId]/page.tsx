@@ -111,7 +111,6 @@ export default function Book ( { params }: { params: { bookId: string } } ) {
           const data = await response.json()
           console.log(data)
           setUserPucharses(data)
-          
         } catch {
           console.error("Erro ao buscar as compras do leitor.")
         }
