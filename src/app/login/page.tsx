@@ -6,7 +6,7 @@ import UserCategorySwitch from "@/components/UserCategorySwitch";
 import FormInput from "@/components/FormInput";
 import Image from "next/image";
 import Link from "next/link";
-import { FieldValues, FormProvider, useForm } from "react-hook-form";
+import {FormProvider, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 // Login forçado (APAGAR DEPOIS QUE A PÁGINA DE LOGIN FOR CONCLUÍDA)
 type User = {
@@ -14,34 +14,30 @@ type User = {
     password: string
     user_type: "reader" | "author"
 }
-const handleLogin = async (data:FieldValues) => {
-    const router = useRouter()
-    const user = data as User
-    const BASE_URL = "http://127.0.0.1:8000/api"
-    console.log(user)
-    try {
-      // Envia credenciais para o servidor
-      const response = await fetch( user.user_type == "reader"? `${BASE_URL}/readers/login/`:`${BASE_URL}/producers/login/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(user)
-      });
-      if(!response.ok)
-        throw new Error(JSON.stringify(response.body))
-      const data = await response.json()
-      localStorage.setItem('token', data.access_token)
-      router.push("/home")
-    } catch (error:any) {
-      console.error('Erro durante o login:', error.message);
-    }
-    
-  };
 export default function(){
     const methods = useForm()
-    const onSubmit = methods.handleSubmit(data => {
-        handleLogin(data)
+    const router = useRouter()
+    const onSubmit = methods.handleSubmit(async data => {
+        const user = data as User
+        const BASE_URL = "http://127.0.0.1:8000/api"
+        console.log(user)
+        try {
+        // Envia credenciais para o servidor
+        const response = await fetch( user.user_type == "reader"? `${BASE_URL}/readers/login/`:`${BASE_URL}/producers/login/`, {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        });
+        if(!response.ok)
+            throw new Error(JSON.stringify(response.body))
+        const data = await response.json()
+        localStorage.setItem('token', data.access_token)
+        router.push("/home")
+        } catch (error:any) {
+        console.error('Erro durante o login:', error.message);
+        }
     })
 
     return <>
