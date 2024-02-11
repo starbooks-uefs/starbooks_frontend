@@ -7,10 +7,11 @@ type BookCarouselProps = {
   title: string | undefined,
   author: string | undefined,
   currentPrice: number | undefined,
-  functionality?: () => void
+  functionality?: () => void,
+  href: any
 }
 
-export default function BookCarousel( {functionality, id, img, title, author, currentPrice}: BookCarouselProps ) {
+export default function BookCarousel( {functionality, id, img, title, author, currentPrice, href}: BookCarouselProps ) {
   return (
     <div className='flex flex-col flex-none mt-1 w-40 h-full'>
       {/* Div da imagem */}
@@ -45,7 +46,7 @@ export default function BookCarousel( {functionality, id, img, title, author, cu
       </div>
       {/* Div do botão */}
       <div>
-        <PrimaryButton functionality={functionality} text="+ Adicionar" className="w-full bg-white border border-bg-blue font-bold rounded px-2 py-2 text-sm text-bg-blue" />
+        <PrimaryButton href={href} text="Ver livro" className="w-full bg-white border border-bg-blue font-bold rounded px-2 py-2 text-sm text-bg-blue" />
       </div>
     </div>
   )

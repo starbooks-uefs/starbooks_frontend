@@ -235,7 +235,7 @@ const  addToLibrary = (id_reader: number, id_book: number) => {
             <div className='flex flex-none gap-8 overflow-hidden'>
               {bookData ? (
                 booksCategorySix.map((book) => (
-                  <BookCarousel functionality={() => addToLibrary(userToken.user_id, book.id)} id={book.id} img={book.cover_url} title={book.name} author={book.author} currentPrice={book.price}/>
+                  <BookCarousel href={`/book/${book.id}`} functionality={() => addToLibrary(userToken.user_id, book.id)} id={book.id} img={book.cover_url} title={book.name} author={book.author} currentPrice={book.price}/>
                 ))
               ): null}
             </div>
