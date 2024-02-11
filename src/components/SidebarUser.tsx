@@ -1,15 +1,66 @@
 'use client'
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { } from "react";
+import React, { useEffect, useState } from "react";
 import { FiBookOpen, FiFileText, FiLogOut, FiCreditCard, FiUser, FiLock } from "react-icons/fi";
+import jwt from 'jsonwebtoken'
 
-const SidebarUser = ({ imagePath: imagePath }: { imagePath?: any }) => {
-    
-    
+export type User = {
+    user_instance: number | null,
+    username: string | null,
+    password: string | null,
+    id: number | null,
+    first_name: string | null,
+    last_name: string | null,
+    email: string | null,
+    birthdate: string | null,
+    phone_number: string | null,
+    cpf : string | null,
+    gender : string | null,
+    cardholder : string | null,
+    cvv : number | null,
+    card_number : string | null,
+    card_date : string | null,
+}
+
+const SidebarUser = () => {
+
+    const [userToken, setUserToken] = useState<any>(null)
+
+    // useEffect para a obtenção do token do usuário:
+    useEffect(() => {
+        // Pegando o token do localStorage:
+        const token = localStorage.getItem('token')
+        try {
+            if (token) {
+                // Decodifica o token:
+                setUserToken(jwt.decode(token))
+            }
+        } catch (error) {
+            console.error('Erro ao decodificar o token:', error)
+        }
+    }, [])
+
+    const [user, setUser] = useState<User|null> (null)
+
+    useEffect(() => {
+        if (userToken?.user_id) {
+            const fetchUser = async () => {
+                try {
+                    const response = await fetch(`http://127.0.0.1:8000/api/readers/${userToken.user_id}/`)
+                    const data = await response.json()
+                    setUser(data)
+                } catch {
+                    console.error("Erro ao buscar as compras do leitor.")
+                }
+            }
+            fetchUser()
+        }
+    }, [userToken?.user_id])
+
 
     const pathname = usePathname()
-    
+
     function getClassItem(router: string) {
         return pathname === router ? 'text-decoration-line: underline' : ''
     }
@@ -19,10 +70,10 @@ const SidebarUser = ({ imagePath: imagePath }: { imagePath?: any }) => {
                 <div className="h-full px-3 py-4 overflow-y-auto bg-white ">
                     <div className=" ps-2.5 mb-8 flex flex-col mx-auto items-center p-2">
                         <div className="w-24 h-24 relative">
-                            <FiUser color="white" className="w-24 h-24 left-0 top-0 absolute bg-bg-blue rounded-full p-3"/>              
+                            <FiUser color="white" className="w-24 h-24 left-0 top-0 absolute bg-bg-blue rounded-full p-3" />
                             <div className="w-16 h-16 px-3 py-2 left-[12.68px] top-[12.68px] absolute flex-col justify-center items-center gap-3 inline-flex" />
                         </div>
-                        <span className="text-gray-900 font-medium text-sm mb-5 p-3">Olá Usuário</span>
+                        <span className="text-gray-900 font-medium text-sm mb-5 p-3">Olá {user?.username}</span>
                     </div>
                     <ul className="space-y-3 font-medium">
                         <li key={1}>
