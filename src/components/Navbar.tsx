@@ -22,7 +22,7 @@ export default function Navbar() {
           {/* Links da parte em azul */}
           <div className='flex gap-6 my-auto text-xs text-white '>
             <div>
-              <Link href="/">Quero vender</Link>
+              <Link href="/register/author">Quero vender</Link>
             </div>
             <div>
               <Link href="/">Quem somos</Link>
@@ -37,7 +37,7 @@ export default function Navbar() {
       {/* Div da logo */}
       <div className='w-full h-20 flex justify-center'>
         {/* Conteúdo da div da logo */}
-        <div className='flex gap-10 justify-center items-center w-4/5 my-auto flex justify-between'>
+        <div className='flex gap-10 justify-center items-center w-4/5 my-auto'>
           {/* Div da imagem do logo */}
           <div className='flex-none'>
             <img src="/starbooks.svg" alt="logo" className='w-36 h-30' />
@@ -86,7 +86,7 @@ export default function Navbar() {
       </div>
       <hr />
       {/* Div dos filtros */}
-      <div className='w-full mt-3 flex gap-12 justify-center items-center justify-center'>
+      <div className='w-full mt-3 flex gap-12 justify-center items-center'>
         <div>
           <Link href="/" className='flex gap-1 justify-center items-center'>
             <FiMenu />
