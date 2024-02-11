@@ -74,12 +74,12 @@ export default function Lib() {
             <div className="flex justify-center align-items-center">
                 <div className="m-10 bg-white rounded-lg shadow border border-neutral-600 flex justify-center flex-col">
                     <div className="pt-10 h-[19px] justify-center items-center gap-2 inline-flex">
-                        <div className="w-[123px] text-neutral-600 text-xs font-medium flex flex-line gap-1 hover:cursor-pointer">
-                            <IoMenu /> Recentes
+                        <div className="w-[123px] text-neutral-600 text-lg font-medium flex flex-line gap-1 hover:cursor-pointer">
+                            <h1>Sua biblioteca</h1>
                         </div>
                     </div>
                     <div className="p-7 flex-1 flex-wrap flex justify-center items-center">
-                        <div className="gap-2 flex-[0_0_60%] content-none box-border">
+                        <div className="gap-2 flex-[0_0_80%] content-none box-border">
                             {booksData?.map((book) => (
                                 <Link href={`/book/${book.id}`}>
                                     <BookCover
