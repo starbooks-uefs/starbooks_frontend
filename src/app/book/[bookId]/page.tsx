@@ -113,7 +113,6 @@ export default function Book ( { params }: { params: { bookId: string } } ) {
         try {
           const response = await fetch(`http://127.0.0.1:8000/api/readers/${userToken.user_id}/purchases/`)
           const data = await response.json()
-          console.log(data)
           setUserPucharses(data)
         } catch {
           console.error("Erro ao buscar as compras do leitor.")
@@ -125,9 +124,7 @@ export default function Book ( { params }: { params: { bookId: string } } ) {
 
   // Função que avalia se a compra do livro em visualização está na conta do usuário logado.
   const downloadAvailable = () => {
-    console.log(userPucharses)
     userPucharses.forEach(pucharse => {
-      console.log(pucharse)
       if(parseInt(params.bookId) === pucharse.id_book) {
         console.log("download disponivel")
         setBtnText("Download")
@@ -152,11 +149,12 @@ const  addToLibrary = (id_book: number) => {
       const cartBook: Cart = {
         id_book
       }
+      const token = localStorage.getItem('token')
       const response = await fetch(`http://127.0.0.1:8000/api/cart/addToCart/`, {
-        method: 'POST',
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${userToken}`
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(cartBook)
       });
