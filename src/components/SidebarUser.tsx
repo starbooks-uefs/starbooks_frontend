@@ -17,7 +17,7 @@ const SidebarUser = ({ imagePath: imagePath }: { imagePath?: any }) => {
     }
     return (
         <div>
-            <aside id="default-sidebar" className="w-64 h-full transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
+            <aside id="default-sidebar" className=" items-start flex flex-col w-64 h-full transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
                 <div className="h-full px-3 py-4 overflow-y-auto bg-white ">
                     <div className=" ps-2.5 mb-8 flex flex-col mx-auto items-center p-2">
                         <div className="w-24 h-24 relative">
