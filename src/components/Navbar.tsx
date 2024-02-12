@@ -1,13 +1,31 @@
 "use client"
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import { FiShoppingCart } from "react-icons/fi";
 import { FiBookOpen } from "react-icons/fi";
 import { FiMenu } from "react-icons/fi";
 import { FiChevronDown } from "react-icons/fi";
 import { FiUser } from "react-icons/fi";
+import jwt from "jsonwebtoken";
 
 export default function Navbar() {
+
+  // Recebendo o token do usuário logado.
+  const [userToken, setUserToken] = useState<any>(null)
+  useEffect(() => {
+      const token = localStorage.getItem('token')
+      try {
+          if (token) {
+              setUserToken(jwt.decode(token))
+
+          }
+      } catch {
+          console.error("Erro ao decodificar o token.")
+      }
+  }, [])
+
+
   return (
     // Div que engloba todo a navbar
     <div className='flex flex-col w-full h-44'>
@@ -40,7 +58,16 @@ export default function Navbar() {
         <div className='flex gap-10 justify-center items-center w-4/5 my-auto'>
           {/* Div da imagem do logo */}
           <div className='flex-none'>
-            <img src="/starbooks.svg" alt="logo" className='w-36 h-30' />
+            {userToken ? (
+              <Link href='/home'>
+                <img src="/starbooks.svg" alt="logo" className='w-36 h-30' />
+              </Link>
+            ): (
+              <Link href='/'>
+                <img src="/starbooks.svg" alt="logo" className='w-36 h-30' />
+              </Link>
+            )}
+            
           </div>
           {/* Div da barra de pesquisa */}
           <div className='w-4/5'>

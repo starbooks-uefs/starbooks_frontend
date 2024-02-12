@@ -42,7 +42,9 @@ export default function(){
 
     return <>
         <header className="flex justify-between max-w-6xl m-auto my-6">
-            <img src="/starbooks.svg" alt="logo" />
+            <Link href='/'>
+                <img src="/starbooks.svg" alt="logo" className='w-36 h-30' />
+            </Link>
         </header>
         <main className="flex justify-between items-start max-w-6xl m-auto mt-15 h-[calc(100%-3rem)]">
             <div className="flex justify-center items-center">

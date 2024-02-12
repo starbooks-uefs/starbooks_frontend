@@ -6,7 +6,7 @@ type buttonProps = {
     className?:string | undefined,
     onClick?:MouseEventHandler,
     type?:"button" | "submit" | "reset" | undefined
-    href: string
+    href?: string
 }
 
 export default function({type="button", text, className, onClick, href}:buttonProps){
