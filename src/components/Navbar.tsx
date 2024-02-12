@@ -70,13 +70,13 @@ export default function Navbar() {
               </Link>
             </div>  
             <div className='flex flex-col justify-center text-2xl items-center'>
-              <Link href="../dashboard/user/books" className='flex flex-col justify-center text-2xl items-center'>
+              <Link href="/dashboard/user/books" className='flex flex-col justify-center text-2xl items-center'>
                 <FiBookOpen />
                 <h1 className='text-xs mt-1'>Meus livros</h1>
               </Link>
             </div>
             <div className='flex flex-col justify-center text-2xl items-center'>
-              <Link href="/" className='flex flex-col justify-center text-2xl items-center'>
+              <Link href="/dashboard/user" className='flex flex-col justify-center text-2xl items-center'>
                 <FiUser />
                 <h1 className='text-xs mt-1'>Minha conta</h1>
               </Link>

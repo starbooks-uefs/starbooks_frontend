@@ -1,6 +1,5 @@
 'use client'
 import BookCover from "@/components/BookCover";
-import { IoMenu } from "react-icons/io5";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import jwt from "jsonwebtoken";

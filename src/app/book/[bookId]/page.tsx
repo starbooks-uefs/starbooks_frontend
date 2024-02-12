@@ -35,7 +35,11 @@ export type Book = {
   synopsis: string
 }
 
-// Tipo Purcharse para adicionar a compra à biblioteca:
+// Tipo Purcharse para recuperar os livros q foram comprados:
+type Cart = {
+  id_book: number
+}
+
 type Pucharse = {
   id_book: number,
   id_reader: number
@@ -141,26 +145,22 @@ export default function Book ( { params }: { params: { bookId: string } } ) {
   }, [userPucharses])
     
 
-//Função de adicionar à biblioteca:
-const  addToLibrary = (id_reader: number, id_book: number) => {
+//Função de adicionar ao carrinho:
+const  addToLibrary = (id_book: number) => {
   const putBook = async () => {
     try {
-      const pucharse: Pucharse = {
-        id_reader,
+      const cartBook: Cart = {
         id_book
       }
-      const response = await fetch(`http://127.0.0.1:8000/api/readers/add_purchase_to_library/`, {
+      const response = await fetch(`http://127.0.0.1:8000/api/cart/addToCart/`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${userToken}`
         },
-        body: JSON.stringify(pucharse)
+        body: JSON.stringify(cartBook)
       });
-      setBtnText("Download")
-      setchangeBtnClas('w-full bg-green-400 font-semibold rounded-lg text-white px-4 py-3')
-      if (bookData) {
-        setLinkDownload(bookData?.pdf_url)
-      }
+      setBtnText("Adicionado ao carrinho")
     } catch {
       console.error("Erro ao adicionar a compra.")
     }
@@ -204,7 +204,7 @@ const  addToLibrary = (id_reader: number, id_book: number) => {
               btnText={btnText}
               changeBtnClas={changeBtnClas}
               hrefDown={linkDownload}
-              functionality={() => addToLibrary(userToken.user_id, bookData.id)} />
+              functionality={() => addToLibrary(bookData.id)} />
             ): null}
           </div>
         </div>
@@ -233,7 +233,7 @@ const  addToLibrary = (id_reader: number, id_book: number) => {
             <div className='flex flex-none gap-8 overflow-hidden'>
               {bookData ? (
                 booksCategorySix.map((book) => (
-                  <BookCarousel href={`/book/${book.id}`} functionality={() => addToLibrary(userToken.user_id, book.id)} id={book.id} img={book.cover_url} title={book.name} author={book.author} currentPrice={book.price}/>
+                  <BookCarousel href={`/book/${book.id}`} functionality={() => addToLibrary(book.id)} id={book.id} img={book.cover_url} title={book.name} author={book.author} currentPrice={book.price}/>
                 ))
               ): null}
             </div>

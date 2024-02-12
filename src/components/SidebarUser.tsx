@@ -6,7 +6,9 @@ import { FiBookOpen, FiFileText, FiLogOut, FiCreditCard, FiUser, FiLock } from "
 
 const SidebarUser = ({ imagePath: imagePath }: { imagePath?: any }) => {
     
-    
+    const logOut = () => {
+        localStorage.removeItem('token')
+    }
 
     const pathname = usePathname()
     
@@ -71,7 +73,7 @@ const SidebarUser = ({ imagePath: imagePath }: { imagePath?: any }) => {
                             </Link>
                         </li>
                         <li>
-                            <Link href="/" className={`flex flex-col p-2 text-gray-900 rounded-lg hover:text-gray-100 dark:hover:bg-gray-700 group ${getClassItem('/dashboard/author/logout')}`}>
+                            <Link href="/login" onClick={logOut} className={`flex flex-col p-2 text-gray-900 rounded-lg hover:text-gray-100 dark:hover:bg-gray-700 group ${getClassItem('/dashboard/author/logout')}`}>
                                 <div className="flex p-1">
                                     <FiLogOut size={24} />
                                     <span className="flex-1 ms-3 whitespace-nowrap">Sair</span>
