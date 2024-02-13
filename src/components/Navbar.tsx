@@ -44,14 +44,10 @@ export default function Navbar() {
 
   // Função de busca de livro
   const handleClick = async () => {
-    console.log(inputValue)
     try {
-      console.log(bookData)
       const response = await fetch(`http://127.0.0.1:8000/api/books/search/?name=${inputValue}`)
       const data = await response.json()
-      console.log(data[0])
       setBookData(data[0])
-      console.log(bookData)
     } catch {
       console.error("Erro ao buscar detalhes do ebook específico.")
     }
