@@ -7,33 +7,8 @@ import BuyCard from "@/components/BuyCard";
 import { useEffect, useState } from "react";
 import BookCarousel from "@/components/BookCarousel";
 import jwt from 'jsonwebtoken'
-
-enum Status {
-  approved = 'Aprovado',
-  disapproved = 'Reprovado',
-  pending = 'Pendente'
-}
-
-export type Book = {
-  author: string 
-  cover_url: string,
-  date: string,
-  edition: number,
-  gender: string,
-  id: number,
-  id_producer: number,
-  language: string,
-  name: string,
-  pages_number: number,
-  pdf_url: string,
-  price: number,
-  publisher: string,
-  rating: number,
-  submission_date: string,
-  submission_reason: string,
-  submission_status: Status,
-  synopsis: string
-}
+import { EStatus } from "@/enums/EStatus";
+import { Book } from "@/entities/Book";
 
 // Tipo Purcharse para recuperar os livros q foram comprados:
 type Cart = {

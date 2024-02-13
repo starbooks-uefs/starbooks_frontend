@@ -1,13 +1,8 @@
 'use client'
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import BookCarousel, { BookCarouselProps } from './BookCarousel';
-import { Book } from '@/app/lib/page';
-
-type TBooksCarrousel = {
-    title: string
-    booksList: Book[]
-}
+import BookCarousel from './BookCarousel';
+import { TBooksCarrousel } from '@/types/booksCarousel/TBooksCarrousel';
 
 export default function BooksCarrousel ({ booksList, title }:TBooksCarrousel) {
     const responsive = {
