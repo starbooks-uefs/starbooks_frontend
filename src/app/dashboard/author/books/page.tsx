@@ -3,11 +3,11 @@ import Author from "../page";
 import BookCover from "@/components/BookCover";
 import { useEffect, useState } from "react";
 import jwt from "jsonwebtoken";
-import Link from 'next/link';
 import { GiSelect } from "react-icons/gi";
 import { VscBook } from "react-icons/vsc";
 import { IoIosCloseCircleOutline } from "react-icons/io";
-
+import EditBook from "./edit/page";
+import RemoveBook from "./remove/page";
 
 enum Status {
     approved = 'Aprovado',
@@ -36,90 +36,40 @@ interface Book{
     synopsis: string
 }
 
-{
-    //editBook(token:string, book:Book)
-}
 
 export default function Books() {
+    const BASE_URL = "http://127.0.0.1:8000/api"
+    
     const [userToken, setUserToken] = useState<any>(null)
     const [booksData, setBooksData] = useState<Book[] | null>(null)
 
-    // useEffect(() => {
-    //     const token = localStorage.getItem('token')
-    //     try {
-    //         if (token) {
-    //             setUserToken(jwt.decode(token))
-    //         }
-    //     } catch {
-    //         console.error("Erro ao decodificar o token.")
-    //     }
-    // }, [])
-    
-    
     useEffect(() => {
-        setBooksData([{
-            author: "Dr. Mildred S. Dresselhaus",
-            cover_url: "https://assets.visme.co/templates/banners/thumbnails/i_Illustration-Book-Cover_full.jpg",
-            date: "string",
-            edition: 1,
-            gender: "Ação",
-            id: 1,
-            id_producer: 1,
-            language: "Português-BR",
-            name: "The Human Memory",
-            pages_number: 400,
-            pdf_url: "string",
-            price: 127.5,
-            publisher: "string",
-            rating: 1,
-            submission_date:" string",
-            submission_reason:" string",
-            submission_status: Status.approved,
-            synopsis: 'Simplesmente'
-        },
-        {
-            author: "Dr. Mildred S. Dresselhaus",
-            cover_url: "https://assets.visme.co/templates/banners/thumbnails/i_Illustration-Book-Cover_full.jpg",
-            date: "string",
-            edition: 1,
-            gender: "Ação",
-            id: 2,
-            id_producer: 1,
-            language: "Português-BR",
-            name: "The Human Memory 2",
-            pages_number: 400,
-            pdf_url: "string",
-            price: 127.5,
-            publisher: "string",
-            rating: 1,
-            submission_date:" string",
-            submission_reason:" string",
-            submission_status: Status.approved,
-            synopsis: 'Num mundo pós-apocalíptico onde a humanidade luta pela sobrevivência, uma jovem corajosa embarca em uma jornada épica para encontrar a última esperança da humanidade: uma lendária cidade perdida nas montanhas. Enfrentando perigos inimagináveis e traições mortais, ela descobre segredos obscuros que mudarão o destino de todos. Em "Além das Ruínas", o destino da humanidade está nas mãos de uma única pessoa.'
-        }])
+        const token = localStorage.getItem('token')
+        try {
+            if (token) {
+                setUserToken(jwt.decode(token))
+            }
+        } catch {
+            console.error("Erro ao decodificar o token.")
+        }
     }, [])
 
-    // useEffect(() => {
-    //     const fetchBooks = async () => {
-    //         try {
-    //             console.log(userToken.user_id)
-    //             const response = await fetch(`http://127.0.0.1:8000/api/producers/books/${userToken.user_id}/`)
-    //             const data = await response.json()
-    //             setBooksData(data)
-    //             console.log(data)
-    //         } catch {
-    //             console.error("Erro ao buscar detalhes do ebook específico.")
-    //         }
-    //     }
-    //     fetchBooks()
-    // }, [[userToken]])  
+    useEffect(() => {
+        const fetchBooks = async () => {
+            try {
+                console.log(userToken.user_id)  
+                const response = await fetch(`${BASE_URL}/books/retrieve/author/${userToken.user_id}/`)
+                const data = await response.json()
+                setBooksData(data)
+                console.log(data)
+            } catch {
+                console.error("Erro ao buscar detalhes do ebook específico.")
+            }
+        }
+        fetchBooks()
+    }, [[userToken]])
 
-
-    function viewEBook(){
-        
-    }
-
-    function viewModal(idBook:string) {
+    function openWindow(idBook:string) {
         console.log(idBook)
         const modal = document.querySelector("#"+idBook) as HTMLDialogElement;
         if (modal) {
@@ -127,7 +77,7 @@ export default function Books() {
         }
     }
 
-    function closeSynopsis(id:string){
+    function closeWindow(id:string){
         const modal = document.querySelector("#" + id) as HTMLDialogElement;
         if (modal) {
             modal.close();
@@ -141,25 +91,28 @@ export default function Books() {
                 <div className="flex flex-col rounded-lg p-1">
                     <div className="gap-5">
                         {booksData?.map((book) => (
-                            
-                            <section key={book.id} className="flex pr-8 rounded-md h-[250px] items-center bg-gradient-to-t from-gray-200 to-white">
-                                <dialog id={"edit"+book.id}>
+                            <section key={book.id} className="mb-2 flex pr-8 rounded-md h-[250px] items-center bg-gradient-to-t from-gray-100 to-white">
 
+                                <dialog className="p-4 rounded-md"  id={"edit"+book.id}>
+                                    <label className="text-gray-400 flex items-center gap-2"> <GiSelect/><strong>Editar preço do livro </strong> <h3 className=" font-semibold">{book.name}</h3> <button onClick={() => closeWindow(String("edit"+book.id))} className=" rounded-full text-gray-400 border border-gray-400 mr-0 ml-auto"><IoIosCloseCircleOutline/></button></label>
+                                    <EditBook token={JSON.stringify(userToken)} ebook= {JSON.stringify(book)}/>
                                 </dialog>
-                                <dialog id={"remove"+book.id}>
-                    
+                                
+                                <dialog className="p-4 rounded-md" id={"remove"+book.id}>
+                                    <label className="text-gray-400 flex items-center gap-2"> <GiSelect/><strong>Remover o livro </strong> <h3 className=" font-semibold">{book.name}</h3> <button onClick={() => closeWindow(String("remove"+book.id))} className=" rounded-full text-gray-400 border border-gray-400 mr-0 ml-auto"><IoIosCloseCircleOutline/></button></label>
+                                    <RemoveBook token={JSON.stringify(userToken)} ebook= {JSON.stringify(book)}/>
                                 </dialog>
                                 
                                 <dialog id= {String("synopsis"+book.id)} className="p-2 text-gray-600 border border-gray-400 rounded-md max-w-[40%] ">
-                                    <label className="flex items-center gap-2"> <GiSelect/><strong>Sinopse: </strong> <h3 className=" font-semibold">{book.name}</h3> <button onClick={() => closeSynopsis(String("synopsis"+book.id))} className=" rounded-full text-gray-400 border border-gray-400 mr-0 ml-auto"><IoIosCloseCircleOutline/></button></label>
+                                    <label className="flex items-center gap-2"> <GiSelect/><strong>Sinopse: </strong> <h3 className=" font-semibold">{book.name}</h3> <button onClick={() => closeWindow(String("synopsis"+book.id))} className=" rounded-full text-gray-400 border border-gray-400 mr-0 ml-auto"><IoIosCloseCircleOutline/></button></label>
                                     <p>{book.synopsis}</p>
                                 </dialog>
 
                                 <div className="ml-0 mr-auto" >
                                     <BookCover  key={book.id} img={book.cover_url} title={book.name} autor={book.author}/>
+                                    <button onClick={() => openWindow(String("synopsis"+book.id))} className="text-gray-600"> <VscBook/></button>
                                 </div>
-
-                                <button onClick={() => viewModal(String("synopsis"+book.id))} className="text-gray-600 mt-4 mb-auto"> <VscBook/></button>
+                                
 
                                 <div className="bg-white grid gap-x-10 text-gray-600 rounded-md grid-cols-3 ml-2 mr-2 text-sm ">
                                     <label className="m-2" ><strong>Gênero</strong><p className="flex items-center border-b border-gray-400 gap-2" ><GiSelect/>{book.gender}</p></label>
@@ -171,13 +124,9 @@ export default function Books() {
                                 </div>
 
                                 <div className="w-40 flex flex-col mr-0 ml-auto ">
-                                    <button onClick={ () => viewEBook() } className="h-7 w-40 mt-25 rounded-lg items-center text-center  text-blue-300  border-2 border-blue-300">Ir á página do livro"</button>
-                                    <Link href="books/edit?token=">   {/*token:string, book:Book */ }
-                                        <h4 className="h-7 w-40 my-2 rounded-lg items-center text-center  text-blue-300  border-2 border-blue-300">Alterar preço</h4>
-                                    </Link>
-                                    <Link href="books/remove?token=">   {/*token:string, book:Book */ }
-                                        <button className="h-7 w-40 mb-25 rounded-lg items-center text-center  text-red-600  border-2 border-red-600">Remover</button>
-                                    </Link>                                
+                                    <button onClick={() => openWindow("") } className="h-7 w-40 mt-25 rounded-lg items-center text-center  text-blue-300  border-2 border-blue-300">Ir á página do livro"</button>
+                                    <button onClick={() => openWindow(String("edit"+book.id))} className="h-7 w-40 my-2 rounded-lg items-center text-center  text-blue-300  border-2 border-blue-300">Alterar preço</button>
+                                    <button onClick={() => openWindow(String("remove"+book.id)) } className="h-7 w-40 mb-25 rounded-lg items-center text-center  text-red-600  border-2 border-red-600">Remover</button>                                
                                 </div>
 
                             </section>
