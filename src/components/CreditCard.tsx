@@ -8,7 +8,7 @@ type CardBrandImageProps = {
     cardNumber: string;
 };
 
-const Credit_Card: React.FC<CardBrandImageProps> = ({ cardNumber }) => {
+const CreditCard: React.FC<CardBrandImageProps> = ({ cardNumber }) => {
     const cardBrand = detectCardBrand(cardNumber);
 
     return (<>
@@ -51,7 +51,7 @@ const detectCardBrand = (cardNumber: string): string => {
         return 'Desconhecido';
     }
 };
-export default Credit_Card;
+export default CreditCard;
 
 
 const removeCard = () => {
