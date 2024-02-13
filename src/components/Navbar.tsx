@@ -77,10 +77,10 @@ export default function Navbar() {
               <Link href="/register/author">Quero vender</Link>
             </div>
             <div>
-              <Link href="/">Quem somos</Link>
+              <Link href="https://github.com/starbooks-uefs">Quem somos</Link>
             </div>
             <div>
-              <Link href="/">Central de ajuda</Link>
+              <Link href="https://github.com/starbooks-uefs">Central de ajuda</Link>
             </div>
           </div>
         </div>
@@ -123,26 +123,37 @@ export default function Navbar() {
             </div>
           </div>
           {/* Div dos links de carrinho, biblioteca e minha conta */}
-          <div className='flex flex-none justify-center items-center gap-6 whitespace-nowrap'>
-            <div className='flex flex-col justify-center text-2xl items-center'>
-              <Link href="/" className='flex flex-col justify-center text-2xl items-center'>
-                <FiShoppingCart />
-                <h1 className='text-xs mt-1'>Carrinho</h1>
-              </Link>
-            </div>  
-            <div className='flex flex-col justify-center text-2xl items-center'>
-              <Link href="/dashboard/user/books" className='flex flex-col justify-center text-2xl items-center'>
-                <FiBookOpen />
-                <h1 className='text-xs mt-1'>Meus livros</h1>
-              </Link>
+          {userToken ? (
+            <div className='flex flex-none justify-center items-center gap-6 whitespace-nowrap'>
+              <div className='flex flex-col justify-center text-2xl items-center'>
+                <Link href="/" className='flex flex-col justify-center text-2xl items-center'>
+                  <FiShoppingCart />
+                  <h1 className='text-xs mt-1'>Carrinho</h1>
+                </Link>
+              </div>  
+              <div className='flex flex-col justify-center text-2xl items-center'>
+                <Link href="/dashboard/user/books" className='flex flex-col justify-center text-2xl items-center'>
+                  <FiBookOpen />
+                  <h1 className='text-xs mt-1'>Meus livros</h1>
+                </Link>
+              </div>
+              <div className='flex flex-col justify-center text-2xl items-center'>
+                <Link href="/dashboard/user" className='flex flex-col justify-center text-2xl items-center'>
+                  <FiUser />
+                  <h1 className='text-xs mt-1'>Minha conta</h1>
+                </Link>
+              </div>
             </div>
+          ):(
+            <div className='flex flex-none justify-center items-center gap-6 whitespace-nowrap'>
             <div className='flex flex-col justify-center text-2xl items-center'>
-              <Link href="/dashboard/user" className='flex flex-col justify-center text-2xl items-center'>
+              <Link href="/login" className='flex flex-col justify-center text-2xl items-center'>
                 <FiUser />
-                <h1 className='text-xs mt-1'>Minha conta</h1>
+                <h1 className='text-xs mt-1'>Fazer login</h1>
               </Link>
             </div>
           </div>
+          )}
         </div>
       </div>
       <hr />
