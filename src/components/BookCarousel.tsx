@@ -1,17 +1,8 @@
 import Link from "next/link";
 import PrimaryButton from "./PrimaryButton";
+import { TBookCarouselProps } from "@/types/bookCarousel/TBookCarouselProps";
 
-export type BookCarouselProps = {
-  id: number | undefined,
-  img: string | undefined,
-  title: string | undefined,
-  author: string | undefined,
-  currentPrice: number | undefined,
-  functionality?: () => void,
-  href: any
-}
-
-export default function BookCarousel( {functionality, id, img, title, author, currentPrice, href}: BookCarouselProps ) {
+export default function BookCarousel({ functionality, id, img, title, author, currentPrice, href }: TBookCarouselProps ) {
   return (
     <div className='flex flex-col flex-none mt-1 w-40 h-full'>
       {/* Div da imagem */}
