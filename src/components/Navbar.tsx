@@ -10,7 +10,6 @@ import { FiUser } from "react-icons/fi";
 import jwt from "jsonwebtoken";
 
 export default function Navbar() {
-
   // Recebendo o token do usuário logado.
   const [userToken, setUserToken] = useState<any>(null)
   useEffect(() => {
@@ -24,7 +23,6 @@ export default function Navbar() {
           console.error("Erro ao decodificar o token.")
       }
   }, [])
-
 
   return (
     // Div que engloba todo a navbar
