@@ -9,7 +9,7 @@ import { FiChevronDown } from "react-icons/fi";
 import { FiUser } from "react-icons/fi";
 import jwt from "jsonwebtoken";
 import { useRouter } from "next/navigation";
-import { Book } from "@/app/book/[bookId]/page";
+import { Book } from "@/entities/Book";
 
 
 export default function Navbar() {
