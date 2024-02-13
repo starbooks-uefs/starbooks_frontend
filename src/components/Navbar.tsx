@@ -1,6 +1,6 @@
 "use client"
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import { FiShoppingCart } from "react-icons/fi";
 import { FiBookOpen } from "react-icons/fi";
@@ -8,8 +8,17 @@ import { FiMenu } from "react-icons/fi";
 import { FiChevronDown } from "react-icons/fi";
 import { FiUser } from "react-icons/fi";
 import jwt from "jsonwebtoken";
+import { useRouter } from "next/navigation";
+import { Book } from "@/app/book/[bookId]/page";
+
 
 export default function Navbar() {
+
+  // Ebook específico da pesquisa
+  const [bookData, setBookData] = useState<Book | null>(null)
+
+  // useRouter() para a mudança de página no ato da pesquisa
+  const router = useRouter()
 
   // Recebendo o token do usuário logado.
   const [userToken, setUserToken] = useState<any>(null)
@@ -25,6 +34,35 @@ export default function Navbar() {
       }
   }, [])
 
+  const [inputValue, setInputValue] = useState('')
+
+  // Função para lidar com a mudança no input
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // Atualiza o estado com o valor atual do input
+    setInputValue(event.target.value);
+  };
+
+  // Função de busca de livro
+  const handleClick = async () => {
+    console.log(inputValue)
+    try {
+      console.log(bookData)
+      const response = await fetch(`http://127.0.0.1:8000/api/books/search/?name=${inputValue}`)
+      const data = await response.json()
+      console.log(data[0])
+      setBookData(data[0])
+      console.log(bookData)
+    } catch {
+      console.error("Erro ao buscar detalhes do ebook específico.")
+    }
+  }
+
+  // useEffect para buscar o livro quando a lupa de pesquisa é clicada
+  useEffect(() => {
+    if(bookData) {
+      router.push(`/book/${bookData.id}/`)
+    }
+  }, [bookData])
 
   return (
     // Div que engloba todo a navbar
@@ -74,12 +112,12 @@ export default function Navbar() {
             {/* Div da área da barra */}
             <div className='flex justify-between items-center w-full h-9 rounded-2xl bg-whiteSeachField'>
               {/* Div da lupa de pesquisa */}
-              <div className='ml-4 flex-none'>
+              <div onClick={() => handleClick()} className='ml-4 flex-none cursor-pointer'>
                 <FiSearch />
               </div>
               {/* Div do input */}
               <div className='flex-1'>
-                <input type="text" name="" id="" className='w-full ml-2 outline-none bg-whiteSeachField'/>
+                <input type="text" name="" id="" value={inputValue} onChange={handleChange} className='w-full ml-2 outline-none bg-whiteSeachField'/>
               </div>
               {/* Div do filtro */}
               <div className='flex items-center gap-1 mx-3 border-l-2'>
