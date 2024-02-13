@@ -30,6 +30,7 @@ export default function(){
             },
             body: JSON.stringify(user)
         });
+        console.log("Aqui")
         if(!response.ok)
             throw new Error(JSON.stringify(response.body))
         const data = await response.json()
