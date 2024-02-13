@@ -3,15 +3,7 @@ import { GoBook } from "react-icons/go";
 import { MdOutlineCategory } from "react-icons/md";
 import { IoMdBusiness } from "react-icons/io";
 import { LuCalendarClock } from "react-icons/lu";
-
-type SpecificationProps = {
-  type: string,
-  author: string | undefined,
-  pagesNumber: number | undefined,
-  category: string | undefined,
-  publishCompany: string | undefined,
-  date: string | undefined
-}
+import { SpecificationProps } from "@/types/specification/TSpecificationProps";
 
 export default function Specification ({type, author, pagesNumber, category, publishCompany, date}: SpecificationProps) {
   return (

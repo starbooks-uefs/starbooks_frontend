@@ -1,13 +1,8 @@
-
 import { LuLineChart } from "react-icons/lu";
+import { TElementsField } from "@/types/blueField/TElementsField";
 
-type elementsField = {
-    title: string,
-    value: string,
-    variation:string
-}
 
-export default function ({ title, value, variation}: elementsField) {
+export default function ({ title, value, variation}: TElementsField) {
     return (
         <div className="flex p-6 bg-blue-400 text-white rounded-lg h-24 w-54">
             <div className="">
