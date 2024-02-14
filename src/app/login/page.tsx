@@ -34,7 +34,10 @@ export default function(){
             throw new Error(JSON.stringify(response.body))
         const data = await response.json()
         localStorage.setItem('token', data.access_token)
-        router.push("/home")
+        if(user.user_type == "reader")
+            router.push("/home")
+        else
+            router.push("/dashboard/author")
         } catch (error:any) {
         console.error('Erro durante o login:', error.message);
         }
