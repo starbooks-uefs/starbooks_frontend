@@ -10,11 +10,15 @@ type LayoutProps = {
 
 export default function Layout({ children }: LayoutProps) {
   return (
-    <div>
+    <div className="flex flex-col justify-center items-center">
       <Navbar />
-      <div className="flex max-w-full justify-center">
-        <SidebarUser />
-        {children}
+      <div className=" mt-20 flex w-3/4 justify-center">
+        <div className="flex flex-none w-auto">
+          <SidebarUser />
+        </div>
+        <div className="flex flex-1">
+          {children}
+        </div>
       </div>
       <Footer />
     </div>

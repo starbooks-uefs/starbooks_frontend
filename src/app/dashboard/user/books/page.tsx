@@ -1,9 +1,9 @@
 'use client'
 import BookCover from "@/components/BookCover";
-import { IoMenu } from "react-icons/io5";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import jwt from "jsonwebtoken";
+import Link from "next/link";
 
 enum Status {
     approved = 'Aprovado',
@@ -32,54 +32,10 @@ export type Book = {
     synopsis: string
 }
 
-type User = {
-    email: string,
-    password: string
-}
-
-const user: User = {
-    email: "reader@reader.com",
-    password: "reader"
-}
-const handleLogin = async () => {
-    try {
-        // Envia credenciais para o servidor
-        const response = await fetch(`http://127.0.0.1:8000/api/readers/login/`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(user)
-        });
-        const data = response.json()
-        data.then((res) => {
-            localStorage.setItem('token', res.access_token)
-        })
-    } catch (error) {
-        console.error('Erro durante o login:', error);
-    }
-};
-
 export default function Lib() {
 
-    const [booksData, setBooksData] = useState<Book[] | null>(null)
-
-    useEffect(() => {
-        const fetchBooks = async () => {
-            try {
-                const response = await fetch(`http://127.0.0.1:8000/api/readers/${userToken.user_id}/books/`)
-                const data = await response.json()
-                setBooksData(data)
-                console.log(data)
-            } catch {
-                console.error("Erro ao buscar detalhes do ebook específico.")
-            }
-        }
-        fetchBooks()
-    }, [])
-
+    // Recebendo o token do usuário logado.
     const [userToken, setUserToken] = useState<any>(null)
-
     useEffect(() => {
         const token = localStorage.getItem('token')
         try {
@@ -92,6 +48,21 @@ export default function Lib() {
         }
     }, [])
 
+    //Recebendo os livros que o leitor já obteve.
+    const [booksData, setBooksData] = useState<Book[] | null>(null)
+    useEffect(() => {
+        const fetchBooks = async () => {
+            try {
+                const response = await fetch(`http://127.0.0.1:8000/api/readers/${userToken.user_id}/books/`)
+                const data = await response.json()
+                setBooksData(data)
+                console.log(data)
+            } catch {
+                console.error("Erro ao buscar detalhes do ebook específico.")
+            }
+        }
+        fetchBooks()
+    }, [userToken?.user_id])
 
     return (
         <>
@@ -100,21 +71,23 @@ export default function Lib() {
                 <title>Biblioteca</title>
             </Head>
             <div className="flex justify-center align-items-center">
-                <div className="m-10 w-[650px] h-[550px] bg-white rounded-lg shadow border border-neutral-600 flex justify-center flex-col p-3">
-                    <div className="w-[189px] pt-10 h-[19px] justify-center items-center gap-2 inline-flex">
-                        <div className="w-[123px] text-neutral-600 text-xs font-medium flex flex-line gap-1 hover:cursor-pointer">
-                            <IoMenu /> Recentes
+                <div className="m-10 bg-white rounded-lg shadow border border-neutral-600 flex justify-center flex-col">
+                    <div className="pt-10 h-[19px] justify-center items-center gap-2 inline-flex">
+                        <div className="w-[123px] text-neutral-600 text-lg font-medium flex flex-line gap-1 hover:cursor-pointer">
+                            <h1>Sua biblioteca</h1>
                         </div>
                     </div>
-                    <div className="p-7 flex justify-center items-center">
-                        <div className="gap-5">
+                    <div className="p-7 flex-1 flex-wrap flex justify-center items-center">
+                        <div className="gap-2 flex-[0_0_80%] content-none box-border">
                             {booksData?.map((book) => (
-                                <BookCover
-                                    key={book.id}
-                                    img={book.cover_url}
-                                    title={book.name}
-                                    autor={book.author}
-                                />
+                                <Link href={`/book/${book.id}`}>
+                                    <BookCover
+                                        key={book.id}
+                                        img={book.cover_url}
+                                        title={book.name}
+                                        autor={book.author}
+                                    />
+                                </Link>
                             ))}
                         </div>
                     </div>

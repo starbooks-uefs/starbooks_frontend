@@ -1,10 +1,6 @@
-type bookCoverProps = {
-    img: string,
-    title: string,
-    autor: string,
-}
+import { TBookCoverProps } from "@/types/bookCover/TBookCoverProps"
 
-export default function ({ img, title, autor }: bookCoverProps) {
+export default function BookCover({ img, title, autor }: TBookCoverProps) {
     return (
         <div className="m-2 w-[117px] h-[205px] flex-col justify-center items-center gap-0.5 inline-flex hover:cursor-pointer">
             <img src={img} className="w-[117px] h-[164px] rounded" alt="" />

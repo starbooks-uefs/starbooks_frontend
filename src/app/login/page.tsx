@@ -30,11 +30,15 @@ export default function(){
             },
             body: JSON.stringify(user)
         });
+        console.log("Aqui")
         if(!response.ok)
             throw new Error(JSON.stringify(response.body))
         const data = await response.json()
         localStorage.setItem('token', data.access_token)
-        router.push("/home")
+        if(user.user_type == "reader")
+            router.push("/home")
+        else
+            router.push("/dashboard/author")
         } catch (error:any) {
         console.error('Erro durante o login:', error.message);
         }
@@ -42,7 +46,9 @@ export default function(){
 
     return <>
         <header className="flex justify-between max-w-6xl m-auto my-6">
-            <img src="/starbooks.svg" alt="logo" />
+            <Link href='/'>
+                <img src="/starbooks.svg" alt="logo" className='w-36 h-30' />
+            </Link>
         </header>
         <main className="flex justify-between items-start max-w-6xl m-auto mt-15 h-[calc(100%-3rem)]">
             <div className="flex justify-center items-center">

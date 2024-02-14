@@ -7,35 +7,14 @@ import BuyCard from "@/components/BuyCard";
 import { useEffect, useState } from "react";
 import BookCarousel from "@/components/BookCarousel";
 import jwt from 'jsonwebtoken'
+import { EStatus } from "@/enums/EStatus";
+import { Book } from "@/entities/Book";
 
-enum Status {
-  approved = 'Aprovado',
-  disapproved = 'Reprovado',
-  pending = 'Pendente'
+// Tipo Purcharse para recuperar os livros q foram comprados:
+type Cart = {
+  id_book: number
 }
 
-export type Book = {
-  author: string 
-  cover_url: string,
-  date: string,
-  edition: number,
-  gender: string,
-  id: number,
-  id_producer: number,
-  language: string,
-  name: string,
-  pages_number: number,
-  pdf_url: string,
-  price: number,
-  publisher: string,
-  rating: number,
-  submission_date: string,
-  submission_reason: string,
-  submission_status: Status,
-  synopsis: string
-}
-
-// Tipo Purcharse para adicionar a compra à biblioteca:
 type Pucharse = {
   id_book: number,
   id_reader: number
@@ -109,9 +88,7 @@ export default function Book ( { params }: { params: { bookId: string } } ) {
         try {
           const response = await fetch(`http://127.0.0.1:8000/api/readers/${userToken.user_id}/purchases/`)
           const data = await response.json()
-          console.log(data)
           setUserPucharses(data)
-          
         } catch {
           console.error("Erro ao buscar as compras do leitor.")
         }
@@ -122,9 +99,7 @@ export default function Book ( { params }: { params: { bookId: string } } ) {
 
   // Função que avalia se a compra do livro em visualização está na conta do usuário logado.
   const downloadAvailable = () => {
-    console.log(userPucharses)
     userPucharses.forEach(pucharse => {
-      console.log(pucharse)
       if(parseInt(params.bookId) === pucharse.id_book) {
         console.log("download disponivel")
         setBtnText("Download")
@@ -142,26 +117,23 @@ export default function Book ( { params }: { params: { bookId: string } } ) {
   }, [userPucharses])
     
 
-//Função de adicionar à biblioteca:
-const  addToLibrary = (id_reader: number, id_book: number) => {
+//Função de adicionar ao carrinho:
+const  addToLibrary = (id_book: number) => {
   const putBook = async () => {
     try {
-      const pucharse: Pucharse = {
-        id_reader,
+      const cartBook: Cart = {
         id_book
       }
-      const response = await fetch(`http://127.0.0.1:8000/api/readers/add_purchase_to_library/`, {
-        method: 'POST',
+      const token = localStorage.getItem('token')
+      const response = await fetch(`http://127.0.0.1:8000/api/cart/addToCart/`, {
+        method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify(pucharse)
+        body: JSON.stringify(cartBook)
       });
-      setBtnText("Download")
-      setchangeBtnClas('w-full bg-green-400 font-semibold rounded-lg text-white px-4 py-3')
-      if (bookData) {
-        setLinkDownload(bookData?.pdf_url)
-      }
+      setBtnText("Adicionado ao carrinho")
     } catch {
       console.error("Erro ao adicionar a compra.")
     }
@@ -205,7 +177,7 @@ const  addToLibrary = (id_reader: number, id_book: number) => {
               btnText={btnText}
               changeBtnClas={changeBtnClas}
               hrefDown={linkDownload}
-              functionality={() => addToLibrary(userToken.user_id, bookData.id)} />
+              functionality={() => addToLibrary(bookData.id)} />
             ): null}
           </div>
         </div>
@@ -234,7 +206,7 @@ const  addToLibrary = (id_reader: number, id_book: number) => {
             <div className='flex flex-none gap-8 overflow-hidden'>
               {bookData ? (
                 booksCategorySix.map((book) => (
-                  <BookCarousel href={`/book/${book.id}`} functionality={() => addToLibrary(userToken.user_id, book.id)} id={book.id} img={book.cover_url} title={book.name} author={book.author} currentPrice={book.price}/>
+                  <BookCarousel href={`/book/${book.id}`} functionality={() => addToLibrary(book.id)} id={book.id} img={book.cover_url} title={book.name} author={book.author} currentPrice={book.price}/>
                 ))
               ): null}
             </div>
