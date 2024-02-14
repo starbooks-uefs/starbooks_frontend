@@ -1,7 +1,11 @@
 import { useFormContext } from "react-hook-form"
-import { TInputProps } from "@/types/accountTypeSelect/TInputProps"
 
-export default function({label,id}: TInputProps){
+type inputProps = {
+    label: string,
+    id: string,
+}
+
+export default function({label,id}: inputProps){
     const {register} = useFormContext()
     return <div className="flex flex-col gap-2">
         <label htmlFor={id} className="font-semibold text-sm" >{label}</label>

@@ -1,7 +1,19 @@
+import { ChangeEvent, ChangeEventHandler } from "react";
 import { useFormContext } from "react-hook-form";
-import { TInputProps } from "@/types/formInput/TInputProps";
 
-export default function ({ label, placeholder, inputType, id, classNameInput, onValueChange, maxLength, disabled }: TInputProps) {
+type inputProps = {
+    label: string,
+    placeholder: string | undefined,
+    inputType: string,
+    id: string,
+    classNameInput?: string
+    onValueChange?(value: any): any
+    maxLength?: number | undefined,
+    disabled?: boolean
+
+}
+
+export default function ({ label, placeholder, inputType, id, classNameInput, onValueChange, maxLength, disabled }: inputProps) {
     const { register } = useFormContext()
     const { onChange, onBlur, name, ref } = register(id); 
     return <div className="flex flex-col gap-2">

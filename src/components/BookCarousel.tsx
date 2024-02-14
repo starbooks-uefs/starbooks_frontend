@@ -1,14 +1,23 @@
 import Link from "next/link";
 import PrimaryButton from "./PrimaryButton";
-import { TBookCarouselProps } from "@/types/bookCarousel/TBookCarouselProps";
 
-export default function BookCarousel({ functionality, id, img, title, author, currentPrice, href }: TBookCarouselProps ) {
+type BookCarouselProps = {
+  id: number | undefined,
+  img: string | undefined,
+  title: string | undefined,
+  author: string | undefined,
+  currentPrice: number | undefined,
+  functionality?: () => void,
+  href: any
+}
+
+export default function BookCarousel( {functionality, id, img, title, author, currentPrice, href}: BookCarouselProps ) {
   return (
     <div className='flex flex-col flex-none mt-1 w-40 h-full'>
       {/* Div da imagem */}
       <div className=' w-40 h-52'>
-        <Link href={`/book/${id}`}>
-          <img src={img} alt="Livro" className='w-full h-full rounded object-cover'/>
+        <Link href={`http://localhost:3000/book/${id}`}>
+          <img src={img} alt="Livro" className='w-full h-full rounded'/>
         </Link>
       </div>
       {/* Div do título e do autor */}

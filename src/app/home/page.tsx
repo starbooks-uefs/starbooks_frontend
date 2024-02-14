@@ -1,72 +1,45 @@
-'use client'
-import BooksCarrousel from "@/components/BooksCarrousel";
 import Carrousel from "@/components/Carrousel";
+import CategorySlider from "@/components/CategorySlider";
 import ExploreBanner from "@/components/ExploreBanner";
-import { useCallback, useEffect, useState } from "react";
+import RecentBookSlider from "@/components/RecentBooksSlider";
+import BannerHome01 from "@/components/icons/Banner_home_1";
 
 export default function Home() {
-    const [recentsBooks, setRecentsBooks] = useState([])
-    const [bestSellersBooks, setBestsSellersBooks] = useState([])
-    const [offersBooks, setOffersBooks] = useState([])
-
-    const getRecentsBooks = useCallback(async () => {
-        try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_URL_BACKEND}books`)
-
-            if (response.ok) {
-                const data = await response.json()
-
-                console.log(data)
-
-                setRecentsBooks(data)
-            }
-        } catch (error) {
-            console.info(error)
+    const recentBooks = [
+        {
+            title: 'Teste'
         }
-    }, [])
+    ]
 
-    const getBestSellersBooks = useCallback(async () => {
-        try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_URL_BACKEND}books`)
-
-            if (response.ok) {
-                const data = await response.json()
-
-                setBestsSellersBooks(data)
-            }
-        } catch (error) {
-            console.info(error)
+    const moreSells = [
+        {
+            title: 'Teste'
         }
-    }, [])
+    ]
 
-    const getOffersBooks = useCallback(async () => {
-        try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_URL_BACKEND}books`)
-
-            if (response.ok) {
-                const data = await response.json()
-
-                setOffersBooks(data)
-            }
-        } catch (error) {
-            console.info(error)
+    const offers = [
+        {
+            title: 'Teste'
         }
-    }, [])
-
-    useEffect(() => {
-        getRecentsBooks()
-        getBestSellersBooks()
-        getOffersBooks()
-    }, [getRecentsBooks, getBestSellersBooks, getOffersBooks])
+    ]
 
     return (
         <main>
             <Carrousel />
-            <BooksCarrousel title="Recentes" booksList={recentsBooks} />
-            <BooksCarrousel title="Mais vendidos" booksList={bestSellersBooks} />
+            <section className="max-w-[1440px] w-full p-16">
+                <h2 className="text-2xl font-semibold">Descubra os mais vendidos de cada categoria</h2>
+                <CategorySlider />
+
+                <h2 className="text-2xl font-semibold mt-10">Recentes</h2>
+                <RecentBookSlider />
+                <h2 className="text-xl font-semibold mt-10">Mais vendidos</h2>
+                <RecentBookSlider />
+            </section>
             <ExploreBanner />
-            <br />
-            <BooksCarrousel title="Ofertas" booksList={offersBooks} />
+            <section className="max-w-[1440px] w-full p-16">
+                <h2 className="text-xl font-semibold">Ofertas</h2>
+                <RecentBookSlider />
+            </section>
         </main>
     )
 }

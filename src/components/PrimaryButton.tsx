@@ -1,8 +1,15 @@
 import Link from "next/link"
 import { MouseEventHandler, ReactNode } from "react"
-import { TButtonProps } from "@/types/primaryButton/TButtonProps"
 
-export default function({type="button", text, className, onClick, href}:TButtonProps){
+type buttonProps = {
+    text:string,
+    className?:string | undefined,
+    onClick?:MouseEventHandler,
+    type?:"button" | "submit" | "reset" | undefined
+    href: string
+}
+
+export default function({type="button", text, className, onClick, href}:buttonProps){
     return<>
         { href ? (
             <Link href={href}>

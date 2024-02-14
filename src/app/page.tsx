@@ -1,11 +1,11 @@
 import Home from './home/page'
 import Footer from "@/components/Footer"
-import Navbar from '@/components/Navbar'
+import NavbarNoAuth from "@/components/NavbarNoAuth"
 
 export default function App() {
   return (
     <>
-      <Navbar />
+      <NavbarNoAuth />
       <Home/>
       <Footer />
     </>

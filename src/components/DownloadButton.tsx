@@ -1,6 +1,11 @@
-import { TButtonProps } from "@/types/downloadButton/TButtonProps"
+type buttonProps = {
+  className?:string | undefined
+  functionality?: () => void
+  btnText: string,
+  hrefDown: string | null
+}
 
-export default function DownloadButton({hrefDown, btnText, functionality,className}:TButtonProps){
+export default function DownloadButton({hrefDown, btnText, functionality,className}:buttonProps){
   return (
     <>
     {/* Se tiver o link de download, torna-se um link para esse download */}

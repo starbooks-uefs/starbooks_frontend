@@ -1,5 +1,10 @@
 
 'use client'
+import Author from "../../page";
+import {useEffect, useState} from "react";
+import Link from 'next/link';
+import Router from "next/router";
+
 enum Status {
     approved = 'Aprovado',
     disapproved = 'Reprovado',
@@ -27,39 +32,58 @@ interface Book{
     synopsis: string
 }
 
-type RemoveBook = { token: string; ebook: string; };
-export default function RemoveBook( {token, ebook}:RemoveBook) {
-    const BASE_URL = "http://127.0.0.1:8000/api"
-    function formatCurrency(valor: number){
-        let valorFormatado = valor.toLocaleString("pt-br",
-        {
-          style: "currency",
-          currency: "BRL"
-        })
+function formatCurrency(valor: number){
+    let valorFormatado = valor.toLocaleString("pt-br",
+    {
+      style: "currency",
+      currency: "BRL"
+    })
+
+    return valorFormatado;
+}
+
+function removeEBook(token: string, idBook:string){
     
-        return valorFormatado;
-    }
-    
-    function removeEBook(idBook:string){
-        const fetchRemoveBooks = async () => {
-            try {
-                const response = await fetch(BASE_URL+'/books/'+idBook, {
-                    method: 'DELETE',
-                    headers: {
-                    'Content-Type': 'application/json'
-                    }
-                });
-                
-            } catch {
-                console.error("Erro ao remover o ebook.")
-            }
+    const fetchEditBooks = async () => {
+        try {
+            const response = await fetch(`http://127.0.0.1:8000/api/producers/${token}/books/remove/${idBook}`)
+        } catch {
+            console.error("Erro ao apagar o ebook.")
         }
-        fetchRemoveBooks()
     }
+    fetchEditBooks()
+}
 
-    const book: Book = JSON.parse(ebook);
+export default function remove(token:string) {
+    const [book, setBook] = useState<Book>();
+    const [bookName, setBookName] = useState("");
 
-    return (<div className="p-10 justify-center  flex w-[800px] h-[500px] items-center">
+    useEffect(() => {
+        setBook({
+            author: "Dr. Mildred S. Dresselhaus",
+            cover_url: "https://assets.visme.co/templates/banners/thumbnails/i_Illustration-Book-Cover_full.jpg",
+            date: "string",
+            edition: 1,
+            gender: "string",
+            id: 1,
+            id_producer: 1,
+            language: "string",
+            name: "The Human Memory",
+            pages_number: 1,
+            pdf_url: "string",
+            price: 127.5,
+            publisher: "string",
+            rating: 1,
+            submission_date:" string",
+            submission_reason:" string",
+            submission_status: Status.approved,
+            synopsis: "string"
+        })
+    }, [])
+
+    return (<div >
+        <Author >
+            <main className="flex w-[100%] flex-col items-center">
                 <div className="flex-col justify-center w-[50%]">
                     {/* informações do livro*/}
                     <div className="mt-10 flex flex-col items-center mb-8">
@@ -69,6 +93,7 @@ export default function RemoveBook( {token, ebook}:RemoveBook) {
                         <label className="my-2 items-center text-base font-semibold">{formatCurrency(Number(book?.price))}</label>
                     </div>
 
+                    
                     <section className="flex flex-col justify-center">
                         <p className="mb-2 text-sm">Essa ação <strong>NÃO PODERÁ</strong>  ser desfeita.
                         O livro <strong><em>{book?.name}</em></strong> será deletado <strong>permanentemente</strong>.
@@ -76,8 +101,15 @@ export default function RemoveBook( {token, ebook}:RemoveBook) {
                     </section>
 
                     <div className="flex flex-auto mt-4 justify-center">
-                        <button onClick={ () => removeEBook(String(book?.id.toString))} className="h-7 w-40 mr-[30px] rounded-lg items-center text-center  text-red-600 border-2 border-red-600">Remover</button>
+                        <button onClick={ () => removeEBook(token, String(book?.id.toString))} className="h-7 w-40 mr-[30px] rounded-lg items-center text-center  text-red-600 border-2 border-red-600">Remover</button>
+                        <Link href="../books">
+                            <h4 className="h-7 w-40 rounded-lg items-center text-center text-blue-300 border-2 border-blue-300">Cancelar</h4>
+                        </Link>
                     </div>
                 </div>
+            </main>
+        </Author>
     </div>)
 }
+
+

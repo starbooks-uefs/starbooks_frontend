@@ -1,12 +1,18 @@
 "use client"
-import { useState } from "react"
+
+import { ReactNode, useState } from "react"
 import PrimaryButton from "./PrimaryButton"
 import SecondaryButton from "./SecondaryButton"
 import SectionIndicator from "./SectionIndicator"
-import { FormProvider, useForm } from "react-hook-form"
-import { TFormProps } from "@/types/sectionForm/TFormProps"
+import { FieldValues, FormProvider, useForm } from "react-hook-form"
 
-export default function({className,sections, onFetch}:TFormProps){
+type formProps = {
+    className:string
+    sections:Array<Array<ReactNode>>
+    onFetch:(data:FieldValues) => void
+}
+
+export default function({className,sections, onFetch}:formProps){
     const [currentSection,setCurrentSection] = useState(0)
     const methods = useForm()
 

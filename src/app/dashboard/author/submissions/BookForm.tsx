@@ -133,6 +133,7 @@ export default function BookForm() {
         event.preventDefault();
 
         const newBook = {
+
             name: String(event.target.name.value),
             author: String(event.target.author.value),
             gender: String(event.target.gender.value),
@@ -246,6 +247,6 @@ export default function BookForm() {
                     <button type="submit" disabled={uploadingCoverFile || uploadingPdfFile} className="text-bg-blue hover:text-white border border-bg-blue hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Submeter para Análise</button>
                 </div>
             </form>
-        </FormProvider>
+            </FormProvider>
     </div>)
 }
