@@ -8,7 +8,9 @@ import { FiBookOpen, FiHome, FiLogOut, FiUpload, FiUser } from "react-icons/fi";
 
 const Sidebar = () => {
     const pathname = usePathname()
-
+    const logOut = () => {
+        localStorage.removeItem('token')
+    }
     function getClassItem(router: string) {
         return pathname === router ? 'text-decoration-line: underline' : ''
     }
@@ -23,7 +25,7 @@ const Sidebar = () => {
                     </div>
                     <ul className="space-y-3 font-medium">
                         <li key={1}>
-                            <Link href="/dashboard/author" className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${getClassItem('/dashboard/author')}`}>
+                            <Link href="/dashboard/author/dashboard" className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${getClassItem('/dashboard/author/dashboard')}`}>
                                 <FiHome size={24} />
                                 <span className="ms-3">Dashboard</span>
                             </Link>
@@ -47,9 +49,9 @@ const Sidebar = () => {
                             </Link>
                         </li>
                         <li>
-                            <Link href="/dashboard/author/logout" className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${getClassItem('/dashboard/author/logout')}`}>
+                            <Link href="/login" className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group`}>
                                 <FiLogOut size={24} />
-                                <span className="flex-1 ms-3 whitespace-nowrap">Sair</span>
+                                <button onClick={logOut} className="ml-2 whitespace-nowrap">Sair</button>
                             </Link>
                         </li>
                     </ul>
