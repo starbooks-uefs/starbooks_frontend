@@ -36,7 +36,6 @@ interface Book{
     synopsis: string
 }
 
-
 export default function Books() {
     const BASE_URL = "http://127.0.0.1:8000/api"
     
@@ -57,17 +56,26 @@ export default function Books() {
     useEffect(() => {
         const fetchBooks = async () => {
             try {
-                console.log(userToken.user_id)  
-                const response = await fetch(`${BASE_URL}/books/retrieve/author/${userToken.user_id}/`)
+                const profile = await fetch(`http://127.0.0.1:8000/api/producers/${userToken.user_id}/`)
+                const author = await profile.json()
+                
+                const response = await fetch(`${BASE_URL}/books/retrieve/author/${author.first_name.toLowerCase()}/`)
                 const data = await response.json()
-                setBooksData(data)
                 console.log(data)
+                if(data.length == 0){
+                    const newResponse = await fetch(`${BASE_URL}/books/retrieve/author/${author.last_name.toLowerCase()}/`)
+                    const newData = await newResponse.json()
+                    setBooksData(newData)
+                }else{
+                    setBooksData(data)
+                }
+                
             } catch {
-                console.error("Erro ao buscar detalhes do ebook específico.")
+                console.error("Erro ao buscar ebooks.")
             }
         }
         fetchBooks()
-    }, [[userToken]])
+    }, [userToken])
 
     function openWindow(idBook:string) {
         console.log(idBook)
@@ -78,17 +86,29 @@ export default function Books() {
     }
 
     function closeWindow(id:string){
-        const modal = document.querySelector("#" + id) as HTMLDialogElement;
+        const modal = document.querySelector("#"+id) as HTMLDialogElement;
         if (modal) {
             modal.close();
         }
     }
 
+    function formatCurrency(valor: number){
+        let valorFormatado = valor.toLocaleString("pt-br",
+        {
+          style: "currency",
+          currency: "BRL"
+        })
+
+        return valorFormatado;
+    }
+
     return (<div>
         <Author>
-            <main className="pt-10">
-                
-                <div className="flex flex-col rounded-lg p-1">
+        <main className=" flex-1 p-8">
+            <div className="flex flex-col p-5">
+                <div className="flex items-center border-b border-zinc-100 h-12 p-4">
+                    <h1 className="text-zinc-300 text-xs">Livros /</h1>
+                </div>
                     <div className="gap-5">
                         {booksData?.map((book) => (
                             <section key={book.id} className="mb-2 flex pr-8 rounded-md h-[250px] items-center bg-gradient-to-t from-gray-100 to-white">
@@ -110,10 +130,11 @@ export default function Books() {
 
                                 <div className="ml-0 mr-auto" >
                                     <BookCover  key={book.id} img={book.cover_url} title={book.name} autor={book.author}/>
-                                    <button onClick={() => openWindow(String("synopsis"+book.id))} className="text-gray-600"> <VscBook/></button>
+                                    <h4 className=" text-center text-xs font-semibold">{formatCurrency(Number(book?.price))}</h4>
+                                    
                                 </div>
                                 
-
+                                <button onClick={() => openWindow(String("synopsis"+book.id))} className="text-gray-600 mb-[150px]"> <VscBook/></button>
                                 <div className="bg-white grid gap-x-10 text-gray-600 rounded-md grid-cols-3 ml-2 mr-2 text-sm ">
                                     <label className="m-2" ><strong>Gênero</strong><p className="flex items-center border-b border-gray-400 gap-2" ><GiSelect/>{book.gender}</p></label>
                                     <label className="m-2"><strong>Classificaçã indicativa</strong> <p className="flex items-center border-b border-gray-400 gap-2"><GiSelect/> {book.rating}</p></label>

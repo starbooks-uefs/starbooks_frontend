@@ -40,7 +40,7 @@ export default function RemoveBook( {token, ebook}:RemoveBook) {
         return valorFormatado;
     }
     
-    function removeEBook(idBook:string){
+    function removeEBook(idBook:number){
         const fetchRemoveBooks = async () => {
             try {
                 const response = await fetch(BASE_URL+'/books/'+idBook, {
@@ -76,7 +76,7 @@ export default function RemoveBook( {token, ebook}:RemoveBook) {
                     </section>
 
                     <div className="flex flex-auto mt-4 justify-center">
-                        <button onClick={ () => removeEBook(String(book?.id.toString))} className="h-7 w-40 mr-[30px] rounded-lg items-center text-center  text-red-600 border-2 border-red-600">Remover</button>
+                        <button onClick={ () => removeEBook(Number(book?.id))} className="h-7 w-40 mr-[30px] rounded-lg items-center text-center  text-red-600 border-2 border-red-600">Remover</button>
                     </div>
                 </div>
     </div>)
