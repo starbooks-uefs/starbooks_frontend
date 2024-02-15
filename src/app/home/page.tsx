@@ -1,8 +1,11 @@
+'use client'
+import BooksCarrousel from "@/components/BooksCarrousel";
 import Carrousel from "@/components/Carrousel";
 import CategorySlider from "@/components/CategorySlider";
 import ExploreBanner from "@/components/ExploreBanner";
 import RecentBookSlider from "@/components/RecentBooksSlider";
 import BannerHome01 from "@/components/icons/Banner_home_1";
+import { useCallback, useEffect, useState } from "react";
 
 export default function Home() {
     const [recentsBooks, setRecentsBooks] = useState([])

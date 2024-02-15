@@ -95,7 +95,6 @@ export default function Lib() {
 
     return (
         <>
-
             <Head>
                 <title>Biblioteca</title>
             </Head>

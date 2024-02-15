@@ -8,6 +8,10 @@ import { FiChevronDown } from "react-icons/fi";
 import { FiUser } from "react-icons/fi";
 
 export default function Navbar() {
+  function handleChange(event: ChangeEvent<HTMLInputElement>): void {
+    throw new Error("Function not implemented.");
+  }
+
   return (
     // Div que engloba todo a navbar
     <div className='flex flex-col w-full h-auto'>
@@ -52,7 +56,7 @@ export default function Navbar() {
               </div>
               {/* Div do input */}
               <div className='flex-1 '>
-                <input type="text" name="" id="" value={inputValue} onChange={handleChange} className='w-full outline-none bg-whiteSeachField'/>
+                <input type="text" name="" id="" value={""} onChange={handleChange} className='w-full outline-none bg-whiteSeachField'/>
               </div>
             </div>
           </div>
