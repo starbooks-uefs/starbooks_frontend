@@ -62,7 +62,7 @@ export default function Navbar() {
 
   return (
     // Div que engloba todo a navbar
-    <div className='flex flex-col w-full h-44'>
+    <div className='flex flex-col w-full h-auto'>
       {/* Div que engloba toda a área em azul */}
       <div className='w-full h-12 flex justify-center bg-bg-blue'>
         {/* Div que engloba o conteúdo da área em azul */}
@@ -112,13 +112,8 @@ export default function Navbar() {
                 <FiSearch />
               </div>
               {/* Div do input */}
-              <div className='flex-1'>
-                <input type="text" name="" id="" value={inputValue} onChange={handleChange} className='w-full ml-2 outline-none bg-whiteSeachField'/>
-              </div>
-              {/* Div do filtro */}
-              <div className='flex items-center gap-1 mx-3 border-l-2'>
-                <h1 className='ml-3 text-sm'>Todos</h1>
-                <FiChevronDown className='text-black' />
+              <div className='flex-1 '>
+                <input type="text" name="" id="" value={inputValue} onChange={handleChange} className='w-full outline-none bg-whiteSeachField'/>
               </div>
             </div>
           </div>
@@ -154,31 +149,6 @@ export default function Navbar() {
             </div>
           </div>
           )}
-        </div>
-      </div>
-      <hr />
-      {/* Div dos filtros */}
-      <div className='w-full mt-3 flex gap-12 justify-center items-center'>
-        <div>
-          <Link href="/" className='flex gap-1 justify-center items-center'>
-            <FiMenu />
-            <p className='text-sm'>Categorias</p>
-          </Link>
-        </div>
-        <div>
-          <Link href="/" className='flex justify-center items-center'>
-            <p className='text-sm'>Mais vendidos</p>
-          </Link>
-        </div>
-        <div>
-          <Link href="/" className='flex justify-center items-center'>
-            <p className='text-sm'>Ofertas</p>
-          </Link>
-        </div>
-        <div>
-          <Link href="/" className='flex justify-center items-center'>
-            <p className='text-sm'>Recentes</p>
-          </Link>
         </div>
       </div>
     </div>

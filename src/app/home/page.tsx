@@ -7,7 +7,7 @@ import { useCallback, useEffect, useState } from "react";
 export default function Home() {
     const [recentsBooks, setRecentsBooks] = useState([])
     const [bestSellersBooks, setBestsSellersBooks] = useState([])
-    const [offersBooks, setOffersBooks] = useState([])
+    const [allBooks, setAllBooks] = useState([])
 
     const getRecentsBooks = useCallback(async () => {
         try {
@@ -46,7 +46,7 @@ export default function Home() {
             if (response.ok) {
                 const data = await response.json()
 
-                setOffersBooks(data)
+                setAllBooks(data)
             }
         } catch (error) {
             console.info(error)
@@ -66,7 +66,7 @@ export default function Home() {
             <BooksCarrousel title="Mais vendidos" booksList={bestSellersBooks} />
             <ExploreBanner />
             <br />
-            <BooksCarrousel title="Ofertas" booksList={offersBooks} />
+            <BooksCarrousel title="Todos" booksList={allBooks} />
         </main>
     )
 }
