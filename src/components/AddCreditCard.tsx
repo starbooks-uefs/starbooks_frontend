@@ -1,6 +1,6 @@
 "use client";
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { JSXElementConstructor, Key, PromiseLikeOfReactNode, ReactElement, ReactNode, ReactPortal, useEffect, useState } from 'react';
 import { FiCalendar, FiCreditCard, FiLock, FiUser } from 'react-icons/fi';
 import jwt from 'jsonwebtoken';
 import { useRouter } from 'next/navigation';
@@ -33,6 +33,15 @@ const AddCreditCard: React.FC = () => {
 
   const [userToken, setUserToken] = useState<any>('');
   const [user, setUser] = useState<any>();
+  const [errorMessage, setErrorMessage] = useState('');
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    number: '',
+    cvv: '',
+    date: '',
+  });
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -60,55 +69,38 @@ const AddCreditCard: React.FC = () => {
     }
   }, [userToken?.user_id]);
 
-  const [formData, setFormData] = useState({
-    name: '',
-    number: '',
-    cvv: '',
-    date: '',
-  });
-
-  const [errorMessage, setErrorMessage] = useState('');
-  const router = useRouter();
-
   const validateFormData = () => {
     let errorMessages = '';
 
     let isValid = true;
     const isNumeric = (value: string) => /^\d+$/.test(value);
 
-    // Validation for credit card number (12 digits and numeric)
     if (formData.number.length != 16 || !isNumeric(formData.number)) {
-      errorMessages += 'Número do cartão inválido.';
+      errorMessages += 'Número do cartão inválido. Deve conter 16 dígitos.|';
       console.log(formData.number.length)
       isValid = false;
     }
 
-    // Validation for CVV (3 digits and numeric)
     if (formData.cvv.length !== 3 || !isNumeric(formData.cvv)) {
-      errorMessages += 'CVV inválido.';
+      errorMessages += 'CVV inválido. Deve conter 3 números.|';
       isValid = false;
     }
 
-    // Validation for future date
     const currentDate = new Date();
     const inputDate = new Date(formData.date);
 
-
     if (inputDate <= currentDate) {
-      errorMessages += 'Data de validade inválida. Deve ser uma data futura.';
+      errorMessages += 'Data de validade inválida. Deve ser uma data futura.|';
       isValid = false;
     }
     if (formData.name === '') {
       isValid = false;
-      errorMessages += 'Nome do cartão inválido.';
+      errorMessages += 'Nome do cartão inválido.| Preencha todos os campos.|';
     }
 
-    // All validations passed
     setErrorMessage(errorMessages);
     return isValid;
   };
-
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -138,7 +130,6 @@ const AddCreditCard: React.FC = () => {
         })
         const data = await response.json();
         setUser(data);
-        //console.log('cartao alterado com sucesso!');
         alert("Cartão alterado com sucesso!")
         router.push('/dashboard/user/credit_card');
       } catch {
@@ -146,14 +137,14 @@ const AddCreditCard: React.FC = () => {
       }
     }
     setIsLoading(true);
-    // Adicione aqui a lógica para enviar os dados do cartão para o backend
   };
 
-  return (
+
+  return (<>
+    {errorMessage && splitAndCreateSpans(errorMessage)}
     <div className="px-3 flex-col items-center justify-center w-fit rounded-lg border border-neutral-600 ml-4">
       <form onSubmit={handleSubmit}>
         <h1 className="py-3 flex justify-center text-xl text-black font-bold font-['Inter'] ">Adicione seu cartão</h1>
-        {errorMessage && <p className="text-red-500 text-center flex flex-col w-fit">{errorMessage}</p>}
         <div className='flex gap-2.5 justify-center'>
           <div className='flex flex-col justify-center'>
             <label className="text-black font-semibold font-['Inter'] px-1"> Nome do Titular </label>
@@ -211,31 +202,40 @@ const AddCreditCard: React.FC = () => {
            text-blue-400 text-xl font-medium font-['Inter']"
             type="button">Cancelar
           </Link>
+
+
         </div>
       </form>
+
     </div>
+
+  </>
   );
 };
 
 
 const converterFormatoData = (dataString: string): string => {
-  // Divida a string da data nos componentes ano, mês e dia
   const [ano, mes, dia] = dataString.split('-');
 
-  // Crie um objeto Date
   const data = new Date(Number(ano), Number(mes) - 1, Number(dia));
 
-  // Função para formatar a data como DD-MM-YYYY
   const formatarDataBrasil = (data: Date): string => {
     const dd = String(data.getDate()).padStart(2, '0');
-    const mm = String(data.getMonth() + 1).padStart(2, '0'); // Mês começa do zero
+    const mm = String(data.getMonth() + 1).padStart(2, '0');
     const aaaa = String(data.getFullYear());
 
     return `${dd}-${mm}-${aaaa}`;
   };
 
-  // Retorne a data formatada
   return formatarDataBrasil(data);
 };
+
+function splitAndCreateSpans(inputString: string) {
+  const substrings = inputString.split('|');
+  const spanElements = substrings.map((substring, index) => (
+    <><span className="text-red-500 px-4 text-center flex flex-col max-w-fit" key={index}>{substring}</span></>
+  ));
+  return spanElements;
+}
 
 export default AddCreditCard;

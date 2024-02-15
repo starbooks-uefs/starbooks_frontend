@@ -32,7 +32,7 @@ const Credit_Card = ({ children }: any) => {
     const BASE_URL = process.env.NEXT_PUBLIC_URL_BACKEND;
 
     const [userToken, setUserToken] = useState<any>('')
-    const [user, setUser] = useState<any>()
+    const [user, setUser] = useState<User>()
     useEffect(() => {
         const token = localStorage.getItem('token')
         try {
@@ -63,7 +63,7 @@ const Credit_Card = ({ children }: any) => {
     return (
         <div className="flex flex-col justify-start gap-3 w-[70%]">
             <span className="px-5 py-2 font-semibold">Cartão de crédito </span>
-            {user?.card_number ?<CreditCard cardNumber={user.card_number}/> : <NoCreditCard />}           
+            {user?.card_number ?<CreditCard cardNumber={user.card_number.toString() }/> : <NoCreditCard />}           
         </div>
     );
 
