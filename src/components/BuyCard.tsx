@@ -1,17 +1,7 @@
 import DownloadButton from "./DownloadButton";
+import { TCardProps } from "@/types/buyCard/TCardProps";
 
-type CardProps = {
-  bookName: string | undefined,
-  author: string | undefined,
-  currentPrice: number | undefined,
-  textBtn: string | undefined,
-  functionality: () => void,
-  btnText: string
-  changeBtnClas: string,
-  hrefDown: string | null
-}
-
-export default function BuyCard( {hrefDown, changeBtnClas, btnText, functionality, bookName, author, currentPrice, textBtn}: CardProps ) {
+export default function BuyCard( {hrefDown, changeBtnClas, btnText, functionality, bookName, author, currentPrice, textBtn}: TCardProps ) {
   return (
     <div className='w-5/6 h-3/5 p-8 mr-8 bg-white rounded-xl shadow-cardBook border'>
               <div>

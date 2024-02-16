@@ -1,4 +1,5 @@
 import { TBookCoverProps } from "@/types/bookCover/TBookCoverProps"
+
 export default function BookCover({ img, title, autor, direction="vertical"}: TBookCoverProps) {
     return (
         <div className={`m-2  ${direction == "vertical"?'flex-col justify-center items-center w-[117px] h-[164px]':'flex-row items-start justify-center '}  gap-0.5 inline-flex hover:cursor-pointer`}>
