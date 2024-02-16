@@ -5,25 +5,26 @@ import CartItem from "@/components/CartItem";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-type CartBook = {
+type Cart = {
     id_reader:number,
-    id_book:{
-        id:number,
-        name:string,
-        author:string,
-        cover_url:string,
-        price:number
-    },
+    id_book:CartBook[]
+    
+}
+type CartBook ={
+    id:number,
+    name:string,
+    author:string,
+    cover_url:string,
+    price:number
     
 }
 
 export default function(){
-    const [cartBooks, setCartBooks] = useState<CartBook[]>([])
+    const [cart, setCart] = useState<Cart | null>(null)
     const [showPayments, setShowPayments] = useState(false)
 
     useEffect(()=>{
-        console.log(localStorage.getItem('token'))
-        const fetchBooks = async () => {
+        const getBookCarts = async () => {
             try {
                 const response = await fetch(`https://starbooks-backend-uw7b.onrender.com/api/cart/retrieve`,{
                     headers:{
@@ -31,13 +32,12 @@ export default function(){
                     }
                 })
                 const data = await response.json()
-                setCartBooks(data)
-                console.log(data)
+                setCart(data)
             } catch {
                 console.error("Erro ao buscar Livros do carrinho")
             }
         }
-        fetchBooks()
+        getBookCarts()
     },[])
 
     const handlePurchase = async () => {
@@ -58,15 +58,14 @@ export default function(){
     return <div className="w-full">
         <div className="p-6 text-lg"><h1>Carrinho de Compras</h1></div>
         <hr />
-        <div className="mt-3 grid grid-cols-4 p-6 justify-items-center font-medium">
+        <div className="mt-3 grid grid-cols-3 p-6 justify-items-center font-medium">
             <span>Livro</span>
-            <span>Valor anterior</span>
             <span>Valor atual</span>
             <span>Ações</span>
         </div>
         <hr/>
         {
-            cartBooks.map((book,key) => {return <CartItem key={key} author={book.id_book.author} currentPrice={book.id_book.price}  img={book.id_book.cover_url} title={book.id_book.name} deleteLink=""/>})
+            cart?.id_book.map((book,key) => {return <CartItem key={key} author={book.author} currentPrice={book.price}  img={book.cover_url} title={book.name} deleteLink=""/>})
         }
         
         <div className="px-6">
@@ -79,7 +78,7 @@ export default function(){
                         <span className="font-medium">Total do carrinho:</span>
                         <div>
                             <span className="mr-2">R$</span>
-                            <span>{cartBooks.reduce((acc,curr)=>{return (acc + curr.id_book.price)},0)}</span>
+                            <span>{cart?.id_book.reduce((acc,curr)=>{return (acc + curr.price)},0)}</span>
                         </div>
                     </div>
                 </div>
@@ -104,7 +103,7 @@ export default function(){
                                 <span className="font-medium">Total do carrinho:</span>
                                 <div>
                                     <span className="mr-2">R$</span>
-                                    <span>{cartBooks.reduce((acc,curr)=>{return (acc + curr.id_book.price)},0)}</span>
+                                    <span>{cart?.id_book.reduce((acc,curr)=>{return (acc + curr.price)},0)}</span>
                                 </div>
                             </div>
                         </div>
