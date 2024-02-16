@@ -1,5 +1,4 @@
 import FooterText from "./FooterText";
-import PrimaryButton from "./PrimaryButton";
 
 export default function Footer() {
   return (

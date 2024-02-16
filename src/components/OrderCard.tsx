@@ -1,16 +1,7 @@
-import BookCarousel from "./BookCarousel";
 import BookCover from "./BookCover";
+import { TOrderCardProps } from "@/types/orderCard/TOrderCardProps";
 
-type OrderCardProps = {
-  id: number | undefined,
-  img: string | undefined,
-  title: string | undefined,
-  author: string | undefined,
-  currentPrice: number | undefined,
-  date: string | undefined
-}
-
-export default function OrderCard( {id, img, title, author, currentPrice, date}: OrderCardProps ) {
+export default function OrderCard( {id, img, title, author, currentPrice, date}: TOrderCardProps ) {
   return (
     <div className="m-10 p-6 w-[36rem] bg-white rounded-lg shadow border border-neutral-600 flex justify-center flex-col text-base font-bold text-neutral-600">
       <div>

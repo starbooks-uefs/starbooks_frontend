@@ -13,7 +13,7 @@ import { permanentRedirect, redirect, useRouter } from "next/navigation";
 import { FieldValues } from "react-hook-form";
 import { FiCreditCard } from "react-icons/fi";
 
-type Reader = {
+export type Reader = {
     first_name:string,
 	last_name:string,
 	birthdate:string,
