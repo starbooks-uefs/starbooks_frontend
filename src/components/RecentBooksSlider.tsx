@@ -35,7 +35,7 @@ export default function RecentBookSlider () {
             <Slider {...settings}>
                 {recentBooks.map((book) => {
                     return <div className="mr-8">
-                        <BookCarousel id={book.id} img={book.cover_url} title={book.name} author={book.author} currentPrice={book.price} />
+                        <BookCarousel href={""} id={book.id} img={book.cover_url} title={book.name} author={book.author} currentPrice={book.price} />
                     </div> 
                 })}
             </Slider>

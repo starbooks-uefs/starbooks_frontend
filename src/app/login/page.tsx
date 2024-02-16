@@ -19,7 +19,7 @@ export default function(){
     const router = useRouter()
     const onSubmit = methods.handleSubmit(async data => {
         const user = data as User
-        const BASE_URL = "http://127.0.0.1:8000/api"
+        const BASE_URL = "https://starbooks-backend-uw7b.onrender.com/api"
         console.log(user)
         try {
         // Envia credenciais para o servidor

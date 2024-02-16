@@ -2,7 +2,7 @@ import FooterText from "./FooterText";
 
 export default function Footer() {
   return (
-    <div className='h-80 flex flex-col items-center justify-center w-full bg-bg-blue'>
+    <div className='h-80 flex flex-col items-center justify-center w-full bg-bg-blue '>
       {/* Div do botão */}
       {/* <div className='w-4/5 h-8 mb-10 rounded-lg bg-black text-white'>
         <PrimaryButton className="w-full bg-blueBtnFooter font-normal rounded-lg text-white px-2 py-1" text="Voltar ao topo" />
