@@ -1,9 +1,9 @@
 "use client"
 
+import AccountTypeSelect from "@/components/AccountTypeSelect";
 import FormInput from "@/components/FormInput";
 import MaskFormInput from "@/components/MaskFormInput";
 import SectionForm from "@/components/SectionForm";
-import Select from "@/components/AccountTypeSelect";
 import SimpleHeader from "@/components/SimpleHeader";
 import Image from "next/image";
 import Link from "next/link";
@@ -84,7 +84,7 @@ export default function(){
                         <FormInput key="bank_name" id="bank_name" inputType="text" label="Nome do banco" placeholder="Informe o nome do banco"/>,
                         <MaskFormInput mask="00000000000" placeholder="Informe o número da sua conta" label="Número da conta" id="number_account" key="number_account" />,
                         <MaskFormInput mask="00000000000" placeholder="Informe o número da agência bancária" label="Agência bancária" id="bank_agency" key="bank_agency" />,
-                        <Select id="account_type" label="Tipo de conta" key="account_type" />
+                        <AccountTypeSelect id="account_type" label="Tipo de conta" key="account_type" />
                     ]
                 ]} className="mt-6"/>
                 <div className="flex flex-col text-center gap-2 mt-6">

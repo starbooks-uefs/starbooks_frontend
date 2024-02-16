@@ -35,7 +35,7 @@ export default function({className,sections, onFetch}:formProps){
     }
 
     return <FormProvider {...methods}>
-        <form className={`flex flex-col gap-4 ${className}` } onSubmit={e => e.preventDefault()}
+        <form className={`w-full flex flex-col gap-4 ${className}` } onSubmit={e => e.preventDefault()}
         noValidate>
         <div className="flex gap-4 justify-center">
                         {

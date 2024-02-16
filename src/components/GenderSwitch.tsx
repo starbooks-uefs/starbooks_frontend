@@ -5,7 +5,7 @@ import { useFormContext } from "react-hook-form"
 export default function(){
     const [currentGender,setCurrentGender] = useState<string | undefined>()
     const {register,setValue } = useFormContext()
-    const inputOtherGender = useRef<HTMLInputElement>(null)
+    const inputOtherGender = useRef<HTMLInputElement>()
     const handleGender = (value:string)=>{
         setCurrentGender(value)
         setValue("gender",value != "other"? value : inputOtherGender.current?.value)
