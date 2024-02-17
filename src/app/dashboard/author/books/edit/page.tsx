@@ -29,17 +29,13 @@ interface Book{
     synopsis: string
 }
 
-
-
-
-
 type EditBook = { token: string; ebook: string; };
 
 export default function EditBook( {token, ebook}:EditBook) {
 
     const book: Book = JSON.parse(ebook);
     const [newPrice, setNewPrice] = useState<number>();
-    const BASE_URL = "http://127.0.0.1:8000/api"
+    const BASE_URL = String(process.env.NEXT_PUBLIC_URL_BACKEND)
 
     function formatCurrency(valor: number){
         let valorFormatado = valor.toLocaleString("pt-br",
@@ -51,16 +47,18 @@ export default function EditBook( {token, ebook}:EditBook) {
         return valorFormatado;
     }
 
-    function replacePriceEBook(price:string, idBook:number){
+    function replacePriceEBook(price:number, idBook:number){
         const fetchEditBooks = async () => {
             try {
-                const response = await fetch(BASE_URL+'/update_book_price/'+idBook, {
+                console.log(price)
+                const response = await fetch(BASE_URL+'update_book_price/'+idBook+"/", {
                     method: 'PUT',
                     headers: {
                     'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({"Price":price})
+                    body: JSON.stringify({"price":price})
                 });
+                console.log(response)
             } catch {
                 console.error("Erro ao editar o ebook.")
             }
@@ -95,7 +93,7 @@ export default function EditBook( {token, ebook}:EditBook) {
             </form>
 
             <div className="flex flex-auto mt-4 justify-center ">
-                <button onClick={ () => replacePriceEBook(String(newPrice?.toString ), Number(book?.id) ) } className="h-7 w-40 mr-[30px] rounded-lg items-center text-center text-blue-300 border-2 border-blue-300">Alterar preço</button>
+                <button onClick={ () => replacePriceEBook(Number(newPrice), Number(book?.id) ) } className="h-7 w-40 mr-[30px] rounded-lg items-center text-center text-blue-300 border-2 border-blue-300">Alterar preço</button>
             </div>
         </div>
     </div>)
