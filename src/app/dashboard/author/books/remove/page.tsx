@@ -29,7 +29,9 @@ interface Book{
 
 type RemoveBook = { token: string; ebook: string; };
 export default function RemoveBook( {token, ebook}:RemoveBook) {
+
     const BASE_URL = process.env.NEXT_PUBLIC_URL_BACKEND
+
     function formatCurrency(valor: number){
         let valorFormatado = valor.toLocaleString("pt-br",
         {
@@ -43,13 +45,12 @@ export default function RemoveBook( {token, ebook}:RemoveBook) {
     function removeEBook(idBook:number){
         const fetchRemoveBooks = async () => {
             try {
-                const response = await fetch(BASE_URL+'/books/'+idBook, {
+                const response = await fetch(BASE_URL+'books/'+idBook+"/", {
                     method: 'DELETE',
                     headers: {
                     'Content-Type': 'application/json'
                     }
                 });
-                
             } catch {
                 console.error("Erro ao remover o ebook.")
             }
