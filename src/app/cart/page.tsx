@@ -1,10 +1,11 @@
 "use client";
 
 import BookCarousel from "@/components/BookCarousel";
+import BooksCarrousel from "@/components/BooksCarrousel";
 import CartItem from "@/components/CartItem";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { set } from "react-hook-form";
 import { ClipLoader } from "react-spinners";
 
@@ -19,6 +20,25 @@ type CartBook = {
 export default function () {
   const [books, setBooks] = useState<CartBook[] | null>(null);
   const [showPayments, setShowPayments] = useState(false);
+  const [recentBooks, setRecentBooks] = useState([]);
+  const getRecentsBooks = useCallback(async () => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_URL_BACKEND}/books`
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+
+        console.log(data);
+
+        setRecentBooks(data);
+      }
+    } catch (error) {
+      console.info(error);
+    }
+  }, []);
+
   useEffect(() => {
     const getBookCarts = async () => {
       try {
@@ -31,32 +51,33 @@ export default function () {
           }
         );
         const data = await response.json();
-        console.log(data)
+        console.log(data);
         setBooks(data.id_book);
       } catch {
         console.error("Erro ao buscar Livros do carrinho");
       }
     };
     getBookCarts();
+    getRecentsBooks();
   }, []);
 
-  const remove = async (id:number) => {
+  const remove = async (id: number) => {
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_URL_BACKEND}/cart/clear/${id}/`,
         {
-          method:"PUT",
+          method: "PUT",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
-      alert("Livro removido!")
-      let newBooks = books?.filter((book)=> book.id != id)
-      setBooks(newBooks!)
-    } catch(error:any) {
-      console.error(error.message)
-      alert("Erro ao remover livro")
+      alert("Livro removido!");
+      let newBooks = books?.filter((book) => book.id != id);
+      setBooks(newBooks!);
+    } catch (error: any) {
+      console.error(error.message);
+      alert("Erro ao remover livro");
     }
   };
 
@@ -65,17 +86,17 @@ export default function () {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_URL_BACKEND}/cart/clear/`,
         {
-          method:"PUT",
+          method: "PUT",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
-      alert("Livros removidos!")
-      setBooks([])
-    } catch(error:any) {
-      console.error(error.message)
-      alert("Erro ao remover livro")
+      alert("Livros removidos!");
+      setBooks([]);
+    } catch (error: any) {
+      console.error(error.message);
+      alert("Erro ao remover livro");
     }
   };
 
@@ -102,7 +123,7 @@ export default function () {
         <h1>Carrinho de Compras</h1>
       </div>
       <hr />
-      {books == null? (
+      {books == null ? (
         <div className="p-6 flex justify-center">
           <ClipLoader />
         </div>
@@ -202,17 +223,7 @@ export default function () {
         </div>
       )}
       <hr />
-      <div className="py-6">
-        <h3 className="font-semibold mb-3">Ofertas</h3>
-        <BookCarousel
-          author="George R.R Martin"
-          currentPrice={55.55}
-          href={""}
-          id={0}
-          img="https://m.media-amazon.com/images/I/91+1SUO3vUL._AC_UF1000,1000_QL80_.jpg"
-          title="Game of Thrones"
-        />
-      </div>
+      <div className="py-12"></div>
     </div>
-  )
+  );
 }
