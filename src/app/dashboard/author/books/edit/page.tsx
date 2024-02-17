@@ -51,15 +51,13 @@ export default function EditBook( {token, ebook}:EditBook) {
     function replacePriceEBook(price:number, idBook:number){
         const fetchEditBooks = async () => {
             try {
-                console.log(price)
-                const response = await fetch(BASE_URL+'update_book_price/'+idBook+"/", {
+                const response = await fetch(BASE_URL+'/update_book_price/'+idBook+"/", {
                     method: 'PUT',
                     headers: {
                     'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({"price":price})
                 });
-                console.log(response)
             } catch {
                 console.error("Erro ao editar o ebook.")
             }

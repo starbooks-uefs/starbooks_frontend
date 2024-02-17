@@ -60,12 +60,9 @@ export default function Books() {
             try {
 
                 const profile = await fetch(`${BASE_URL}/producers/${userToken.user_id}/`)
-
                 const author = await profile.json()
-                console.log(`${BASE_URL}books/retrieve/producer/${author.id}/`)
-                const response = await fetch(`${BASE_URL}books/retrieve/producer/${author.id}/`)
+                const response = await fetch(`${BASE_URL}/books/retrieve/producer/${author.id}/`)
                 const data = await response.json()
-                console.log(data)
                 setBooksData(data)
                 
             } catch {
@@ -76,7 +73,6 @@ export default function Books() {
     }, [userToken])
 
     function openWindow(idBook:string) {
-        console.log(idBook)
         const modal = document.querySelector("#"+idBook) as HTMLDialogElement;
         if (modal) {
             modal.showModal();
