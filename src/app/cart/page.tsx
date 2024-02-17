@@ -1,13 +1,14 @@
 "use client";
 
-import BookCarousel from "@/components/BookCarousel";
-import BooksCarrousel from "@/components/BooksCarrousel";
 import CartItem from "@/components/CartItem";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
-import { set } from "react-hook-form";
+import { useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
+
+type Cart = {
+  id_reader:number,
+  id_book:CartBook[]
+}
 
 type CartBook = {
   id: number;
@@ -18,26 +19,8 @@ type CartBook = {
 };
 
 export default function () {
-  const [books, setBooks] = useState<CartBook[] | null>(null);
+  const [cart, setCart] = useState<Cart | null>(null);
   const [showPayments, setShowPayments] = useState(false);
-  const [recentBooks, setRecentBooks] = useState([]);
-  const getRecentsBooks = useCallback(async () => {
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_URL_BACKEND}/books`
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-
-        console.log(data);
-
-        setRecentBooks(data);
-      }
-    } catch (error) {
-      console.info(error);
-    }
-  }, []);
 
   useEffect(() => {
     const getBookCarts = async () => {
@@ -51,18 +34,25 @@ export default function () {
           }
         );
         const data = await response.json();
-        console.log(data);
-        setBooks(data.id_book);
+        setCart(data);
       } catch {
         console.error("Erro ao buscar Livros do carrinho");
       }
     };
     getBookCarts();
-    getRecentsBooks();
   }, []);
 
   const remove = async (id: number) => {
     try {
+      handleRemove(id)
+      alert("Livro removido!")
+    } catch (error: any) {
+      console.error(error.message);
+      alert("Erro ao remover livro");
+    }
+  };
+
+  const handleRemove = async(id:number) =>{
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_URL_BACKEND}/cart/clear/${id}/`,
         {
@@ -72,14 +62,13 @@ export default function () {
           },
         }
       );
-      alert("Livro removido!");
-      let newBooks = books?.filter((book) => book.id != id);
-      setBooks(newBooks!);
-    } catch (error: any) {
-      console.error(error.message);
-      alert("Erro ao remover livro");
-    }
-  };
+      
+      let newCart:Cart = {
+        id_reader:cart!.id_reader,
+        id_book:cart!.id_book?.filter((book) => book.id != id)
+      }
+      setCart(newCart!);
+  }
 
   const removeAll = async () => {
     try {
@@ -93,27 +82,40 @@ export default function () {
         }
       );
       alert("Livros removidos!");
-      setBooks([]);
+      setCart(null);
     } catch (error: any) {
       console.error(error.message);
       alert("Erro ao remover livro");
     }
   };
 
-  const handlePurchase = async () => {
+  const handlePurchase = async (idReader: number, idBook: number) => {
     try {
+      type purchaseProps = {
+        id_reader: number;
+        id_book: number;
+      };
+
+      const purchase: purchaseProps = {
+        id_book: idBook,
+        id_reader: idReader,
+      };
+
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_URL_BACKEND}/readers/add_purchase_to_library/`,
         {
+          method: "POST",
+          body: JSON.stringify(purchase),
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
+            'Content-Type': 'application/json'
+            },
         }
       );
-      const data = await response.json();
-      if (response.ok) alert("Compra concluida com sucesso!");
+      alert("Compra concluida com sucesso! O livro está em sua biblioteca");
+      handleRemove(idBook)
+      
     } catch {
-      console.error("Erro ao buscar detalhes do ebook específico.");
+      console.error("Error ao efetuar compra");
     }
   };
 
@@ -123,7 +125,7 @@ export default function () {
         <h1>Carrinho de Compras</h1>
       </div>
       <hr />
-      {books == null ? (
+      {cart == null ? (
         <div className="p-6 flex justify-center">
           <ClipLoader />
         </div>
@@ -135,7 +137,7 @@ export default function () {
             <span>Ações</span>
           </div>
           <hr />
-          {books?.map((book, key) => {
+          {cart?.id_book.map((book, key) => {
             return (
               <CartItem
                 key={key}
@@ -144,7 +146,9 @@ export default function () {
                 img={book.cover_url}
                 title={book.name}
                 id={book.id}
+                idReader={cart.id_reader}
                 remove={remove}
+                purchase={handlePurchase}
               />
             );
           })}
@@ -167,62 +171,18 @@ export default function () {
                     <div>
                       <span className="mr-2">R$</span>
                       <span>
-                        {books?.reduce((acc, curr) => {
+                        {cart?.id_book.reduce((acc, curr) => {
                           return acc + curr.price;
                         }, 0)}
                       </span>
                     </div>
                   </div>
                 </div>
-                <div className="flex justify-around py-10 text-blue-400 font-semibold">
-                  <Link href={"/home"}>ESCOLHER MAIS EBOOKS</Link>
-                  <button
-                    type="button"
-                    onClick={(e) => setShowPayments(!showPayments)}
-                  >
-                    SEGUIR PARA O PAGAMENTO
-                  </button>
-                </div>
-              </div>
-            )}
-            {showPayments && (
-              <div>
-                <div className="flex justify-between w-full items-center">
-                  <div className="flex flex-col gap-3  max-w-80 mb-6 pt-6">
-                    <label htmlFor="payment" className="font-semibold text-sm">
-                      Método de pagamento
-                    </label>
-                    <select className="border-2 rounded-lg p-3 text-sm bg-white">
-                      <option value="pix">Pix</option>
-                      <option value="credit-card">Cartão de Crédito</option>
-                    </select>
-                  </div>
-                  <div>
-                    <div className="flex  gap-16 items-center">
-                      <span className="font-medium">Total do carrinho:</span>
-                      <div>
-                        <span className="mr-2">R$</span>
-                        <span>
-                          {books?.reduce((acc, curr) => {
-                            return acc + curr.price;
-                          }, 0)}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex justify-around py-10 text-blue-400 font-semibold">
-                  <Link href={"/home"}>VOLTAR</Link>
-                  <button type="button" onClick={(e) => handlePurchase}>
-                    CONCLUIR PAGAMENTO
-                  </button>
-                </div>
               </div>
             )}
           </div>
         </div>
       )}
-      <hr />
       <div className="py-12"></div>
     </div>
   );

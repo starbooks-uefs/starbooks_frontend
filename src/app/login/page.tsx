@@ -38,7 +38,7 @@ export default function(){
         if(user.user_type == "reader")
             router.push("/home")
         else
-            router.push("/dashboard/author")
+            router.push("/dashboard/author/dashboard")
         } catch (error:any) {
         console.error('Erro durante o login:', error.message);
         }
