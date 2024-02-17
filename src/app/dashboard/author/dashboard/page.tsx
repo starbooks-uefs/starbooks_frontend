@@ -42,7 +42,9 @@ interface BookMetrics{
 }
 
 const Dashboard = ({ children }: any) => {
+
     const BASE_URL = process.env.NEXT_PUBLIC_URL_BACKEND
+
     const [userToken, setUserToken] = useState<any>()
     const [booksData, setBooksData] = useState<any[]>()
     const [update, setUpdate] = useState<BookMetrics[]>([])
@@ -61,18 +63,16 @@ const Dashboard = ({ children }: any) => {
     useEffect(() => {
         const fetchBooks = async () => {
             try {
+
                 const profile = await fetch(`${BASE_URL}/producers/${userToken.user_id}/`)
+
                 const author = await profile.json()
                 
-                const response = await fetch(`${BASE_URL}/books/retrieve/author/${author.first_name.toLowerCase()}/`)
+                const response = await fetch(`${BASE_URL}books/retrieve/producer/${author.id}/`)
                 const data = await response.json()
-                if(data.length == 0){
-                    const newResponse = await fetch(`${BASE_URL}/books/retrieve/author/${author.last_name.toLowerCase()}/`)
-                    const newData = await newResponse.json()
-                    setBooksData(newData)
-                }else{
-                    setBooksData(data)
-                }
+                
+                setBooksData(data)
+                
             } catch {
                 console.error("Erro ao buscar ebooks.")
             }
@@ -84,8 +84,8 @@ const Dashboard = ({ children }: any) => {
         const fetchBooksMetrics = async () => {
             try {
                 console.log("Buscando metricas")
-                console.log(`${BASE_URL}/purchase/${book.id}/`)
                 const bookMetrics = await fetch(`${BASE_URL}/api/purchase/${book.id}/`);
+
                 const data = await bookMetrics.json();
                 const updatedBook = {
                     author: book.author,
@@ -109,6 +109,16 @@ const Dashboard = ({ children }: any) => {
             booksData?.map((ebook: Book) => addedMetrics(ebook)) 
     }, [booksData])
 
+    function formatCurrency(valor: number){
+        let valorFormatado = valor.toLocaleString("pt-br",
+        {
+          style: "currency",
+          currency: "BRL"
+        })
+
+        return valorFormatado;
+    }
+
     return (
         <div className="flex">
             <Author>
@@ -126,7 +136,7 @@ const Dashboard = ({ children }: any) => {
                                 <BookCover img={book.cover_url} title={book.name} autor={book.author} />
                                 <div className="flex flex-col justify-center items-center gap-0.5 hover:cursor-pointer">
                                     <BlueField title="Vendas Totais" value={String(book.purchase_count)}/>
-                                    <BlueField title="Arrecadação total" value={String(book.total_revenue)}/>
+                                    <BlueField title="Arrecadação total" value={String(formatCurrency(book.total_revenue))}/>
                                 </div>
                             </div>
                             </>
