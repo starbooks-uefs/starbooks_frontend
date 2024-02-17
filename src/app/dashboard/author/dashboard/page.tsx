@@ -63,12 +63,11 @@ const Dashboard = ({ children }: any) => {
     useEffect(() => {
         const fetchBooks = async () => {
             try {
-
                 const profile = await fetch(`${BASE_URL}/producers/${userToken.user_id}/`)
 
                 const author = await profile.json()
                 
-                const response = await fetch(`${BASE_URL}books/retrieve/producer/${author.id}/`)
+                const response = await fetch(`${BASE_URL}/books/retrieve/producer/${author.id}/`)
                 const data = await response.json()
                 
                 setBooksData(data)
@@ -84,8 +83,7 @@ const Dashboard = ({ children }: any) => {
         const fetchBooksMetrics = async () => {
             try {
                 console.log("Buscando metricas")
-                const bookMetrics = await fetch(`${BASE_URL}/api/purchase/${book.id}/`);
-
+                const bookMetrics = await fetch(`${BASE_URL}/purchase/${book.id}/`);
                 const data = await bookMetrics.json();
                 const updatedBook = {
                     author: book.author,
@@ -102,7 +100,6 @@ const Dashboard = ({ children }: any) => {
             }
         }
         fetchBooksMetrics()
-        
     }
 
     useEffect(() => {

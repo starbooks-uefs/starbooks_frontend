@@ -41,9 +41,7 @@ export default function Profile() {
             try {                           
 
                 const response = await fetch(`${process.env.NEXT_PUBLIC_URL_BACKEND}/producers/${userToken.user_id}/`)
-
                 const data = await response.json()
-                console.log("Dados do produtor",data)
                 setPersonalData({
                     id:data?.id,
                     password: data?.password,
@@ -74,11 +72,9 @@ export default function Profile() {
 
     const personalDataSubmit = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
-        console.log(personalData);
         const fetchEditPersonalData = async () => {
             try {
-                console.log(BASE_URL+'producers/'+profileAuthor?.id)
-                const response = await fetch(BASE_URL+'producers/'+profileAuthor?.id+"/", {
+                const response = await fetch(BASE_URL+'/producers/'+profileAuthor?.id+"/", {
                     method: 'PUT',
                     headers: {
                     'Content-Type': 'application/json'
@@ -99,7 +95,6 @@ export default function Profile() {
                         phone_number:personalData?.phone_number
                     })
                 });
-                console.log(response)
             } catch {
                 console.error("Erro ao editar o ebook.")
             }

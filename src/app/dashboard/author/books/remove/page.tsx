@@ -38,14 +38,13 @@ export default function RemoveBook( {token, ebook}:RemoveBook) {
           style: "currency",
           currency: "BRL"
         })
-    
         return valorFormatado;
     }
     
     function removeEBook(idBook:number){
         const fetchRemoveBooks = async () => {
             try {
-                const response = await fetch(BASE_URL+'books/'+idBook+"/", {
+                const response = await fetch(BASE_URL+'/books/'+idBook+"/", {
                     method: 'DELETE',
                     headers: {
                     'Content-Type': 'application/json'
