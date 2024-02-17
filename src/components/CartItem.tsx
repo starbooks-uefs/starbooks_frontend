@@ -1,6 +1,7 @@
 
 import { useRouter } from "next/navigation";
 import BookCover from "./BookCover";
+import Link from "next/link";
 
 interface BookDetails{
     img: string | undefined,
@@ -16,7 +17,7 @@ export default function({img, title, author: author, currentPrice,  id, remove}:
 
 
     return <div className="grid  grid-cols-3 justify-items-center p-6 items-center">
-        <BookCover autor={author} img={img} title={title}  direction="horizontal"/>
+        <Link href={`/book/${id}`} ><BookCover autor={author} img={img} title={title}  direction="horizontal"/></Link>
 
         <div>
             <span className="mr-2 ">R$</span>
