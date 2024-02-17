@@ -37,7 +37,7 @@ interface Book{
 }
 
 export default function Books() {
-    const BASE_URL = "http://127.0.0.1:8000/api"
+    const BASE_URL = process.env.NEXT_PUBLIC_URL_BACKEND
     
     const [userToken, setUserToken] = useState<any>(null)
     const [booksData, setBooksData] = useState<Book[] | null>(null)
@@ -56,7 +56,7 @@ export default function Books() {
     useEffect(() => {
         const fetchBooks = async () => {
             try {
-                const profile = await fetch(`http://127.0.0.1:8000/api/producers/${userToken.user_id}/`)
+                const profile = await fetch(`${BASE_URL}/producers/${userToken.user_id}/`)
                 const author = await profile.json()
                 
                 const response = await fetch(`${BASE_URL}/books/retrieve/author/${author.first_name.toLowerCase()}/`)

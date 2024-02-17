@@ -42,7 +42,7 @@ interface BookMetrics{
 }
 
 const Dashboard = ({ children }: any) => {
-    const BASE_URL = "http://127.0.0.1:8000/api"
+    const BASE_URL = process.env.NEXT_PUBLIC_URL_BACKEND
     const [userToken, setUserToken] = useState<any>()
     const [booksData, setBooksData] = useState<any[]>()
     const [update, setUpdate] = useState<BookMetrics[]>([])
@@ -61,7 +61,7 @@ const Dashboard = ({ children }: any) => {
     useEffect(() => {
         const fetchBooks = async () => {
             try {
-                const profile = await fetch(`http://127.0.0.1:8000/api/producers/${userToken.user_id}/`)
+                const profile = await fetch(`${BASE_URL}/producers/${userToken.user_id}/`)
                 const author = await profile.json()
                 
                 const response = await fetch(`${BASE_URL}/books/retrieve/author/${author.first_name.toLowerCase()}/`)
@@ -84,8 +84,8 @@ const Dashboard = ({ children }: any) => {
         const fetchBooksMetrics = async () => {
             try {
                 console.log("Buscando metricas")
-                console.log(`http://127.0.0.1:8000/api/purchase/${book.id}/`)
-                const bookMetrics = await fetch(`http://127.0.0.1:8000/api/purchase/${book.id}/`);
+                console.log(`${BASE_URL}/purchase/${book.id}/`)
+                const bookMetrics = await fetch(`${BASE_URL}/api/purchase/${book.id}/`);
                 const data = await bookMetrics.json();
                 const updatedBook = {
                     author: book.author,

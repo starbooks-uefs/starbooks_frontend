@@ -35,7 +35,7 @@ export default function(){
         console.log(author)
         try {
           // Envia credenciais para o servidor
-          const response = await fetch(`http://127.0.0.1:8000/api/producers/`, {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_URL_BACKEND}/producers/`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'

@@ -19,7 +19,7 @@ export default function(){
     const router = useRouter()
     const onSubmit = methods.handleSubmit(async data => {
         const user = data as User
-        const BASE_URL = "https://starbooks-backend-uw7b.onrender.com/api"
+        const BASE_URL = process.env.NEXT_PUBLIC_URL_BACKEND
         console.log(user)
         try {
         // Envia credenciais para o servidor
@@ -62,7 +62,7 @@ export default function(){
                 <FormProvider {...methods}>
                     <form className="flex flex-col gap-4 mt-8" >
                         <FormInput key="email" id="email" inputType="text" label="Email" placeholder="Example@email.com"/>
-                        <PasswordInputLogin recoveryLink=""/>
+                        <PasswordInputLogin/>
                         <UserCategorySwitch/>
                         <PrimaryButton className="w-full bg-blue-500 font-semibold rounded-lg text-white px-4 py-3" text="Entrar" onClick={onSubmit}/>    
                     </form>

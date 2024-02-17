@@ -153,7 +153,7 @@ export default function BookForm() {
         const urlBackend = process.env.NEXT_PUBLIC_URL_BACKEND
 
 
-        const res = await fetch(`${urlBackend}add_book/`, {
+        const res = await fetch(`${urlBackend}/add_book/`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

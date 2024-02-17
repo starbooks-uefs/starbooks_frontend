@@ -29,7 +29,7 @@ const User = () => {
                 const decodedToken = jwt.decode(token) as JwtPayload
 
                 if (decodedToken) {
-                    const response = await fetch(`${process.env.NEXT_PUBLIC_URL_BACKEND}readers/${decodedToken.user_id}`) as Response
+                    const response = await fetch(`${process.env.NEXT_PUBLIC_URL_BACKEND}/readers/${decodedToken.user_id}`) as Response
 
                     if (response.ok) {
                         const data = await response.json()
@@ -69,7 +69,7 @@ const User = () => {
                 username: userData.username
             }
 
-            const response = await fetch(`${process.env.NEXT_PUBLIC_URL_BACKEND}readers/${userData.id}/`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_URL_BACKEND}/readers/${userData.id}/`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'

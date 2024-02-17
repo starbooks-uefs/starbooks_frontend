@@ -31,7 +31,7 @@ export default function Book ( { params }: { params: { bookId: string } } ) {
   useEffect(() => {
     const fetchBookDetails = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/books/${params.bookId}/`)
+        const response = await fetch(`${process.env.NEXT_PUBLIC_URL_BACKEND}/books/${params.bookId}/`)
         const data = await response.json()
         setBookData(data)
       } catch {
@@ -45,7 +45,7 @@ export default function Book ( { params }: { params: { bookId: string } } ) {
   useEffect(() => {
     const fetchBooksDetails = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/books/retrieve/gender/${bookData?.gender}/`)
+        const response = await fetch(`${process.env.NEXT_PUBLIC_URL_BACKEND}/books/retrieve/gender/${bookData?.gender}/`)
         const data = await response.json()
         setBooks(data)
       } catch {
@@ -86,7 +86,7 @@ export default function Book ( { params }: { params: { bookId: string } } ) {
     if (userToken?.user_id) {
       const fetchPucharses = async () => {
         try {
-          const response = await fetch(`http://127.0.0.1:8000/api/readers/${userToken.user_id}/purchases/`)
+          const response = await fetch(`${process.env.NEXT_PUBLIC_URL_BACKEND}/readers/${userToken.user_id}/purchases/`)
           const data = await response.json()
           setUserPucharses(data)
         } catch {
@@ -125,8 +125,8 @@ const  addToLibrary = (id_book: number) => {
         id_book
       }
       const token = localStorage.getItem('token')
-      const response = await fetch(`http://127.0.0.1:8000/api/cart/addToCart/`, {
-        method: 'PUT',
+      const response = await fetch(`${process.env.NEXT_PUBLIC_URL_BACKEND}/cart/add/${id_book}/`, {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`

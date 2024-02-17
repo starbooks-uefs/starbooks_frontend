@@ -37,7 +37,7 @@ export default function Profile() {
     useEffect(() => {
         const fetchProfileAuthor = async () => {
             try {                           
-                const response = await fetch(`http://127.0.0.1:8000/api/producers/${userToken.user_id}/`)
+                const response = await fetch(`${process.env.NEXT_PUBLIC_URL_BACKEND}/producers/${userToken.user_id}/`)
                 const data = await response.json()
                 console.log(data)
                 setEditedProfile({

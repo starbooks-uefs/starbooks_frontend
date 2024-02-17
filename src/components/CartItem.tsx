@@ -1,4 +1,5 @@
-import Link from "next/link";
+
+import { useRouter } from "next/navigation";
 import BookCover from "./BookCover";
 
 interface BookDetails{
@@ -6,10 +7,14 @@ interface BookDetails{
     title: string | undefined,
     author: string | undefined,
     currentPrice: number | undefined,
-    deleteLink:string
+    id:number
+    remove:(id:number)=>void
 }
 
-export default function({img, title, author: author, currentPrice,  deleteLink}:BookDetails){
+export default function({img, title, author: author, currentPrice,  id, remove}:BookDetails){
+    const router = useRouter()
+
+
     return <div className="grid  grid-cols-3 justify-items-center p-6 items-center">
         <BookCover autor={author} img={img} title={title}  direction="horizontal"/>
 
@@ -18,7 +23,7 @@ export default function({img, title, author: author, currentPrice,  deleteLink}:
             <span>{currentPrice}</span>
         </div>
         
-        <Link href={deleteLink} className="hover:text-red-400">Excluir</Link>
+        <button onClick={(e)=>{remove(id)}} className="hover:text-red-400">Excluir</button>
 
     </div>
 }
