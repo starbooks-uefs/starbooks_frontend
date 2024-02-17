@@ -2,9 +2,10 @@ import FormInput from "@/components/FormInput";
 import ProgressBar from "@/components/ProgressBar";
 import { createClient } from "@supabase/supabase-js";
 import axios, { AxiosRequestConfig } from "axios";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { NumericFormat } from 'react-number-format'
+import jwt from "jsonwebtoken";
 
 
 export default function BookForm() {
@@ -59,6 +60,22 @@ export default function BookForm() {
         ]
 
     };
+
+    // Recebendo o token do usuário logado.
+    const [userToken, setUserToken] = useState<any>(null)
+    useEffect(() => {
+        const token = localStorage.getItem('token')
+        try {
+            if (token) {
+                setUserToken(jwt.decode(token))
+
+            }
+        } catch {
+            console.error("Erro ao decodificar o token.")
+        }
+    }, [])
+
+
 
     function uploadCover(event: any) {
         uploadFile(event, 'cover')
@@ -146,14 +163,14 @@ export default function BookForm() {
             synopsis: String(event.target.synopsis.value),
             cover_url: cover,
             pdf_url: pdf,
-            id_producer: 2,
         }
 
 
         const urlBackend = process.env.NEXT_PUBLIC_URL_BACKEND
 
 
-        const res = await fetch(`${urlBackend}/add_book/`, {
+
+        const res = await fetch(`${urlBackend}/submissions/create/`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
