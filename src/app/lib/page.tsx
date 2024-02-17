@@ -44,7 +44,7 @@ const user: User = {
 const handleLogin = async () => {
     try {
         // Envia credenciais para o servidor
-        const response = await fetch(`http://127.0.0.1:8000/api/readers/login/`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_URL_BACKEND}/readers/login/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -67,7 +67,7 @@ export default function Lib() {
     useEffect(() => {
         const fetchBooks = async () => {
             try {
-                const response = await fetch(`http://127.0.0.1:8000/api/readers/${userToken.user_id}/books/`)
+                const response = await fetch(`${process.env.NEXT_PUBLIC_URL_BACKEND}/readers/${userToken.user_id}/books/`)
                 const data = await response.json()
                 setBooksData(data)
                 console.log(data)

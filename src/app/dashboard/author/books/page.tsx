@@ -37,7 +37,9 @@ interface Book{
 }
 
 export default function Books() {
-    const BASE_URL = String(process.env.NEXT_PUBLIC_URL_BACKEND)
+
+    const BASE_URL = process.env.NEXT_PUBLIC_URL_BACKEND
+
     
     const [userToken, setUserToken] = useState<any>(null)
     const [booksData, setBooksData] = useState<Book[] | null>(null)
@@ -56,7 +58,9 @@ export default function Books() {
     useEffect(() => {
         const fetchBooks = async () => {
             try {
-                const profile = await fetch(`${BASE_URL}producers/${userToken.user_id}/`)
+
+                const profile = await fetch(`${BASE_URL}/producers/${userToken.user_id}/`)
+
                 const author = await profile.json()
                 console.log(`${BASE_URL}books/retrieve/producer/${author.id}/`)
                 const response = await fetch(`${BASE_URL}books/retrieve/producer/${author.id}/`)

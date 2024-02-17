@@ -39,7 +39,9 @@ export default function Profile() {
     useEffect(() => {
         const fetchProfileAuthor = async () => {
             try {                           
-                const response = await fetch(`${BASE_URL}producers/${userToken.user_id}/`)
+
+                const response = await fetch(`${process.env.NEXT_PUBLIC_URL_BACKEND}/producers/${userToken.user_id}/`)
+
                 const data = await response.json()
                 console.log("Dados do produtor",data)
                 setPersonalData({

@@ -11,7 +11,7 @@ export default function Home() {
 
     const getRecentsBooks = useCallback(async () => {
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_URL_BACKEND}books`)
+            const response = await fetch(`${process.env.NEXT_PUBLIC_URL_BACKEND}/books`)
 
             if (response.ok) {
                 const data = await response.json()
@@ -27,7 +27,7 @@ export default function Home() {
 
     const getBestSellersBooks = useCallback(async () => {
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_URL_BACKEND}books`)
+            const response = await fetch(`${process.env.NEXT_PUBLIC_URL_BACKEND}/books`)
 
             if (response.ok) {
                 const data = await response.json()
@@ -41,7 +41,7 @@ export default function Home() {
 
     const getOffersBooks = useCallback(async () => {
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_URL_BACKEND}books`)
+            const response = await fetch(`${process.env.NEXT_PUBLIC_URL_BACKEND}/books`)
 
             if (response.ok) {
                 const data = await response.json()

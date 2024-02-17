@@ -35,7 +35,8 @@ export default function EditBook( {token, ebook}:EditBook) {
 
     const book: Book = JSON.parse(ebook);
     const [newPrice, setNewPrice] = useState<number>();
-    const BASE_URL = String(process.env.NEXT_PUBLIC_URL_BACKEND)
+
+    const BASE_URL = process.env.NEXT_PUBLIC_URL_BACKEND
 
     function formatCurrency(valor: number){
         let valorFormatado = valor.toLocaleString("pt-br",

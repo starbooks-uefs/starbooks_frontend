@@ -29,7 +29,9 @@ interface Book{
 
 type RemoveBook = { token: string; ebook: string; };
 export default function RemoveBook( {token, ebook}:RemoveBook) {
-    const BASE_URL = String(process.env.NEXT_PUBLIC_URL_BACKEND)
+
+    const BASE_URL = process.env.NEXT_PUBLIC_URL_BACKEND
+
     function formatCurrency(valor: number){
         let valorFormatado = valor.toLocaleString("pt-br",
         {
